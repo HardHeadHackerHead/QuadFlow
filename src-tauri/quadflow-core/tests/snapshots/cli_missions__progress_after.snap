@@ -1,0 +1,19 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"progress\", &mid])"
+---
+{
+  "activeMembers": 1,
+  "byStatus": {
+    "backlog": 0,
+    "blocked": 0,
+    "done": 1,
+    "in_progress": 1,
+    "needs_human": 0,
+    "qa": 0,
+    "todo": 0
+  },
+  "missionId": "[id]",
+  "total": 2,
+  "totalMembers": 1
+}

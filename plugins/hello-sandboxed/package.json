@@ -1,0 +1,12 @@
+{
+  "name": "@quadflow-plugins/hello-sandboxed",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "Example: the hello plugin's build output, staged as a second plugin that runs sandboxed (PL-6). No sources of its own.",
+  "quadflow": {
+    "bundle": "dev",
+    "variantOf": "hello",
+    "isolation": "sandboxed"
+  }
+}

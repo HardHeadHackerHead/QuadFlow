@@ -1,0 +1,238 @@
+{
+  "formatVersion": 1,
+  "productName": "QuadFlow",
+  "versionFiles": [
+    { "path": "package.json", "kind": "json", "key": "version" },
+    { "path": "src-tauri/tauri.conf.json", "kind": "json", "key": "version" },
+    { "path": "src-tauri/Cargo.toml", "kind": "toml", "key": "package.version" },
+    { "path": "src-tauri/quadflow-core/Cargo.toml", "kind": "toml", "key": "package.version" }
+  ],
+  "changelog": { "source": "git_log", "since": "last_tag" },
+  "phases": [
+    {
+      "type": "checks",
+      "name": "preflight",
+      "checks": [
+        "git_clean",
+        "version_files_in_sync",
+        "gh_authenticated",
+        "gh_repo_reachable:HardHeadHackerHead/QuadFlow",
+        "disk_space:20"
+      ]
+    },
+    { "type": "shell", "name": "preflight-release", "command": "node scripts/release/preflight.mjs" },
+    { "type": "version_bump", "name": "bump" },
+    { "type": "shell", "name": "sync-lockfiles", "command": "node scripts/release/sync-versions.mjs" },
+    { "type": "ensure_staging_dir", "name": "staging", "path": "release/v{version}" },
+    {
+      "type": "shell",
+      "name": "changelog",
+      "command": "node scripts/release/changelog.mjs --version {version} --notes \"{staging_dir}/notes.md\""
+    },
+    {
+      "type": "shell",
+      "name": "check",
+      "command": "npm run check",
+      "env": { "QUADFLOW_SECRETS_BACKEND": "memory" }
+    },
+    {
+      "type": "load_env_from_file",
+      "name": "updater-key",
+      "var": "TAURI_SIGNING_PRIVATE_KEY",
+      "file": "keys/updater.key"
+    },
+    {
+      "type": "load_env_from_file",
+      "name": "updater-key-password",
+      "var": "TAURI_SIGNING_PRIVATE_KEY_PASSWORD",
+      "file": "keys/updater.key.password"
+    },
+    {
+      "type": "sequence",
+      "name": "platform:windows-x86_64",
+      "children": [
+        { "type": "build", "name": "build:windows-x86_64", "command": "npm run build -- --bundles nsis" },
+        {
+          "type": "stage_artifact",
+          "name": "stage-installer:windows-x86_64",
+          "sourceGlob": "target/release/bundle/nsis/QuadFlow_{version}_x64-setup.exe",
+          "destName": "QuadFlow_{version}_x64-setup.exe"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-signature:windows-x86_64",
+          "sourceGlob": "target/release/bundle/nsis/QuadFlow_{version}_x64-setup.exe.sig",
+          "destName": "QuadFlow_{version}_x64-setup.exe.sig"
+        },
+        {
+          "type": "read_updater_sig",
+          "name": "updater-signature:windows-x86_64",
+          "sourceGlob": "target/release/bundle/nsis/QuadFlow_{version}_x64-setup.exe.sig"
+        },
+        {
+          "type": "build_latest_json",
+          "name": "latest-json:windows-x86_64",
+          "repo": "HardHeadHackerHead/QuadFlow",
+          "platform": "windows-x86_64",
+          "bundleName": "QuadFlow_{version}_x64-setup.exe",
+          "notes": "QuadFlow v{version}: https://github.com/HardHeadHackerHead/QuadFlow/releases/tag/v{version}"
+        }
+      ]
+    },
+    {
+      "type": "sequence",
+      "name": "platform:macos-aarch64",
+      "children": [
+        { "type": "build", "name": "build:macos-aarch64", "command": "npm run build -- --bundles app,dmg" },
+        {
+          "type": "stage_artifact",
+          "name": "stage-dmg:macos-aarch64",
+          "sourceGlob": "target/release/bundle/dmg/QuadFlow_{version}_aarch64.dmg",
+          "destName": "QuadFlow_{version}_aarch64.dmg"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-updater-bundle:macos-aarch64",
+          "sourceGlob": "target/release/bundle/macos/QuadFlow.app.tar.gz",
+          "destName": "QuadFlow_{version}_aarch64.app.tar.gz"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-signature:macos-aarch64",
+          "sourceGlob": "target/release/bundle/macos/QuadFlow.app.tar.gz.sig",
+          "destName": "QuadFlow_{version}_aarch64.app.tar.gz.sig"
+        },
+        {
+          "type": "read_updater_sig",
+          "name": "updater-signature:macos-aarch64",
+          "sourceGlob": "target/release/bundle/macos/QuadFlow.app.tar.gz.sig"
+        },
+        {
+          "type": "build_latest_json",
+          "name": "latest-json:macos-aarch64",
+          "repo": "HardHeadHackerHead/QuadFlow",
+          "platform": "darwin-aarch64",
+          "bundleName": "QuadFlow_{version}_aarch64.app.tar.gz",
+          "notes": "QuadFlow v{version}: https://github.com/HardHeadHackerHead/QuadFlow/releases/tag/v{version}"
+        }
+      ]
+    },
+    {
+      "type": "sequence",
+      "name": "platform:macos-x86_64",
+      "children": [
+        { "type": "build", "name": "build:macos-x86_64", "command": "npm run build -- --bundles app,dmg" },
+        {
+          "type": "stage_artifact",
+          "name": "stage-dmg:macos-x86_64",
+          "sourceGlob": "target/release/bundle/dmg/QuadFlow_{version}_x64.dmg",
+          "destName": "QuadFlow_{version}_x64.dmg"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-updater-bundle:macos-x86_64",
+          "sourceGlob": "target/release/bundle/macos/QuadFlow.app.tar.gz",
+          "destName": "QuadFlow_{version}_x64.app.tar.gz"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-signature:macos-x86_64",
+          "sourceGlob": "target/release/bundle/macos/QuadFlow.app.tar.gz.sig",
+          "destName": "QuadFlow_{version}_x64.app.tar.gz.sig"
+        },
+        {
+          "type": "read_updater_sig",
+          "name": "updater-signature:macos-x86_64",
+          "sourceGlob": "target/release/bundle/macos/QuadFlow.app.tar.gz.sig"
+        },
+        {
+          "type": "build_latest_json",
+          "name": "latest-json:macos-x86_64",
+          "repo": "HardHeadHackerHead/QuadFlow",
+          "platform": "darwin-x86_64",
+          "bundleName": "QuadFlow_{version}_x64.app.tar.gz",
+          "notes": "QuadFlow v{version}: https://github.com/HardHeadHackerHead/QuadFlow/releases/tag/v{version}"
+        }
+      ]
+    },
+    {
+      "type": "sequence",
+      "name": "platform:linux-x86_64",
+      "children": [
+        { "type": "build", "name": "build:linux-x86_64", "command": "npm run build -- --bundles appimage,deb" },
+        {
+          "type": "stage_artifact",
+          "name": "stage-appimage:linux-x86_64",
+          "sourceGlob": "target/release/bundle/appimage/QuadFlow_{version}_amd64.AppImage",
+          "destName": "QuadFlow_{version}_amd64.AppImage"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-signature:linux-x86_64",
+          "sourceGlob": "target/release/bundle/appimage/QuadFlow_{version}_amd64.AppImage.sig",
+          "destName": "QuadFlow_{version}_amd64.AppImage.sig"
+        },
+        {
+          "type": "stage_artifact",
+          "name": "stage-deb:linux-x86_64",
+          "sourceGlob": "target/release/bundle/deb/QuadFlow_{version}_amd64.deb",
+          "destName": "QuadFlow_{version}_amd64.deb"
+        },
+        {
+          "type": "read_updater_sig",
+          "name": "updater-signature:linux-x86_64",
+          "sourceGlob": "target/release/bundle/appimage/QuadFlow_{version}_amd64.AppImage.sig"
+        },
+        {
+          "type": "build_latest_json",
+          "name": "latest-json:linux-x86_64",
+          "repo": "HardHeadHackerHead/QuadFlow",
+          "platform": "linux-x86_64",
+          "bundleName": "QuadFlow_{version}_amd64.AppImage",
+          "notes": "QuadFlow v{version}: https://github.com/HardHeadHackerHead/QuadFlow/releases/tag/v{version}"
+        }
+      ]
+    },
+    {
+      "type": "shell",
+      "name": "plugins-pack",
+      "command": "node scripts/release/plugins.mjs pack --out \"{staging_dir}/plugins\""
+    },
+    {
+      "type": "shell",
+      "name": "plugins-index-preview",
+      "command": "node scripts/release/plugins.mjs index --assets \"{staging_dir}/plugins\" --out \"{staging_dir}/plugins-index.preview.json\""
+    },
+    {
+      "type": "git_commit",
+      "name": "commit",
+      "message": "Release v{version}",
+      "paths": [
+        "package.json",
+        "package-lock.json",
+        "Cargo.lock",
+        "src-tauri/tauri.conf.json",
+        "src-tauri/Cargo.toml",
+        "src-tauri/quadflow-core/Cargo.toml",
+        "CHANGELOG.md"
+      ]
+    },
+    { "type": "git_tag", "name": "tag", "tag": "v{version}", "message": "QuadFlow v{version}", "ifExists": "fail" },
+    { "type": "git_push", "name": "push", "remote": "origin", "tagStrategy": "follow" },
+    {
+      "type": "gh_release",
+      "name": "github-release",
+      "repo": "HardHeadHackerHead/QuadFlow",
+      "tag": "v{version}",
+      "title": "QuadFlow v{version}",
+      "notesFile": "{staging_dir}/notes.md",
+      "draft": true,
+      "files": ["{staging_dir}/QuadFlow_*", "{staging_dir}/latest.json"]
+    },
+    {
+      "type": "shell",
+      "name": "plugins-upload",
+      "command": "node scripts/release/plugins.mjs upload --dir \"{staging_dir}/plugins\""
+    }
+  ]
+}

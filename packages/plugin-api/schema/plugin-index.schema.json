@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quadflow.dev/schema/plugin-index.schema.json",
+  "title": "QuadFlow plugin source index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "name",
+    "plugins"
+  ],
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "name": {
+      "type": "string"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri"
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "description",
+          "versions"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string",
+            "format": "uri"
+          },
+          "category": {
+            "type": "string"
+          },
+          "homepage": {
+            "type": "string",
+            "format": "uri"
+          },
+          "repository": {
+            "type": "string",
+            "format": "uri"
+          },
+          "bundled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Ships inside the app; listed for discovery/out-of-band updates."
+          },
+          "versions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "version",
+                "apiVersion",
+                "platforms",
+                "url",
+                "sha256",
+                "size",
+                "permissions"
+              ],
+              "properties": {
+                "version": {
+                  "type": "string"
+                },
+                "apiVersion": {
+                  "type": "string"
+                },
+                "platforms": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "windows",
+                      "macos",
+                      "linux"
+                    ]
+                  }
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri-template",
+                  "description": "https URL of a .zip; may contain {os}-{arch} placeholder for per-platform archives"
+                },
+                "sha256": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    {
+                      "type": "object",
+                      "patternProperties": {
+                        "^(windows|macos|linux)-(x86_64|aarch64)$": {
+                          "type": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "size": {
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "integer"
+                      }
+                    }
+                  ]
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "releasedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

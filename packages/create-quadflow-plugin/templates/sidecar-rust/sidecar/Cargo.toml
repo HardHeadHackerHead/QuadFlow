@@ -1,0 +1,10 @@
+[package]
+name = "{{crate}}"
+version = "0.1.0"
+description = "Sidecar of the {{id}} QuadFlow plugin"
+edition = "2021"
+publish = false
+
+[dependencies]
+{{rustSdk}}
+{{workspaceTable}}

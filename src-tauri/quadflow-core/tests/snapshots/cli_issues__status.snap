@@ -1,0 +1,47 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p, &[\"issues\", \"status\", \"WEB-1\", \"review\"])"
+---
+{
+  "acceptanceCriteria": [
+    {
+      "checked": false,
+      "id": "[id]",
+      "text": "renders"
+    }
+  ],
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "history": [
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "to": "todo"
+    },
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "from": "todo",
+      "to": "qa"
+    }
+  ],
+  "id": "[id]",
+  "labels": [
+    "auth",
+    "ui"
+  ],
+  "number": 1,
+  "priority": "critical",
+  "status": "qa",
+  "title": "Login",
+  "updatedAt": "[ts]"
+}

@@ -1,0 +1,33 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&n"
+---
+{
+  "archived": false,
+  "content": "Dark mode toggle in settings",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "notes": [
+    {
+      "body": "Started in the settings panel",
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "cli"
+      },
+      "id": "[id]"
+    }
+  ],
+  "originalContent": "Dark mode",
+  "tags": [
+    "settings",
+    "sprint",
+    "theme",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}

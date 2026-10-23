@@ -1,0 +1,7 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p, &[\"epics\", \"delete\", &id])"
+---
+{
+  "id": "[id]"
+}

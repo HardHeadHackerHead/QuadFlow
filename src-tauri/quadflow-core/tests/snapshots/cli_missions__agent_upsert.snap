@@ -1,0 +1,16 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&custom_agent"
+---
+{
+  "builtin": false,
+  "createdAt": "[ts]",
+  "description": null,
+  "id": "[id]",
+  "model": "opus",
+  "name": "Reviewer",
+  "providerId": "default",
+  "role": "qa",
+  "systemPrompt": null,
+  "updatedAt": "[ts]"
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@quadflow/plugin-build",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "Build preset and CLI for QuadFlow plugins: Vite library build with the shared modules externalized, manifest validation, shared-import check, sidecar builds, integrity file and release zips (docs/architecture/plugin-system.md §15.1).",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": { "types": "./src/index.d.ts", "default": "./src/index.mjs" },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "quadflow-plugin": "./bin/quadflow-plugin.mjs"
+  },
+  "files": ["bin", "src", "dist"],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/plugin-build.test.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "rollup": "^4.20.0",
+    "vite": "^5.4.0"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*"
+  }
+}

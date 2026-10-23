@@ -1,0 +1,20 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: e.redact(env.clone())
+---
+{
+  "available": true,
+  "builtIn": false,
+  "createdAt": "[ts]",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "id": "[id]",
+  "initCommands": [
+    "nvm use --lts"
+  ],
+  "kind": "custom",
+  "name": "Node LTS",
+  "shell": "bash",
+  "updatedAt": "[ts]"
+}

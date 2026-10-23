@@ -1,0 +1,25 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: e.redact(u)
+---
+{
+  "archived": false,
+  "autoOpenPreview": false,
+  "command": "npm run dev",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "kind": "server",
+  "name": "Dev server",
+  "pinned": false,
+  "previewUrl": "http://localhost:5173",
+  "shell": "pwsh",
+  "tags": [
+    "web"
+  ],
+  "updatedAt": "[ts]",
+  "workingDirectory": "app"
+}

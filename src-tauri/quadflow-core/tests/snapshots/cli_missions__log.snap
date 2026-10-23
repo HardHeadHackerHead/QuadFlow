@@ -1,0 +1,12 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p,\n&[\"missions\", \"log\", &mid, \"Split work by layer\", \"--kind\", \"note\",\n\"--member\", \"Coordinator\"])"
+---
+{
+  "createdAt": "[ts]",
+  "detail": "Split work by layer",
+  "id": "[id]",
+  "kind": "note",
+  "memberId": "[id]",
+  "memberName": "Coordinator"
+}

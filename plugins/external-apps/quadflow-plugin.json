@@ -1,0 +1,81 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "external-apps",
+  "name": "External Apps",
+  "version": "1.0.0",
+  "description": "Launch external programs, link toolbar buttons to their windows, and embed any app window into a tile (hidden under menus and dialogs). Replaces App Launcher, Window Link and Embed Window.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "other",
+  "apiVersion": "^1.1.0",
+  "platforms": ["windows"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onStartup", "onTile", "onCommand"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/external-apps-sidecar.exe",
+      "windows-aarch64": "bin/external-apps-sidecar.exe"
+    },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "app",
+        "title": "External App",
+        "description": "Launch a program, focus or embed one of its windows in this tile.",
+        "icon": "assets/native-embed.svg",
+        "category": "other",
+        "modes": ["pane"],
+        "configSchema": {
+          "type": "object",
+          "properties": {
+            "executablePath": { "type": "string", "title": "Executable", "description": "Full path to the program (optional: any open window can be embedded)" },
+            "args": { "type": "array", "title": "Arguments", "items": { "type": "string" }, "x-widget": "tags" },
+            "workingDirectory": { "type": "string", "title": "Working directory" },
+            "embedOnLaunch": { "type": "boolean", "title": "Launch and embed when the tile opens", "default": false }
+          }
+        },
+        "defaultToolConfig": { "order": 17, "color": "#8b5cf6" }
+      }
+    ],
+    "toolbarItems": [
+      {
+        "id": "link",
+        "title": "App / Window Link",
+        "icon": "assets/window-link.svg",
+        "category": "other",
+        "command": "activate-link",
+        "instanceMultiple": true
+      }
+    ],
+    "commands": [
+      { "id": "activate-link", "title": "Open Linked App or Window", "category": "External Apps", "palette": false },
+      { "id": "embed-window", "title": "Embed a Window…", "category": "External Apps", "keywords": ["native", "window", "app", "launch"] },
+      { "id": "detach-all", "title": "Detach All Embedded Windows", "category": "External Apps", "keywords": ["release", "pop out"] },
+      { "id": "reset-links", "title": "Reset Toolbar Links", "category": "External Apps", "keywords": ["window link", "unlink"] }
+    ],
+    "settingsPages": [{ "id": "external-apps", "title": "External Apps" }],
+    "settings": {
+      "type": "object",
+      "properties": {
+        "dropToEmbed": {
+          "type": "boolean",
+          "default": false,
+          "title": "Drag a window onto QuadFlow to embed it",
+          "description": "Watches window drags (a system-wide WinEvent hook in the plugin's sidecar) and embeds a window dropped on QuadFlow in a new tile."
+        },
+        "dropRequiresHotkey": {
+          "type": "boolean",
+          "default": true,
+          "title": "Only while Ctrl+Shift is held",
+          "description": "Ignore drops unless Ctrl and Shift are held when the window is released."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "permissions": ["native:windows"]
+}

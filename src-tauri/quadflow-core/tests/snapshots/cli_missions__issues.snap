@@ -1,0 +1,54 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"issues\", &mid])"
+---
+[
+  {
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "test-agent"
+    },
+    "history": [
+      {
+        "at": "[ts]",
+        "by": {
+          "kind": "agent",
+          "name": "test-agent"
+        },
+        "to": "todo"
+      }
+    ],
+    "id": "[id]",
+    "missionId": "[id]",
+    "number": 1,
+    "priority": "high",
+    "status": "todo",
+    "title": "Login page",
+    "updatedAt": "[ts]"
+  },
+  {
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "test-agent"
+    },
+    "history": [
+      {
+        "at": "[ts]",
+        "by": {
+          "kind": "agent",
+          "name": "test-agent"
+        },
+        "to": "todo"
+      }
+    ],
+    "id": "[id]",
+    "missionId": "[id]",
+    "number": 2,
+    "priority": "low",
+    "status": "todo",
+    "title": "Logout",
+    "updatedAt": "[ts]"
+  }
+]

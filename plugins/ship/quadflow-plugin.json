@@ -1,0 +1,38 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "ship",
+  "name": "Ship",
+  "version": "1.0.0",
+  "description": "The project's release pipeline: version status, readiness checks, cut a release or dry-run the phase plan, live output and run history.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "development",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "ship",
+        "title": "Ship",
+        "description": "Release pipeline of the current project.",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [720, 640] },
+        "defaultToolConfig": { "order": 7, "color": "#0ea5e9" }
+      }
+    ],
+    "commands": [
+      { "id": "dry-run", "title": "Dry-run the release pipeline", "category": "Ship", "keywords": ["ship", "release", "plan", "preview"], "when": "project" },
+      { "id": "configure", "title": "Configure the release pipeline with an agent", "category": "Ship", "keywords": ["ship", "setup-ship", "release"], "when": "project" },
+      { "id": "open", "title": "Open Ship", "category": "Ship", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "ship-runs", "title": "Ship runs" }],
+    "agentContextDocs": [{ "id": "ship", "title": "Ship", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:ship:write", "terminal:spawn", "agents:read", "agents:launch", "clipboard:write", "shell:open-external"]
+}

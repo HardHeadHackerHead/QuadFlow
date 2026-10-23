@@ -1,0 +1,7 @@
+# Project-level Cargo configuration.
+#
+# Intentionally empty: a fresh clone must build with nothing installed beyond
+# the documented prerequisites. Optional build accelerators (sccache, lld-link,
+# mold, ...) are opt-in per developer -- see "Faster builds (optional)" in
+# CONTRIBUTING.md for how to enable them in ~/.cargo/config.toml or through
+# environment variables such as RUSTC_WRAPPER.

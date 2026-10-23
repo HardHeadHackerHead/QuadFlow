@@ -1,0 +1,7 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "scrub(p.ok(&[\"ideas\", \"export\", \"--format\", \"csv\"]).as_str().unwrap())"
+---
+id,content,tags,archived,createdAt,updatedAt
+[id],Dark mode,settings;sprint;theme;ui,false,[ts],[ts]
+[id],Faster startup,perf;sprint;ui,false,[ts],[ts]

@@ -1,0 +1,15 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&lead"
+---
+{
+  "agentDefinitionId": "builtin-scrum-master",
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "name": "Coordinator",
+  "providerId": "default",
+  "role": "scrum_master",
+  "status": "pending",
+  "systemPrompt": "You are the SCRUM MASTER agent. Assign issues, track progress, remove blockers. Do NOT write code — only coordinate.",
+  "updatedAt": "[ts]"
+}

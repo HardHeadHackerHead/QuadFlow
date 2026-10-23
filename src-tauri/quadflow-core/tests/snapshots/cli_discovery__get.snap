@@ -1,0 +1,38 @@
+---
+source: quadflow-core/tests/cli_discovery.rs
+expression: "&p.ok(&[\"discovery\", \"get\", &a_id])"
+---
+{
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "goals": [
+    "Offline mode"
+  ],
+  "id": "[id]",
+  "items": [
+    {
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "kind": "reference",
+      "order": 0,
+      "title": "Design doc",
+      "updatedAt": "[ts]"
+    },
+    {
+      "content": "Yes, iOS first",
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "kind": "question",
+      "order": 1,
+      "status": "answered",
+      "title": "iOS first?",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "status": "in_progress",
+  "title": "Mobile companion",
+  "updatedAt": "[ts]"
+}

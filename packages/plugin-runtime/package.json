@@ -1,0 +1,18 @@
+{
+  "name": "@quadflow/plugin-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "The sandbox runtime served to sandboxed plugin frames: shared ES modules, the RPC bootstrap and styles (docs/architecture/plugin-system.md §8.4).",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^5.0.3"
+  }
+}

@@ -1,0 +1,518 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&templates"
+---
+[
+  {
+    "description": "Preflight + version bump + staging dir + the detected build command (npm / cargo / python -m build). Errors when the project kind cannot be detected.",
+    "id": "[id]",
+    "label": "Minimal",
+    "os": "any",
+    "params": [
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Bump version files, commit, tag v{version}, push. Registry-side CI publishes from the tag.",
+    "id": "[id]",
+    "label": "Library publish (npm / cargo / PyPI / …)",
+    "os": "any",
+    "params": [
+      {
+        "default": "origin",
+        "key": "remote",
+        "kind": "text",
+        "label": "Git remote",
+        "placeholder": "origin",
+        "required": false
+      },
+      {
+        "default": "main",
+        "key": "branch",
+        "kind": "text",
+        "label": "Required branch",
+        "placeholder": "main",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Build one binary per target in parallel, stage them, tag, push and upload them to a GitHub release.",
+    "id": "[id]",
+    "label": "GitHub Release: cross-platform binaries (Cargo)",
+    "os": "any",
+    "params": [
+      {
+        "key": "repo",
+        "kind": "text",
+        "label": "GitHub repo",
+        "placeholder": "OWNER/REPO",
+        "required": true
+      },
+      {
+        "key": "bin_name",
+        "kind": "text",
+        "label": "Binary name",
+        "placeholder": "myapp",
+        "required": true
+      },
+      {
+        "key": "targets",
+        "kind": "list",
+        "label": "Targets (comma-separated)",
+        "placeholder": "x86_64-pc-windows-msvc,x86_64-unknown-linux-gnu,aarch64-apple-darwin",
+        "required": true
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Optional bump + commit, `vercel deploy --prod`, optional deploy-{version} audit tag.",
+    "id": "[id]",
+    "label": "Vercel deploy",
+    "os": "any",
+    "params": [
+      {
+        "key": "project_name",
+        "kind": "text",
+        "label": "Vercel project name (optional)",
+        "placeholder": "my-app",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "bump",
+        "kind": "bool",
+        "label": "Bump version files and commit before deploying",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "audit_tag",
+        "kind": "bool",
+        "label": "Tag each deploy as deploy-{version}",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "push_tag",
+        "kind": "bool",
+        "label": "Push the audit tag to the remote",
+        "placeholder": "true",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Optional bump + commit, optional environment/service selection, `railway up --detach`, optional audit tag.",
+    "id": "[id]",
+    "label": "Railway deploy",
+    "os": "any",
+    "params": [
+      {
+        "key": "service",
+        "kind": "text",
+        "label": "Service name (optional)",
+        "placeholder": "web",
+        "required": false
+      },
+      {
+        "key": "environment",
+        "kind": "text",
+        "label": "Environment name (optional)",
+        "placeholder": "production",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "bump",
+        "kind": "bool",
+        "label": "Bump version files and commit before deploying",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "audit_tag",
+        "kind": "bool",
+        "label": "Tag each deploy as deploy-{version}",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "push_tag",
+        "kind": "bool",
+        "label": "Push the audit tag to the remote",
+        "placeholder": "true",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Optional bump + commit, `flyctl deploy --remote-only` (app and region from fly.toml), optional audit tag.",
+    "id": "[id]",
+    "label": "Fly.io deploy",
+    "os": "any",
+    "params": [
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "bump",
+        "kind": "bool",
+        "label": "Bump version files and commit before deploying",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "audit_tag",
+        "kind": "bool",
+        "label": "Tag each deploy as deploy-{version}",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "push_tag",
+        "kind": "bool",
+        "label": "Push the audit tag to the remote",
+        "placeholder": "true",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Optional bump + commit, `npm run build`, `netlify deploy --prod --dir=<dist>`, optional audit tag.",
+    "id": "[id]",
+    "label": "Netlify deploy",
+    "os": "any",
+    "params": [
+      {
+        "default": "dist",
+        "key": "dist_dir",
+        "kind": "text",
+        "label": "Build output directory",
+        "placeholder": "dist",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "bump",
+        "kind": "bool",
+        "label": "Bump version files and commit before deploying",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "audit_tag",
+        "kind": "bool",
+        "label": "Tag each deploy as deploy-{version}",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "push_tag",
+        "kind": "bool",
+        "label": "Push the audit tag to the remote",
+        "placeholder": "true",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Optional bump + commit, `npm run build`, `wrangler pages deploy`, optional audit tag.",
+    "id": "[id]",
+    "label": "Cloudflare Pages deploy",
+    "os": "any",
+    "params": [
+      {
+        "key": "project",
+        "kind": "text",
+        "label": "Pages project name",
+        "placeholder": "my-site",
+        "required": true
+      },
+      {
+        "default": "dist",
+        "key": "dist_dir",
+        "kind": "text",
+        "label": "Build output directory",
+        "placeholder": "dist",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "bump",
+        "kind": "bool",
+        "label": "Bump version files and commit before deploying",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "audit_tag",
+        "kind": "bool",
+        "label": "Tag each deploy as deploy-{version}",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "push_tag",
+        "kind": "bool",
+        "label": "Push the audit tag to the remote",
+        "placeholder": "true",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Bump, build the image with :{version} and :latest, push both, tag v{version}, push the tag.",
+    "id": "[id]",
+    "label": "Docker image build + push",
+    "os": "any",
+    "params": [
+      {
+        "key": "image",
+        "kind": "text",
+        "label": "Image (registry/name)",
+        "placeholder": "ghcr.io/owner/app",
+        "required": true
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Optional bump + commit, `npm run build`, `aws s3 sync --delete`, optional CloudFront invalidation and audit tag.",
+    "id": "[id]",
+    "label": "S3 static site (+ CloudFront)",
+    "os": "any",
+    "params": [
+      {
+        "key": "bucket",
+        "kind": "text",
+        "label": "S3 bucket",
+        "placeholder": "my-site-bucket",
+        "required": true
+      },
+      {
+        "default": "dist",
+        "key": "dist_dir",
+        "kind": "text",
+        "label": "Build output directory",
+        "placeholder": "dist",
+        "required": false
+      },
+      {
+        "key": "cloudfront_dist_id",
+        "kind": "text",
+        "label": "CloudFront distribution id (optional)",
+        "placeholder": "E1A2B3C4D5",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "bump",
+        "kind": "bool",
+        "label": "Bump version files and commit before deploying",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "audit_tag",
+        "kind": "bool",
+        "label": "Tag each deploy as deploy-{version}",
+        "placeholder": "true",
+        "required": false
+      },
+      {
+        "default": "true",
+        "key": "push_tag",
+        "kind": "bool",
+        "label": "Push the audit tag to the remote",
+        "placeholder": "true",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Preflight → bump → staging → build the NSIS installer → stage it → GitHub release. Optional: Authenticode signing through Tauri's signCommand (`sign_command`, any tool, e.g. signtool), and the Tauri updater (`signing_key` → updater bundle, signature, latest.json).",
+    "id": "[id]",
+    "label": "Tauri / Windows",
+    "os": "windows",
+    "params": [
+      {
+        "key": "repo",
+        "kind": "text",
+        "label": "GitHub releases repo",
+        "placeholder": "OWNER/REPO",
+        "required": true
+      },
+      {
+        "key": "bundle_basename",
+        "kind": "text",
+        "label": "Asset base name (default: <productName>-Windows)",
+        "placeholder": "MyApp-Windows",
+        "required": false
+      },
+      {
+        "key": "signing_key",
+        "kind": "text",
+        "label": "Tauri updater private key file (optional; enables updater artifacts)",
+        "placeholder": "keys/tauri-signing-key",
+        "required": false
+      },
+      {
+        "key": "sign_command",
+        "kind": "text",
+        "label": "Authenticode sign command, {file} = file to sign (optional)",
+        "placeholder": "signtool sign /fd sha256 /tr http://timestamp.digicert.com /td sha256 /a {file}",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      }
+    ]
+  },
+  {
+    "description": "Preflight (xcrun, codesign identity, notarytool profile) → bump → build → codesign → DMG → notarize → staple → GitHub release. Optional Tauri updater artifacts with `signing_key`.",
+    "id": "[id]",
+    "label": "Tauri / macOS",
+    "os": "macos",
+    "params": [
+      {
+        "key": "repo",
+        "kind": "text",
+        "label": "GitHub releases repo",
+        "placeholder": "OWNER/REPO",
+        "required": true
+      },
+      {
+        "key": "codesign_identity",
+        "kind": "text",
+        "label": "Codesign identity",
+        "placeholder": "Developer ID Application: Name (TEAMID)",
+        "required": true
+      },
+      {
+        "key": "notarytool_profile",
+        "kind": "text",
+        "label": "notarytool keychain profile",
+        "placeholder": "NOTARY_PROFILE",
+        "required": true
+      },
+      {
+        "key": "app_name",
+        "kind": "text",
+        "label": "App bundle name without .app (default: productName)",
+        "placeholder": "MyApp",
+        "required": false
+      },
+      {
+        "key": "bundle_basename",
+        "kind": "text",
+        "label": "Asset base name (default: <productName>-macOS)",
+        "placeholder": "MyApp-macOS",
+        "required": false
+      },
+      {
+        "key": "signing_key",
+        "kind": "text",
+        "label": "Tauri updater private key file (optional)",
+        "placeholder": "keys/tauri-signing-key",
+        "required": false
+      },
+      {
+        "default": "darwin-aarch64",
+        "key": "updater_platform",
+        "kind": "text",
+        "label": "Updater platform key",
+        "placeholder": "darwin-aarch64",
+        "required": false
+      },
+      {
+        "key": "product_name",
+        "kind": "text",
+        "label": "Product name (default: detected)",
+        "placeholder": "MyApp",
+        "required": false
+      }
+    ]
+  }
+]

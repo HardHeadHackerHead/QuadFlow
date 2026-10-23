@@ -1,0 +1,27 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&plan"
+---
+{
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "decisions": [
+    {
+      "decision": "JWT",
+      "rationale": "stateless"
+    }
+  ],
+  "description": "Replace sessions",
+  "id": "[id]",
+  "riskNotes": "token theft",
+  "spec": {
+    "content": "# Spec",
+    "kind": "refactor"
+  },
+  "status": "spec_draft",
+  "title": "Auth rewrite",
+  "updatedAt": "[ts]"
+}

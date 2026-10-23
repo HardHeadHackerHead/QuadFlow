@@ -1,0 +1,46 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"resolve-suggestion\", &a_id, &s2, \"--reject\"])"
+---
+{
+  "archived": false,
+  "content": "Add a dark mode switch to Settings",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "originalContent": "Dark mode",
+  "suggestions": [
+    {
+      "accepted": true,
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "cli"
+      },
+      "id": "[id]",
+      "kind": "clarify",
+      "text": "Add a dark mode switch to Settings"
+    },
+    {
+      "accepted": false,
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "cli"
+      },
+      "id": "[id]",
+      "kind": "reword",
+      "text": "Shorter"
+    }
+  ],
+  "tags": [
+    "settings",
+    "sprint",
+    "theme",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}

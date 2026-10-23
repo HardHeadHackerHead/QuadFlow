@@ -1,0 +1,15 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p, &[\"issues\", \"comments\", \"WEB-1\"])"
+---
+[
+  {
+    "body": "Looks good",
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "test-agent"
+    },
+    "id": "[id]"
+  }
+]

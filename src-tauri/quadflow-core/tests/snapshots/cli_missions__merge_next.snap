@@ -1,0 +1,15 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&next"
+---
+{
+  "branchName": "agent/x/dev",
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "issueId": "[id]",
+  "memberId": "[id]",
+  "position": 2,
+  "priority": "critical",
+  "status": "merging",
+  "worktreePath": "/tmp/dev"
+}

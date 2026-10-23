@@ -1,0 +1,17 @@
+---
+source: quadflow-core/tests/cli_discovery.rs
+expression: "&p.ok(&[\"discovery\", \"list\", \"--status\", \"planning\"])"
+---
+[
+  {
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "cli"
+    },
+    "id": "[id]",
+    "status": "planning",
+    "title": "Billing rework",
+    "updatedAt": "[ts]"
+  }
+]

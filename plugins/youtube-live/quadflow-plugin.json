@@ -1,0 +1,64 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "youtube-live",
+  "name": "YouTube Live",
+  "version": "1.0.0",
+  "description": "Streamer kit: a YouTube Live chat overlay with !idea capture (promote to issues), points and a slot machine, leaderboards, live polls, alerts and spoken announcements.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "media",
+  "apiVersion": "^1.1.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/youtube-live-sidecar.exe",
+      "windows-aarch64": "bin/youtube-live-sidecar.exe",
+      "macos-x86_64": "bin/youtube-live-sidecar",
+      "macos-aarch64": "bin/youtube-live-sidecar",
+      "linux-x86_64": "bin/youtube-live-sidecar",
+      "linux-aarch64": "bin/youtube-live-sidecar"
+    },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "overlay",
+        "title": "YouTube Live Chat",
+        "description": "Stream overlay: viewer ideas, slot machine, leaderboard, polls and alerts from your live chat.",
+        "modes": ["pane", "flyout"],
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [480, 500] },
+        "defaultToolConfig": { "order": 13, "color": "#ef4444" }
+      },
+      {
+        "id": "settings",
+        "title": "YouTube Live Settings",
+        "description": "Credentials, features, pay table, OAuth, polls and voice. Shows masked credentials: keep it off stream.",
+        "modes": ["flyout", "pane"],
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [520, 620], "minSize": [400, 400] }
+      }
+    ],
+    "commands": [
+      { "id": "open", "title": "YouTube Live: Open Chat Overlay", "category": "YouTube Live", "keywords": ["stream", "chat", "overlay"] },
+      { "id": "open-settings", "title": "YouTube Live: Settings", "category": "YouTube Live", "keywords": ["stream", "chat", "oauth", "api key"] },
+      { "id": "test-idea", "title": "YouTube Live: Simulate Chat Idea", "category": "YouTube Live", "keywords": ["test", "demo"] },
+      { "id": "test-slot-pull", "title": "YouTube Live: Simulate Slot Pull", "category": "YouTube Live", "keywords": ["test", "demo", "slots"] },
+      { "id": "test-alert", "title": "YouTube Live: Simulate Alert", "category": "YouTube Live", "keywords": ["test", "demo", "super chat"] },
+      { "id": "test-subscriber", "title": "YouTube Live: Simulate Subscriber", "category": "YouTube Live", "keywords": ["test", "demo"] }
+    ]
+  },
+  "permissions": [
+    "secrets",
+    "network:www.googleapis.com",
+    "network:oauth2.googleapis.com",
+    "network:api.openai.com",
+    "data:issues:write",
+    "shell:open-external"
+  ]
+}

@@ -1,0 +1,22 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: "e.redact(e.json(&[\"scripts\", \"env-list\"], 0))"
+---
+[
+  {
+    "available": true,
+    "builtIn": false,
+    "createdAt": "[ts]",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "id": "[id]",
+    "initCommands": [
+      "nvm use --lts"
+    ],
+    "kind": "custom",
+    "name": "Node LTS",
+    "shell": "bash",
+    "updatedAt": "[ts]"
+  }
+]

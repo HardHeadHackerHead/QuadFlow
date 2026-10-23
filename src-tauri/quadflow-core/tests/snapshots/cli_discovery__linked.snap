@@ -1,0 +1,22 @@
+---
+source: quadflow-core/tests/cli_discovery.rs
+expression: "&p.ok(&[\"discovery\", \"linked\", &a_id])"
+---
+{
+  "ideas": [
+    {
+      "archived": false,
+      "content": "Widget support",
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "cli"
+      },
+      "discoveryId": "[id]",
+      "id": "[id]",
+      "originalContent": "Widget support",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "plans": []
+}

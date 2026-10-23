@@ -1,0 +1,8 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&p.ok(&[\"ship\", \"config\", \"validate\"])"
+---
+{
+  "errors": [],
+  "valid": true
+}

@@ -1,0 +1,13 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&c"
+---
+{
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "model": "llama3.2",
+  "projectRootKey": "[rootKey]",
+  "systemPrompt": "Be terse.",
+  "title": "First chat",
+  "updatedAt": "[ts]"
+}

@@ -1,0 +1,35 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"revert\", &a_id])"
+---
+{
+  "archived": false,
+  "content": "Dark mode",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "originalContent": "Dark mode",
+  "suggestions": [
+    {
+      "accepted": true,
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "cli"
+      },
+      "id": "[id]",
+      "kind": "clarify",
+      "text": "Add a dark mode switch to Settings"
+    }
+  ],
+  "tags": [
+    "settings",
+    "sprint",
+    "theme",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}

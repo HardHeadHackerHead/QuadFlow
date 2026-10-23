@@ -1,0 +1,114 @@
+[package]
+name = "quadflow-tauri"
+version = "2.0.0"
+description = "QuadFlow - Multi-terminal Claude Code manager with context tracking"
+authors = ["QuadFlow contributors"]
+license = "AGPL-3.0-only"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "quadflow_tauri_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[features]
+# Default: nothing heavy. Semantic search (candle) and local title generation
+# (llama.cpp) are optional plugins with their own sidecar crates
+# (plugins/semantic-search, plugins/local-titles); the app never compiles them.
+default = []
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+chrono = "0.4"
+
+[dependencies]
+tauri = { version = "2", features = ["unstable", "devtools"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
+# Persistent log files at %LOCALAPPDATA%\com.quadflow.app\logs\ + console
+# stdout. Captures `log::info!`, `log::warn!`, `log::error!` from any
+# Rust crate, plus the panic hook installed in lib.rs writes the unwind
+# path + backtrace via this same plugin so post-mortem debugging works
+# even when the WebView dies before we can flush.
+tauri-plugin-log = "2"
+log = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+portable-pty = "0.8"
+uuid = { version = "1.11", features = ["v4"] }
+tokio = { version = "1", features = [
+    "macros",
+    "rt-multi-thread",
+    "sync",
+    "time",
+    "io-util",
+    "fs",
+    "process",
+    "net",
+    "signal",
+] }
+parking_lot = "0.12"
+# `zip` for the one-click "bundle diagnostics into a single attachable
+# archive" flow. Used only by the diagnostics module.
+zip = { version = "2", default-features = false, features = ["deflate"] }
+# `log` facade is declared once near the tauri-plugin-log line above.
+env_logger = "0.11"
+dirs = "5"
+urlencoding = "2"
+
+reqwest = { version = "0.12", features = ["stream", "rustls-tls", "json", "blocking"] }
+chrono = "0.4"
+
+# Image decode + clipboard for the plugin host (`native.captureRegion`, `clipboard.writeImage`)
+xcap = "0.9.4"
+arboard = { version = "3", features = ["image-data"] }
+
+base64 = "0.22"
+regex = "1.10"
+
+# Type-safe IPC: commands/events/types exported to src/generated/bindings.ts.
+# Pinned as one compatible set with quadflow-core's specta (data-layer.md §9).
+specta = { version = "=2.0.0-rc.25", features = ["derive", "serde_json"] }
+tauri-specta = { version = "=2.0.0-rc.25", features = ["derive", "typescript"] }
+specta-typescript = "=0.0.12"
+
+# Shared domain logic (Ideas, Issues, Plans, Chat, etc.) + CLI.
+# Package name and folder: `quadflow-core`.
+quadflow-core = { path = "quadflow-core" }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58", features = [
+    "Win32_Media_Audio",
+    "Win32_Media_DirectShow",
+    "Win32_System_Com",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_Ole",
+    "Win32_System_Variant",
+    "Win32_Foundation",
+    "Win32_UI_Shell",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_System_Threading",
+    # Job Objects: terminal kill tears down the whole PTY process tree.
+    "Win32_System_JobObjects",
+    "Win32_Security",
+] }
+# Registry editor for the "Install CLI to PATH" feature in Settings.
+# Writes a single entry to HKCU\Environment\Path so `quadflow` is callable
+# from any new shell. winreg is a thin, well-trodden wrapper, simpler than
+# building registry calls out of the windows crate.
+winreg = "0.52"
+
+# Unix-only: libc::killpg is used by terminal.rs to signal PTY process groups.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+# Build profiles live in the workspace root ../Cargo.toml (cargo ignores
+# profiles in member manifests).

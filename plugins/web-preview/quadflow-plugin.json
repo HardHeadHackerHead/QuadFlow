@@ -1,0 +1,33 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "web-preview",
+  "name": "Web Preview",
+  "version": "1.0.0",
+  "description": "Preview a web page — typically your dev server — in a tile: address bar, zoom, mobile view, per-project bookmarks, screenshot to clipboard. Server scripts with a preview URL open it automatically.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "development",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "preview",
+        "title": "Web Preview",
+        "description": "An embedded browser view of a URL (e.g. http://localhost:3000).",
+        "modes": ["pane", "flyout"],
+        "templateable": true,
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [800, 600] },
+        "defaultToolConfig": { "order": 8, "color": "#06b6d4" }
+      }
+    ],
+    "commands": [
+      { "id": "open-url", "title": "Open URL in Web Preview…", "category": "Web Preview", "keywords": ["browser", "url", "localhost", "preview", "web"] }
+    ]
+  },
+  "permissions": ["native:webview", "native:screen-capture", "clipboard:write", "shell:open-external"]
+}

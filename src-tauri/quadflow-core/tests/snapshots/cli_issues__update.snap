@@ -1,0 +1,40 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p,\n&[\"issues\", \"update\", \"#1\", \"--title\", \"Login\", \"--body\", \"markdown\",\n\"--priority\", \"critical\"])"
+---
+{
+  "acceptanceCriteria": [
+    {
+      "checked": false,
+      "id": "[id]",
+      "text": "renders"
+    }
+  ],
+  "body": "markdown",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "history": [
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "to": "todo"
+    }
+  ],
+  "id": "[id]",
+  "labels": [
+    "auth",
+    "ui"
+  ],
+  "number": 1,
+  "priority": "critical",
+  "status": "todo",
+  "title": "Login",
+  "updatedAt": "[ts]",
+  "userStory": "As a user I log in"
+}

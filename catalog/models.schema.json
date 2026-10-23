@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quadflow.dev/schema/models.schema.json",
+  "title": "QuadFlow model catalog",
+  "description": "Model lists per agent provider (docs/architecture/agent-providers.md §6). Fetched by the app from the default branch; invalid entries are dropped individually at runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "updatedAt", "providers"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "updatedAt": { "type": "string", "format": "date" },
+    "providers": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["models"],
+        "properties": {
+          "models": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "label"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[A-Za-z0-9._:\\[\\]-]+$", "maxLength": 128 },
+                "label": { "type": "string", "minLength": 1, "maxLength": 60 },
+                "shortLabel": { "type": "string", "minLength": 1, "maxLength": 8 },
+                "kind": { "enum": ["alias", "model"], "default": "model" },
+                "contextWindow": { "type": "integer", "minimum": 1 },
+                "default": { "type": "boolean", "default": false },
+                "deprecated": { "type": "boolean", "default": false },
+                "efforts": { "type": "array", "items": { "type": "string", "pattern": "^[a-z]+$" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p, &[\"epics\", \"get\", &id])"
+---
+{
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "description": "All auth work",
+  "id": "[id]",
+  "priority": "high",
+  "status": "open",
+  "title": "Auth",
+  "updatedAt": "[ts]"
+}

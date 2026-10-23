@@ -1,0 +1,35 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "discovery",
+  "name": "Projects",
+  "version": "1.0.0",
+  "description": "Project discovery: goals, success criteria, research, requirements, questions, references, decisions and notes, with the ideas and plans linked to each project.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "project-management",
+  "apiVersion": "^1.0.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "projects",
+        "title": "Projects",
+        "description": "Discovery projects of the current project folder.",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "flyout": { "defaultSize": [700, 600] },
+        "defaultToolConfig": { "order": 3, "color": "#6366f1" }
+      }
+    ],
+    "commands": [
+      { "id": "new-project", "title": "New Discovery Project", "category": "Projects", "keywords": ["create", "kickoff", "discovery"], "when": "project" }
+    ],
+    "paletteProviders": [{ "id": "discovery", "title": "Discovery" }],
+    "agentContextDocs": [{ "id": "discovery", "title": "Discovery", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:discovery:write", "data:ideas:write", "data:plans:read", "agents:read", "agents:launch"]
+}

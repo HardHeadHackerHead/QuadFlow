@@ -1,0 +1,21 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"archive\", &b_id])"
+---
+{
+  "archived": true,
+  "content": "Faster startup",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "originalContent": "Faster startup",
+  "tags": [
+    "perf",
+    "sprint",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}

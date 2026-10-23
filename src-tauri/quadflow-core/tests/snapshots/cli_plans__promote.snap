@@ -1,0 +1,160 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&pr"
+---
+{
+  "created": 3,
+  "epics": [
+    {
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "id": "[id]",
+      "labels": [
+        "implement",
+        "plan"
+      ],
+      "priority": "high",
+      "status": "open",
+      "title": "Backend",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "issues": [
+    {
+      "body": "**Source:** Plan: Auth v2, Step #3: Endpoints",
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "epicId": "[id]",
+      "history": [
+        {
+          "at": "[ts]",
+          "by": {
+            "kind": "agent",
+            "name": "test-agent"
+          },
+          "to": "todo"
+        }
+      ],
+      "id": "[id]",
+      "labels": [
+        "plan"
+      ],
+      "number": 1,
+      "priority": "medium",
+      "source": {
+        "planId": "[id]",
+        "stepId": "[id]"
+      },
+      "status": "todo",
+      "title": "Endpoints",
+      "updatedAt": "[ts]"
+    },
+    {
+      "blockedBy": [
+        "[id]"
+      ],
+      "body": "**Source:** Plan: Auth v2, Step #4: Tests",
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "epicId": "[id]",
+      "history": [
+        {
+          "at": "[ts]",
+          "by": {
+            "kind": "agent",
+            "name": "test-agent"
+          },
+          "to": "todo"
+        }
+      ],
+      "id": "[id]",
+      "labels": [
+        "plan",
+        "test"
+      ],
+      "number": 2,
+      "priority": "medium",
+      "source": {
+        "planId": "[id]",
+        "stepId": "[id]"
+      },
+      "status": "todo",
+      "title": "Tests",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "plan": {
+    "context": "ctx",
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "test-agent"
+    },
+    "id": "[id]",
+    "status": "review_steps",
+    "steps": [
+      {
+        "createdAt": "[ts]",
+        "effort": "low",
+        "id": "[id]",
+        "order": 0,
+        "status": "skipped",
+        "title": "Docs",
+        "updatedAt": "[ts]"
+      },
+      {
+        "acceptanceCriteria": [
+          "API works"
+        ],
+        "createdAt": "[ts]",
+        "effort": "high",
+        "epicId": "[id]",
+        "id": "[id]",
+        "kind": "implement",
+        "order": 1,
+        "status": "pending",
+        "targetFiles": [
+          "src/api.rs",
+          "src/db.rs"
+        ],
+        "title": "Backend",
+        "updatedAt": "[ts]"
+      },
+      {
+        "createdAt": "[ts]",
+        "id": "[id]",
+        "issueId": "[id]",
+        "order": 2,
+        "parentId": "[id]",
+        "status": "pending",
+        "title": "Endpoints",
+        "updatedAt": "[ts]"
+      },
+      {
+        "createdAt": "[ts]",
+        "dependsOn": [
+          "[id]"
+        ],
+        "id": "[id]",
+        "issueId": "[id]",
+        "kind": "test",
+        "order": 3,
+        "parentId": "[id]",
+        "status": "pending",
+        "title": "Tests",
+        "updatedAt": "[ts]"
+      }
+    ],
+    "title": "Auth v2",
+    "updatedAt": "[ts]"
+  }
+}

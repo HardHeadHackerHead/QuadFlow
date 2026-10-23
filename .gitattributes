@@ -1,0 +1,51 @@
+# Normalize line endings: text files are stored with LF in the repository and
+# checked out with LF on every platform.
+* text=auto eol=lf
+
+# Windows-only scripts need CRLF to run correctly.
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files: never touch line endings, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.icns binary
+*.bmp binary
+*.svgz binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.ogg binary
+*.webm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.zip binary
+*.gz binary
+*.tgz binary
+*.7z binary
+*.exe binary
+*.dll binary
+*.msi binary
+*.dmg binary
+*.pdb binary
+*.node binary
+*.wasm binary
+*.db binary
+*.sqlite binary
+*.gguf binary
+*.safetensors binary
+*.onnx binary
+*.bin binary
+
+# Lockfiles are generated; collapse them in GitHub diffs and language stats.
+Cargo.lock linguist-generated
+package-lock.json linguist-generated

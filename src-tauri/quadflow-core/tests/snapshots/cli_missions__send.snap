@@ -1,0 +1,14 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&msg"
+---
+{
+  "content": "Please take #1",
+  "createdAt": "[ts]",
+  "fromMemberId": "[id]",
+  "fromName": "Coordinator",
+  "id": "[id]",
+  "issueId": "[id]",
+  "kind": "assignment",
+  "toMemberId": "[id]"
+}

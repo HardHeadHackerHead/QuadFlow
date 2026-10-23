@@ -1,0 +1,9 @@
+/* Shipped as dist/index.css (manifest ui.style). Utilities only (no preflight),
+   scoped under .qf-chat by vite.config.ts; colors come from the host's --qf-* tokens. */
+@tailwind components;
+@tailwind utilities;
+
+.qf-chat {
+  height: 100%;
+  width: 100%;
+}

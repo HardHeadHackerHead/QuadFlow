@@ -1,0 +1,36 @@
+[package]
+name = "local-titles-sidecar"
+version = "0.1.0"
+description = "Sidecar of the local-titles plugin: terminal titles from a local GGUF model (llama.cpp)"
+authors = ["QuadFlow contributors"]
+license = "AGPL-3.0-only"
+edition = "2021"
+publish = false
+
+# Standalone crate, deliberately NOT a member of the repo's Cargo workspace (the root
+# Cargo.toml excludes it): llama.cpp is a native C++ build, and the app's
+# `cargo check/test --workspace` must never compile it. Own Cargo.lock and target/ dir.
+[workspace]
+
+[features]
+# `llama`: the real backend (llama_cpp, needs a C/C++ toolchain; on Windows the MSVC build
+# tools). `--no-default-features` builds a stub that answers every request but cannot
+# generate (useful on machines without a C++ toolchain).
+default = ["llama"]
+llama = ["dep:llama_cpp"]
+# GPU backends, one per platform build (plugin-system.md §15.2: per-platform release assets).
+cuda = ["llama", "llama_cpp/cuda"]
+metal = ["llama", "llama_cpp/metal"]
+vulkan = ["llama", "llama_cpp/vulkan"]
+
+[dependencies]
+quadflow-sidecar = { path = "../../../packages/sidecar-sdk-rust" }
+serde_json = "1"
+# Model downloads (blocking, rustls).
+ureq = { version = "2", default-features = false, features = ["tls"] }
+llama_cpp = { version = "0.3.2", optional = true }
+
+[profile.release]
+lto = "thin"
+codegen-units = 16
+strip = "symbols"

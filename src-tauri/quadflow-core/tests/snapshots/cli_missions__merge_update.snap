@@ -1,0 +1,16 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p,\n&[\"missions\", \"merge-update\", &mid, &s(&next[\"id\"]), \"--status\", \"merged\"])"
+---
+{
+  "branchName": "agent/x/dev",
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "issueId": "[id]",
+  "memberId": "[id]",
+  "mergedAt": "[ts]",
+  "position": 2,
+  "priority": "critical",
+  "status": "merged",
+  "worktreePath": "/tmp/dev"
+}

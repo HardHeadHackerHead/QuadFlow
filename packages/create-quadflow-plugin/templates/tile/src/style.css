@@ -1,0 +1,31 @@
+/* Plugin styles → dist/index.css (manifest ui.style). Prefix every class: trusted plugins share
+   the host document. Colors come from QuadFlow's theme tokens: `rgb(var(--qf-<token>))`. */
+.{{cls}} {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  overflow: auto;
+  color: rgb(var(--qf-text));
+}
+.{{cls}}__title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.{{cls}}__muted {
+  margin: 4px 0;
+  font-size: 12px;
+  color: rgb(var(--qf-text-muted));
+}
+.{{cls}}__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.{{cls}}__count {
+  min-width: 3ch;
+  text-align: center;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}

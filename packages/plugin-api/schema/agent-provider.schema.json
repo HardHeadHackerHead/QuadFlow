@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quadflow.dev/schema/agent-provider.schema.json",
+  "title": "QuadFlow agent provider (contributes.agentProvider)",
+  "description": "Declarative agent CLI provider interpreted by quadflow-core (docs/architecture/agent-providers.md §3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "displayName", "detect", "launch", "models", "sessions", "contextFile"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$", "description": "Provider id, usually the plugin id. Catalog key." },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "shortName": { "type": "string", "minLength": 1, "maxLength": 12 },
+    "icon": { "type": "string" },
+    "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+    "docsUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "installHint": {
+      "type": "object",
+      "propertyNames": { "enum": ["windows", "macos", "linux", "default"] },
+      "additionalProperties": { "type": "string" },
+      "description": "Per-OS install instructions keyed windows|macos|linux|default (shown in onboarding)."
+    },
+
+    "detect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "versionArgs"],
+      "properties": {
+        "command": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$", "description": "Program name looked up on PATH (PATHEXT honoured on Windows)." },
+        "versionArgs": { "type": "array", "items": { "$ref": "#/$defs/safeArg" } },
+        "versionRegex": { "type": "string", "default": "(\\d+\\.\\d+\\.\\d+)" },
+        "minVersion": { "type": "string" },
+        "extraPaths": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "windows": { "$ref": "#/$defs/pathList" },
+            "macos": { "$ref": "#/$defs/pathList" },
+            "linux": { "$ref": "#/$defs/pathList" }
+          }
+        }
+      }
+    },
+
+    "launch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["args"],
+      "properties": {
+        "args": { "type": "array", "items": { "$ref": "#/$defs/safeArg" }, "description": "Base argv after the program." },
+        "model": { "$ref": "#/$defs/argTemplate", "description": "e.g. [\"--model\",\"{model}\"]. Omitted for the system-default model." },
+        "sessionId": { "$ref": "#/$defs/argTemplate", "description": "preassign strategy: e.g. [\"--session-id\",\"{sessionId}\"]" },
+        "resume": { "$ref": "#/$defs/argTemplate", "description": "e.g. [\"--resume\",\"{sessionId}\"] or [\"resume\",\"{sessionId}\"]; replaces sessionId args" },
+        "resumePosition": { "enum": ["prefix", "suffix"], "default": "suffix", "description": "prefix = resume args come before base args (subcommand style)" },
+        "efforts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["values", "default", "args"],
+          "properties": {
+            "values": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z]+$" } },
+            "default": { "type": "string", "pattern": "^[a-z]+$" },
+            "args": { "$ref": "#/$defs/argTemplate", "description": "uses {effort}" },
+            "omitWhenDefault": { "type": "boolean", "default": true }
+          }
+        },
+        "approvalModes": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Supported approval modes → extra argv. Missing key = unsupported. 'default' usually [].",
+          "properties": {
+            "default": { "$ref": "#/$defs/argTemplate" },
+            "plan": { "$ref": "#/$defs/argTemplate" },
+            "accept-edits": { "$ref": "#/$defs/argTemplate" },
+            "auto": { "$ref": "#/$defs/argTemplate" },
+            "bypass": { "$ref": "#/$defs/argTemplate" }
+          }
+        },
+        "env": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+          "additionalProperties": { "type": "string" }
+        },
+        "exitCommand": { "type": "string", "pattern": "^[^\\u0000-\\u001f]{1,64}$", "description": "Typed to leave the agent back to the shell, e.g. \"/exit\"." },
+        "readyPattern": { "type": "string", "description": "Regex on PTY output signalling the agent accepts input (prompt delivery)." },
+        "readyTimeoutMs": { "type": "integer", "minimum": 0, "maximum": 600000, "default": 15000 },
+        "oneShot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["args"],
+          "properties": {
+            "args": { "$ref": "#/$defs/argTemplate" },
+            "promptVia": { "const": "stdin" },
+            "timeoutMs": { "type": "integer", "minimum": 1000, "maximum": 3600000, "default": 120000 }
+          }
+        }
+      }
+    },
+
+    "models": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "catalogKey": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$", "description": "Key in catalog providers{} (default: provider id)." },
+        "allowCustom": { "type": "boolean", "default": true }
+      }
+    },
+
+    "sessions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy"],
+      "properties": {
+        "strategy": { "enum": ["preassign", "discover", "none"] },
+        "idFormat": { "enum": ["uuid", "any"], "default": "uuid" },
+        "dir": { "type": "string", "description": "Template, e.g. \"{home}/.agent/projects/{cwd|nonalnum-dash}\"" },
+        "glob": { "type": "string", "description": "Relative glob under dir, e.g. \"*.jsonl\" or \"**/rollout-*.jsonl\"" },
+        "idFrom": {
+          "oneOf": [
+            { "type": "object", "additionalProperties": false, "required": ["fileStem"], "properties": { "fileStem": { "const": true } } },
+            { "type": "object", "additionalProperties": false, "required": ["fileStemRegex"], "properties": { "fileStemRegex": { "type": "string", "description": "first capture group" } } },
+            { "type": "object", "additionalProperties": false, "required": ["jsonl"], "properties": { "jsonl": { "$ref": "#/$defs/jsonlField" } } }
+          ]
+        },
+        "cwdFrom": {
+          "oneOf": [
+            { "type": "object", "additionalProperties": false, "required": ["dir"], "properties": { "dir": { "const": true } }, "description": "cwd is encoded in the session dir (preassign providers)" },
+            { "type": "object", "additionalProperties": false, "required": ["jsonl"], "properties": { "jsonl": { "$ref": "#/$defs/jsonlField" } } }
+          ]
+        },
+        "headerLines": { "type": "integer", "minimum": 1, "maximum": 200, "default": 20 },
+        "maxFiles": { "type": "integer", "minimum": 1, "maximum": 100000, "default": 2000 }
+      }
+    },
+
+    "contextFile": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$", "description": "Project-root agent instructions file, e.g. AGENTS.md" },
+
+    "scaffold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "into"],
+      "properties": {
+        "from": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$", "description": "Directory inside the plugin" },
+        "into": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$", "description": "Project-relative target dir, e.g. .agent" },
+        "jsonMerge": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" }, "description": "Files merged (arrays unioned) instead of skipped when present" }
+      }
+    },
+
+    "attention": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "patterns": { "type": "array", "items": { "type": "string" } },
+        "debounceMs": { "type": "integer", "minimum": 0, "default": 800 }
+      }
+    },
+
+    "hooks": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["usage", "contextUsage", "sessionTitle", "prepareWorktree"] },
+      "description": "Which procedural hooks the plugin implements (UI module agentProvider or sidecar agentProvider/*)."
+    }
+  },
+  "$defs": {
+    "safeArg": { "type": "string", "pattern": "^[A-Za-z0-9._:\\[\\]@=/+,-]{1,256}$" },
+    "argTemplate": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^([A-Za-z0-9._:\\[\\]@=/+,-]|\\{(model|sessionId|effort|cwd)\\})+$" }
+    },
+    "pathList": { "type": "array", "items": { "type": "string" }, "description": "Templates with {home} {appData} {localAppData}" },
+    "jsonlField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "match": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Line must have these top-level string fields, e.g. {\"type\":\"session_meta\"}" },
+        "path": { "type": "string", "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$", "description": "Dot path, e.g. payload.id" }
+      }
+    }
+  }
+}

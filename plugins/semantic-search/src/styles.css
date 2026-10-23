@@ -1,0 +1,9 @@
+/* Shipped as dist/index.css (manifest ui.style). Utilities only — no preflight — scoped under
+   .qf-semantic-search by vite.config.ts; colors come from the host's theme tokens. */
+@tailwind components;
+@tailwind utilities;
+
+.qf-semantic-search {
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,31 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: "e.redact(e.json(&[\"scripts\", \"groups\", \"list\"], 0))"
+---
+[
+  {
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "cli"
+    },
+    "id": "[id]",
+    "members": [
+      {
+        "autoOpenPreview": false,
+        "delayMs": 1500,
+        "order": 0,
+        "scriptId": "[id]"
+      },
+      {
+        "autoOpenPreview": false,
+        "delayMs": 0,
+        "order": 1,
+        "scriptId": "[id]"
+      }
+    ],
+    "mode": "sequential",
+    "name": "Full stack",
+    "updatedAt": "[ts]"
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "github",
+  "name": "GitHub",
+  "version": "1.0.0",
+  "description": "Local git (status, commit, push, checkpoints) and GitHub (repositories, branches, pull requests, commits, releases, issue sync) for the current project.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "development",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "git",
+        "title": "GitHub",
+        "description": "Git status, checkpoints and GitHub data of the current project.",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "miniWidget": true,
+        "flyout": { "defaultSize": [700, 600] },
+        "defaultToolConfig": { "order": 4, "color": "#14b8a6" }
+      }
+    ],
+    "commands": [
+      { "id": "create-checkpoint", "title": "Create Git Checkpoint", "category": "Git", "keywords": ["checkpoint", "snapshot", "tag", "save"], "when": "project" },
+      { "id": "commit-all", "title": "Commit All Changes", "category": "Git", "keywords": ["git", "commit", "stage"], "when": "project" },
+      { "id": "push", "title": "Push", "category": "Git", "keywords": ["git", "push", "upload"], "when": "project" },
+      { "id": "refresh-status", "title": "Refresh Git Status", "category": "Git", "keywords": ["git", "status"], "when": "project" },
+      { "id": "open-checkpoints", "title": "Show Checkpoints", "category": "Git", "keywords": ["checkpoint", "restore"], "when": "project" },
+      { "id": "open-pull-requests", "title": "Show Pull Requests", "category": "GitHub", "keywords": ["pr", "pull request", "review"], "when": "project" },
+      { "id": "open-issues-sync", "title": "Sync Issues with GitHub", "category": "GitHub", "keywords": ["issues", "import", "push"], "when": "project" },
+      { "id": "open-tab", "title": "Open GitHub Tab", "category": "GitHub", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "github", "title": "GitHub" }]
+  },
+  "permissions": [
+    "shell:exec:git",
+    "shell:exec:gh",
+    "shell:open-external",
+    "network:api.github.com",
+    "secrets",
+    "fs:read:project",
+    "fs:write:project",
+    "data:issues:write",
+    "agents:launch"
+  ]
+}

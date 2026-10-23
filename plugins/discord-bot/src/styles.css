@@ -1,0 +1,8 @@
+/* Utilities only (no preflight), scoped under .qf-discord-bot by vite.config.ts. */
+@tailwind components;
+@tailwind utilities;
+
+.qf-discord-bot {
+  height: 100%;
+  width: 100%;
+}

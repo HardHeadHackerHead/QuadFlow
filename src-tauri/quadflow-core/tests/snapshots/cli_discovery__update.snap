@@ -1,0 +1,22 @@
+---
+source: quadflow-core/tests/cli_discovery.rs
+expression: "&p.ok(&[\"discovery\", \"update\", &a_id, \"--title\", \"Mobile companion\",\n\"--status\", \"in_progress\", \"--goal\", \"Offline mode\"])"
+---
+{
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "goals": [
+    "Offline mode"
+  ],
+  "id": "[id]",
+  "overview": "Ship a companion app",
+  "status": "in_progress",
+  "successCriteria": [
+    "1k weekly users"
+  ],
+  "title": "Mobile companion",
+  "updatedAt": "[ts]"
+}

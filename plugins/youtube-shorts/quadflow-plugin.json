@@ -1,0 +1,35 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "youtube-shorts",
+  "name": "YouTube Shorts",
+  "version": "1.0.0",
+  "description": "Streamer kit: a YouTube Shorts player in a tile (the YouTube mobile site in an embedded web view) with auto-scroll to the next short, skip, search and volume control.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "media",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "player",
+        "title": "YouTube Shorts",
+        "description": "YouTube Shorts with auto-scroll and volume control.",
+        "modes": ["pane", "flyout"],
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [480, 500] },
+        "defaultToolConfig": { "order": 12, "color": "#ef4444" }
+      }
+    ],
+    "commands": [
+      { "id": "next", "title": "YouTube Shorts: Next", "category": "YouTube Shorts", "keywords": ["skip"] },
+      { "id": "toggle-auto-scroll", "title": "YouTube Shorts: Toggle Auto-Scroll", "category": "YouTube Shorts" },
+      { "id": "toggle-mute", "title": "YouTube Shorts: Mute / Unmute", "category": "YouTube Shorts", "keywords": ["volume", "sound"] },
+      { "id": "toggle-controls", "title": "YouTube Shorts: Show / Hide Controls", "category": "YouTube Shorts" }
+    ]
+  },
+  "permissions": ["native:webview"]
+}

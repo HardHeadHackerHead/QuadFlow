@@ -1,0 +1,14 @@
+/* Shipped as dist/index.css (manifest ui.style). Utilities only — no preflight —
+   and scoped under .qf-github by vite.config.ts; colors come from the host's --qf-* tokens. */
+@tailwind components;
+@tailwind utilities;
+
+.qf-github {
+  height: 100%;
+  width: 100%;
+}
+
+/* The toolbar mini widget must not take the tile's full size. */
+.qf-github.qf-github-mini {
+  display: contents;
+}

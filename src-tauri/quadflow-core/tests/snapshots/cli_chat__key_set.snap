@@ -1,0 +1,7 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&json(&out)[\"data\"]"
+---
+{
+  "hasApiKey": true
+}

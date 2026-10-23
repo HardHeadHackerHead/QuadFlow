@@ -1,0 +1,21 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"update\", &a_id, \"--content\", \"Dark mode toggle\", \"--tags\",\n\"ui,theme,settings\"])"
+---
+{
+  "archived": false,
+  "content": "Dark mode toggle",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "originalContent": "Dark mode",
+  "tags": [
+    "settings",
+    "theme",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}

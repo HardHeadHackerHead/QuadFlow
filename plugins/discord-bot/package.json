@@ -1,0 +1,30 @@
+{
+  "name": "@quadflow-plugins/discord-bot",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "quadflow-plugin build",
+    "dev": "quadflow-plugin dev",
+    "typecheck": "tsc -p ."
+  },
+  "devDependencies": {
+    "@quadflow/plugin-build": "*",
+    "@quadflow/sidecar-sdk-node": "*"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "strip-ansi": "^7.1.0"
+  },
+  "quadflow": {
+    "bundle": "none",
+    "sidecarExternal": ["zlib-sync", "bufferutil", "utf-8-validate"]
+  }
+}

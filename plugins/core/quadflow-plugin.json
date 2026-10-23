@@ -1,0 +1,67 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "core",
+  "name": "QuadFlow Core",
+  "version": "1.0.0",
+  "description": "The shell's own contributions: Terminals, Agents and Session history.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "other",
+  "apiVersion": "^1.0.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "assets/internal.js" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "chat-history", "title": "History", "icon": "assets/chat-history.svg", "category": "ai-agents",
+        "description": "Open and past agent sessions.",
+        "modes": ["flyout"], "instanceMultiple": false,
+        "flyout": { "defaultSize": [420, 520] },
+        "defaultToolConfig": { "order": 11, "color": "#f97316", "pinned": true, "openMode": "flyout" }
+      }
+    ],
+    "toolbarItems": [
+      {
+        "id": "terminal", "title": "Terminal", "icon": "assets/terminal.svg", "category": "system",
+        "command": "new-terminal", "instanceMultiple": true,
+        "configSchema": {
+          "type": "object",
+          "properties": {
+            "shell": {
+              "type": "string", "title": "Shell", "default": "default",
+              "oneOf": [
+                { "const": "default", "title": "Default" },
+                { "const": "cmd", "title": "CMD" },
+                { "const": "powershell", "title": "PowerShell" },
+                { "const": "bash", "title": "Bash" }
+              ]
+            },
+            "workingDirectory": { "type": "string", "title": "Working directory", "description": "Empty: the project directory" }
+          }
+        },
+        "defaultToolConfig": { "order": -1, "color": "#06b6d4", "pinned": true }
+      },
+      {
+        "id": "ai-agent", "title": "AI Agent", "icon": "assets/ai-agent.svg", "category": "ai-agents",
+        "command": "launch-agent",
+        "configSchema": {
+          "type": "object",
+          "properties": {
+            "provider": {
+              "type": "string", "title": "Provider id", "default": "",
+              "description": "Agent provider preselected in the launch dialog (empty: the default provider)"
+            }
+          }
+        },
+        "defaultToolConfig": { "order": 0, "color": "#f59e0b", "pinned": true, "settings": { "provider": "" } }
+      }
+    ],
+    "commands": [
+      { "id": "new-terminal", "title": "New Terminal", "category": "Terminal", "palette": false },
+      { "id": "launch-agent", "title": "Launch Agent", "category": "Agents", "palette": false }
+    ]
+  },
+  "permissions": []
+}

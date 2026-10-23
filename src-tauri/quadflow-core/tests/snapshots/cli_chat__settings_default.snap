@@ -1,0 +1,13 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&app.ok(&[\"chat\", \"settings\"])"
+---
+{
+  "defaultModel": "llama3.2",
+  "endpoint": "http://localhost:11434/v1",
+  "hasApiKey": false,
+  "maxTokens": 2048,
+  "systemPrompt": null,
+  "temperature": 0.7,
+  "timeoutSeconds": 60
+}

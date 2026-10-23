@@ -1,0 +1,7 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&ok(&p, &[\"plans\", \"delete\", &pid])"
+---
+{
+  "id": "[id]"
+}

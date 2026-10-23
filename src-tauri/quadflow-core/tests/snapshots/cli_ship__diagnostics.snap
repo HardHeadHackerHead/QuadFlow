@@ -1,0 +1,15 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&p.ok(&[\"ship\", \"diagnostics\"])"
+---
+{
+  "configCheckCount": 1,
+  "configExists": true,
+  "configPath": "[path]",
+  "configPhaseCount": 4,
+  "configSizeBytes": 695,
+  "projectDir": "[path]",
+  "projectKind": "npm",
+  "runCount": 0,
+  "runsDir": "[path]"
+}

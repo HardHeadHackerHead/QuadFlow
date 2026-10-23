@@ -1,0 +1,16 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&ok(&p, &[\"plans\", \"comments\", &pid])"
+---
+[
+  {
+    "body": "Review: fine",
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "test-agent"
+    },
+    "id": "[id]",
+    "kind": "review"
+  }
+]

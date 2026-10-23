@@ -1,0 +1,9 @@
+/* Shipped as dist/index.css (manifest ui.style). Utilities only — no preflight —
+   and scoped under .qf-obs-tracker by vite.config.ts; colors come from the host's --qf-* tokens. */
+@tailwind components;
+@tailwind utilities;
+
+.qf-obs-tracker {
+  height: 100%;
+  width: 100%;
+}

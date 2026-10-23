@@ -1,0 +1,47 @@
+---
+source: quadflow-core/tests/cli_discovery.rs
+expression: "&p.ok(&[\"discovery\", \"item-update\", &a_id, &f_id, \"--metadata\", \"\",\n\"--content\", \"\"])"
+---
+{
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "goals": [
+    "Offline mode"
+  ],
+  "id": "[id]",
+  "items": [
+    {
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "kind": "research",
+      "order": 0,
+      "status": "pending",
+      "title": "Sync engines",
+      "updatedAt": "[ts]"
+    },
+    {
+      "content": "Yes, iOS first",
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "kind": "question",
+      "order": 1,
+      "status": "answered",
+      "title": "iOS first?",
+      "updatedAt": "[ts]"
+    },
+    {
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "kind": "reference",
+      "order": 2,
+      "title": "Design doc",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "status": "in_progress",
+  "title": "Mobile companion",
+  "updatedAt": "[ts]"
+}

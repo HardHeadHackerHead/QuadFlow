@@ -1,0 +1,13 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&app.ok(&[\"chat\", \"rename\", &cid, \"Renamed chat\"])"
+---
+{
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "model": "llama3.2",
+  "projectRootKey": "[rootKey]",
+  "systemPrompt": "Be terse.",
+  "title": "Renamed chat",
+  "updatedAt": "[ts]"
+}

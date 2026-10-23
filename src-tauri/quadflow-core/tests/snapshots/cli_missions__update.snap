@@ -1,0 +1,105 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p,\n&[\"missions\", \"update\", &mid, \"--status\", \"active\", \"--orchestrator\",\n\"Coordinator\"])"
+---
+{
+  "config": {
+    "memberPromptExtra": "Use /issue-to-prompt for context. Use /run-script to validate. Move issues to QA when complete.",
+    "orchestratorPromptExtra": "You are leading a Feature Build mission. Use /triage-issues to prioritize, assign issues to members. Have developers use /issue-to-prompt and /run-script.",
+    "skillsUsed": [
+      "issue-to-prompt",
+      "run-script",
+      "triage-issues",
+      "create-rich-plan"
+    ],
+    "successCriteria": [
+      "All linked issues reach QA or Done status",
+      "Tests pass for all changed code",
+      "Security review completed"
+    ],
+    "workflowPhases": [
+      {
+        "description": "Tech lead breaks down the feature into issues",
+        "gate": "plan_created",
+        "name": "Planning",
+        "skills": [
+          "triage-issues",
+          "create-rich-plan"
+        ]
+      },
+      {
+        "description": "Developers work through assigned issues",
+        "gate": "all_issues_in_progress",
+        "name": "Implementation",
+        "skills": [
+          "issue-to-prompt",
+          "run-script"
+        ]
+      },
+      {
+        "description": "QA validates each completed issue",
+        "gate": "all_issues_in_qa",
+        "name": "Testing",
+        "skills": [
+          "issue-to-prompt",
+          "run-script"
+        ]
+      },
+      {
+        "description": "Security engineer audits the changes",
+        "gate": "security_approved",
+        "name": "Security Review",
+        "skills": [
+          "issue-to-prompt"
+        ]
+      },
+      {
+        "description": "All issues pass QA and security review",
+        "gate": "all_issues_done",
+        "name": "Done"
+      }
+    ]
+  },
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "id": "[id]",
+  "members": [
+    {
+      "agentDefinitionId": "builtin-scrum-master",
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "name": "Coordinator",
+      "providerId": "default",
+      "role": "scrum_master",
+      "status": "pending",
+      "systemPrompt": "You are the SCRUM MASTER agent. Assign issues, track progress, remove blockers. Do NOT write code — only coordinate.",
+      "updatedAt": "[ts]"
+    },
+    {
+      "agentDefinitionId": "builtin-fullstack-dev",
+      "branchName": "agent/x/dev",
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "lastHeartbeat": "[ts]",
+      "model": "sonnet",
+      "name": "Dev",
+      "providerId": "default",
+      "role": "fullstack",
+      "status": "working",
+      "systemPrompt": "You are a FULL STACK DEVELOPER agent. Work across the entire stack from UI to database.",
+      "terminalId": "t-1",
+      "updatedAt": "[ts]",
+      "worktreePath": "/tmp/dev"
+    }
+  ],
+  "name": "Sprint 1",
+  "orchestratorMemberId": "[id]",
+  "orchestratorMode": "persistent",
+  "startedAt": "[ts]",
+  "status": "active",
+  "templateId": "builtin-feature-build",
+  "updatedAt": "[ts]"
+}

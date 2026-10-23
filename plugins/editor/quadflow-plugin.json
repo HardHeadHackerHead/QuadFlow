@@ -1,0 +1,37 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "editor",
+  "name": "Editor",
+  "version": "1.0.0",
+  "description": "A CodeMirror file editor pane, one tile per file. Opened from file links and the file explorer (command editor/open { path }).",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "development",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "file",
+        "title": "Editor",
+        "description": "Edit one file of the current project (opened from file links; one tile per file).",
+        "modes": ["pane"],
+        "requiresProject": true,
+        "instanceMultiple": false
+      }
+    ],
+    "commands": [
+      {
+        "id": "open",
+        "title": "Open File in Editor…",
+        "category": "Editor",
+        "keywords": ["file", "edit", "code", "open"],
+        "when": "project"
+      }
+    ]
+  },
+  "permissions": ["fs:read:project", "fs:write:project"]
+}

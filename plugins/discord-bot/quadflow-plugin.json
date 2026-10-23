@@ -1,0 +1,53 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "discord-bot",
+  "name": "Discord Bot",
+  "version": "0.1.0",
+  "description": "Experimental (on hold): mirror terminal sessions into Discord threads and send replies from a Discord role back into the terminal.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "media",
+  "apiVersion": "^1.1.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "sidecar": {
+    "runtime": "node",
+    "entry": "bin/sidecar.mjs",
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "bot",
+        "title": "Discord Bot",
+        "description": "Bot connection, settings and the terminals mirrored to Discord (experimental).",
+        "modes": ["pane", "flyout"],
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [480, 560] },
+        "defaultToolConfig": { "order": 14, "color": "#3b82f6" }
+      }
+    ],
+    "commands": [
+      { "id": "toggle-share", "title": "Share terminal to Discord", "category": "Discord", "palette": false },
+      { "id": "open", "title": "Open Discord Bot", "category": "Discord", "palette": false },
+      { "id": "start", "title": "Discord: Start bot", "category": "Discord" },
+      { "id": "stop", "title": "Discord: Stop bot", "category": "Discord" }
+    ],
+    "contextMenus": [
+      { "id": "share-terminal", "location": "terminal", "command": "toggle-share", "title": "Share to / stop sharing on Discord" }
+    ],
+    "settings": {
+      "type": "object",
+      "properties": {
+        "guildId": { "type": "string", "title": "Server (guild) ID", "default": "" },
+        "channelId": { "type": "string", "title": "Channel ID", "description": "Text channel the threads are created in", "default": "" },
+        "qualifiedRoleId": { "type": "string", "title": "Qualified role ID", "description": "Only members with this role can send input (empty: everyone)", "default": "" },
+        "autoMirror": { "type": "boolean", "title": "Auto-mirror new terminals", "default": false }
+      }
+    }
+  },
+  "permissions": ["terminal:io", "secrets", "sidecar:runtime:node", "shell:open-external"]
+}

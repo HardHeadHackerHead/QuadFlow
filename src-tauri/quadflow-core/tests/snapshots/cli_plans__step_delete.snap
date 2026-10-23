@@ -1,0 +1,63 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&ok(&p, &[\"plans\", \"step-delete\", &docs])"
+---
+{
+  "context": "ctx",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "id": "[id]",
+  "status": "executing",
+  "steps": [
+    {
+      "acceptanceCriteria": [
+        "API works"
+      ],
+      "createdAt": "[ts]",
+      "effort": "high",
+      "epicId": "[id]",
+      "id": "[id]",
+      "kind": "implement",
+      "order": 0,
+      "status": "pending",
+      "targetFiles": [
+        "src/api.rs",
+        "src/db.rs"
+      ],
+      "title": "Backend",
+      "updatedAt": "[ts]"
+    },
+    {
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "issueId": "[id]",
+      "order": 1,
+      "parentId": "[id]",
+      "startedAt": "[ts]",
+      "status": "in_progress",
+      "title": "Endpoints",
+      "updatedAt": "[ts]"
+    },
+    {
+      "completedAt": "[ts]",
+      "createdAt": "[ts]",
+      "dependsOn": [
+        "[id]"
+      ],
+      "id": "[id]",
+      "issueId": "[id]",
+      "kind": "test",
+      "order": 2,
+      "parentId": "[id]",
+      "startedAt": "[ts]",
+      "status": "completed",
+      "title": "Tests",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "title": "Auth v2",
+  "updatedAt": "[ts]"
+}

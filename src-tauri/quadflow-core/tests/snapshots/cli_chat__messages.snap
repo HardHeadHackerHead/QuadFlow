@@ -1,0 +1,22 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&msgs"
+---
+[
+  {
+    "content": "Say hello",
+    "conversationId": "[id]",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "role": "user",
+    "tokenCount": null
+  },
+  {
+    "content": "Hello world",
+    "conversationId": "[id]",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "role": "assistant",
+    "tokenCount": 2
+  }
+]

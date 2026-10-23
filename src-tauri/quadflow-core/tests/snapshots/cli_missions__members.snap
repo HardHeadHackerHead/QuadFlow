@@ -1,0 +1,29 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"members\", &mid])"
+---
+[
+  {
+    "agentDefinitionId": "builtin-scrum-master",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "name": "Coordinator",
+    "providerId": "default",
+    "role": "scrum_master",
+    "status": "pending",
+    "systemPrompt": "You are the SCRUM MASTER agent. Assign issues, track progress, remove blockers. Do NOT write code — only coordinate.",
+    "updatedAt": "[ts]"
+  },
+  {
+    "agentDefinitionId": "builtin-fullstack-dev",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "model": "sonnet",
+    "name": "Dev",
+    "providerId": "default",
+    "role": "fullstack",
+    "status": "pending",
+    "systemPrompt": "You are a FULL STACK DEVELOPER agent. Work across the entire stack from UI to database.",
+    "updatedAt": "[ts]"
+  }
+]

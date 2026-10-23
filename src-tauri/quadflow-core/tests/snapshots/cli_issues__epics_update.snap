@@ -1,0 +1,16 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p,\n&[\"epics\", \"update\", &id, \"--status\", \"in-progress\", \"--description\", \"\"])"
+---
+{
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "id": "[id]",
+  "priority": "high",
+  "status": "in_progress",
+  "title": "Auth",
+  "updatedAt": "[ts]"
+}

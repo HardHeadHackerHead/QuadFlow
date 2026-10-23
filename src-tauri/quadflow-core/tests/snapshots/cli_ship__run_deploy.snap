@@ -1,0 +1,31 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&a"
+---
+{
+  "completedAt": "[ts]",
+  "dryRun": false,
+  "id": "[id]",
+  "mode": "deploy",
+  "phases": [
+    {
+      "command": "echo shipping v1.0.0 of Demo",
+      "completedAt": "[ts]",
+      "durationMs": "[ms]",
+      "exitCode": 0,
+      "kind": "shell",
+      "name": "hello",
+      "startedAt": "[ts]",
+      "status": "passed",
+      "stdout": "shipping v1.0.0 of Demo\n"
+    }
+  ],
+  "previousVersion": "1.0.0",
+  "startedAt": "[ts]",
+  "startedBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "status": "completed",
+  "version": "1.0.0"
+}

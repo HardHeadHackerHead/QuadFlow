@@ -1,0 +1,78 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&cm"
+---
+{
+  "comments": [
+    {
+      "body": "Review: fine",
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "id": "[id]",
+      "kind": "review"
+    }
+  ],
+  "context": "ctx",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "id": "[id]",
+  "status": "review_steps",
+  "steps": [
+    {
+      "createdAt": "[ts]",
+      "effort": "low",
+      "id": "[id]",
+      "order": 0,
+      "status": "skipped",
+      "title": "Docs",
+      "updatedAt": "[ts]"
+    },
+    {
+      "acceptanceCriteria": [
+        "API works"
+      ],
+      "createdAt": "[ts]",
+      "effort": "high",
+      "id": "[id]",
+      "kind": "implement",
+      "order": 1,
+      "status": "pending",
+      "targetFiles": [
+        "src/api.rs",
+        "src/db.rs"
+      ],
+      "title": "Backend",
+      "updatedAt": "[ts]"
+    },
+    {
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "order": 2,
+      "parentId": "[id]",
+      "status": "pending",
+      "title": "Endpoints",
+      "updatedAt": "[ts]"
+    },
+    {
+      "createdAt": "[ts]",
+      "dependsOn": [
+        "[id]"
+      ],
+      "id": "[id]",
+      "kind": "test",
+      "order": 3,
+      "parentId": "[id]",
+      "status": "pending",
+      "title": "Tests",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "title": "Auth v2",
+  "updatedAt": "[ts]"
+}

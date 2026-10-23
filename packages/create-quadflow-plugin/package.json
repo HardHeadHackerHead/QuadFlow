@@ -1,0 +1,15 @@
+{
+  "name": "create-quadflow-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "Scaffold a QuadFlow plugin: `npm create quadflow-plugin` (docs/plugins/getting-started.md).",
+  "type": "module",
+  "bin": {
+    "create-quadflow-plugin": "./index.mjs"
+  },
+  "files": ["index.mjs", "templates"],
+  "scripts": {
+    "test": "node --test test/create.test.mjs"
+  }
+}

@@ -1,0 +1,19 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "scrub(p.ok(&[\"ideas\", \"export\"]).as_str().unwrap())"
+---
+# Ideas
+
+## [id]
+
+Tags: settings, sprint, theme, ui
+Created: [date]
+
+Dark mode
+
+## [id]
+
+Tags: perf, sprint, ui
+Created: [date]
+
+Faster startup

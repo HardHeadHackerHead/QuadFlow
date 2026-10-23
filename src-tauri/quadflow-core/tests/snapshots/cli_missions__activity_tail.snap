@@ -1,0 +1,25 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"activity\", &mid, \"--limit\", \"2\"])"
+---
+[
+  {
+    "createdAt": "[ts]",
+    "detail": "Dev → everyone: blocker",
+    "id": "[id]",
+    "kind": "message_sent",
+    "memberId": "[id]",
+    "memberName": "Dev",
+    "metadata": {
+      "messageId": "[id]"
+    }
+  },
+  {
+    "createdAt": "[ts]",
+    "detail": "Split work by layer",
+    "id": "[id]",
+    "kind": "note",
+    "memberId": "[id]",
+    "memberName": "Coordinator"
+  }
+]

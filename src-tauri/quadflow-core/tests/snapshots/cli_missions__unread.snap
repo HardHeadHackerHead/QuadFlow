@@ -1,0 +1,8 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"unread\", &mid, \"Dev\"])"
+---
+{
+  "reader": "Dev",
+  "unread": 2
+}

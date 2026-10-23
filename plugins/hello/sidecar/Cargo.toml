@@ -1,0 +1,11 @@
+[package]
+name = "hello-sidecar"
+version = "0.1.0"
+description = "Sidecar of the hello example plugin (ping, host call, event, crash)"
+authors = ["QuadFlow contributors"]
+license = "AGPL-3.0-only"
+edition = "2021"
+publish = false
+
+[dependencies]
+quadflow-sidecar = { path = "../../../packages/sidecar-sdk-rust" }

@@ -1,0 +1,56 @@
+/*
+ * Styles of every sandboxed plugin frame (plugin-system.md §8.4, §14): the
+ * @quadflow/ui tokens (themed by the bootstrap from the host's ThemeSnapshot)
+ * and the Tailwind classes @quadflow/ui components use. A plugin's own
+ * `ui.style` is linked after this file.
+ */
+@import '@quadflow/ui/tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Same document defaults as the shell (src/index.css :root), so a tile looks the same in both modes. */
+:root {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  color: rgb(var(--qf-text));
+  background-color: rgb(var(--qf-bg));
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--qf-scrollbar-track));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--qf-scrollbar-thumb));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--qf-scrollbar-thumb-hover));
+}
+
+.qf-frame-error {
+  margin: 16px;
+  white-space: pre-wrap;
+  font: 12px var(--qf-font-mono, monospace);
+  color: rgb(var(--qf-error));
+}

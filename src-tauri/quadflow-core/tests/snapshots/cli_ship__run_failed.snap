@@ -1,0 +1,36 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&e[\"details\"][\"run\"]"
+---
+{
+  "completedAt": "[ts]",
+  "dryRun": false,
+  "id": "[id]",
+  "mode": "deploy",
+  "phases": [
+    {
+      "command": "exit 7",
+      "completedAt": "[ts]",
+      "durationMs": "[ms]",
+      "error": "exit 7",
+      "exitCode": 7,
+      "kind": "shell",
+      "name": "boom",
+      "startedAt": "[ts]",
+      "status": "failed"
+    },
+    {
+      "kind": "shell",
+      "name": "never",
+      "status": "pending"
+    }
+  ],
+  "previousVersion": "1.0.0",
+  "startedAt": "[ts]",
+  "startedBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "status": "failed",
+  "version": "1.0.0"
+}

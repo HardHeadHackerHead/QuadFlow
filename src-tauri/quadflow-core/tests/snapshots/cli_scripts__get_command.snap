@@ -1,0 +1,16 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: e.redact(rc)
+---
+{
+  "command": "cargo build",
+  "cwd": "[root]",
+  "fullCommand": "rustup show && cargo build",
+  "platform": "linux",
+  "scriptId": "[id]",
+  "scriptName": "Build",
+  "setup": [
+    "rustup show"
+  ],
+  "shell": "bash"
+}

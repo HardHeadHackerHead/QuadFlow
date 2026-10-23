@@ -1,0 +1,44 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&p.ok(&[\"ship\", \"config\", \"show\"])"
+---
+{
+  "changelog": {
+    "since": "last_tag",
+    "source": "git_log"
+  },
+  "formatVersion": 1,
+  "phases": [
+    {
+      "checks": [
+        "version_files_in_sync"
+      ],
+      "name": "preflight",
+      "type": "checks"
+    },
+    {
+      "name": "bump",
+      "type": "version_bump"
+    },
+    {
+      "clean": true,
+      "name": "staging",
+      "path": "release/v{version}",
+      "type": "ensure_staging_dir"
+    },
+    {
+      "command": "npm run build",
+      "externalTerminal": true,
+      "name": "build",
+      "type": "build"
+    }
+  ],
+  "productName": "demo-app",
+  "versionFiles": [
+    {
+      "key": "version",
+      "kind": "json",
+      "path": "package.json"
+    }
+  ]
+}

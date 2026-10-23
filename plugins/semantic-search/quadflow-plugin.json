@@ -1,0 +1,109 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "semantic-search",
+  "name": "Semantic Search",
+  "version": "1.0.0",
+  "description": "Search past agent sessions by meaning. Indexes the session transcripts of every agent provider (and folders you add) into local embeddings — a small sentence-transformer run on your machine by a native sidecar; nothing leaves your computer except the one-time model download.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "ai-agents",
+  "apiVersion": "^1.1.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onStartup", "onTile", "onCommand"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/semantic-search-sidecar.exe",
+      "windows-aarch64": "bin/semantic-search-sidecar.exe",
+      "macos-x86_64": "bin/semantic-search-sidecar",
+      "macos-aarch64": "bin/semantic-search-sidecar",
+      "linux-x86_64": "bin/semantic-search-sidecar",
+      "linux-aarch64": "bin/semantic-search-sidecar"
+    },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "search",
+        "title": "Semantic Search",
+        "description": "Search past agent sessions by meaning; index status and controls.",
+        "icon": "assets/icon.svg",
+        "category": "ai-agents",
+        "modes": ["pane", "flyout"],
+        "templateable": true,
+        "flyout": { "defaultSize": [560, 620] },
+        "defaultToolConfig": { "order": 30, "color": "#a855f7" }
+      }
+    ],
+    "commands": [
+      { "id": "search", "title": "Semantic Search: Search Sessions…", "category": "Semantic Search" },
+      { "id": "index", "title": "Semantic Search: Index Sessions Now", "category": "Semantic Search" },
+      { "id": "reindex", "title": "Semantic Search: Rebuild Index", "category": "Semantic Search" },
+      { "id": "related-sessions", "title": "Semantic Search: Related Sessions (API)", "category": "Semantic Search", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "sessions", "title": "Semantic Search" }],
+    "settingsPages": [{ "id": "semantic-search", "title": "Semantic Search", "icon": "assets/icon.svg", "custom": true }],
+    "settings": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": ["all-MiniLM-L6-v2", "paraphrase-MiniLM-L3-v2", "all-mpnet-base-v2", "hashing"],
+          "default": "all-MiniLM-L6-v2",
+          "title": "Embedding model",
+          "description": "Downloaded from Hugging Face on first use. \"hashing\" is built in (no download, keyword matching only)."
+        },
+        "useGpu": {
+          "type": "boolean",
+          "default": false,
+          "title": "Use the GPU",
+          "description": "Only with a sidecar built with the cuda / metal feature."
+        },
+        "indexMode": {
+          "type": "string",
+          "enum": ["manual", "periodic", "realtime"],
+          "default": "manual",
+          "title": "Indexing",
+          "description": "manual = only when you click Index; periodic = every N minutes; realtime = when session files change."
+        },
+        "intervalMinutes": { "type": "integer", "minimum": 1, "maximum": 1440, "default": 10, "title": "Periodic interval (minutes)" },
+        "maxChunkTokens": { "type": "integer", "minimum": 64, "maximum": 2048, "default": 512, "title": "Chunk size (tokens)" },
+        "overlapTokens": { "type": "integer", "minimum": 0, "maximum": 512, "default": 50, "title": "Chunk overlap (tokens)" },
+        "useProviderSessions": {
+          "type": "boolean",
+          "default": true,
+          "title": "Index agent provider sessions",
+          "description": "The session folders every active agent provider declares."
+        },
+        "sessionDirs": {
+          "type": "array",
+          "default": [],
+          "title": "Additional session folders",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string", "title": "Folder" },
+              "glob": { "type": "string", "default": "**/*.jsonl", "title": "Files (glob)" },
+              "providerId": { "type": "string", "default": "", "title": "Agent provider id" }
+            },
+            "required": ["path"],
+            "additionalProperties": false
+          }
+        },
+        "maxSessionAgeDays": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3650,
+          "default": 0,
+          "title": "Clean up sessions older than (days)",
+          "description": "0 = keep everything."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "permissions": ["agents:read", "agents:launch", "clipboard:write", "network:huggingface.co"]
+}

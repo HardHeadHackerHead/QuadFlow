@@ -1,0 +1,66 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Windows reserved device names (can't be indexed by git)
+nul
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Tauri updater signing keys (NEVER commit private key)
+keys/
+# Release staging + scratch of scripts/release.mjs (root only: scripts/release/ is tracked)
+/release/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local / personal state (never commit)
+*.db
+*.db-journal
+*.jsonl
+youtube-key.json
+.mcp.json
+.claude/settings.local.json
+.quadflow/
+.quadflow-dev/
+
+# Agent worktrees
+.claude/worktrees/
+
+# Plugin system (generated; plugin-system.md §8.3, §15.2)
+public/qf-shared/
+src-tauri/resources/plugins/*
+!src-tauri/resources/plugins/.gitkeep
+plugins/*/bin/
+# TypeDoc API reference of @quadflow/plugin-api (`npm run docs:api`): generated, not committed
+docs/plugins/api/
+src-tauri/resources/plugin-runtime/*
+!src-tauri/resources/plugin-runtime/.gitkeep
+
+# Cargo workspace target dir (workspace root = repo root since PL-11)
+/target/
+
+# local-titles sidecar: standalone crate with its own target dir
+plugins/local-titles/sidecar/target/

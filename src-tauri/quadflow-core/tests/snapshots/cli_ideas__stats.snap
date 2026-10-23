@@ -1,0 +1,16 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"stats\"])"
+---
+{
+  "active": 2,
+  "archived": 0,
+  "byTag": {
+    "perf": 1,
+    "settings": 1,
+    "sprint": 2,
+    "theme": 1,
+    "ui": 2
+  },
+  "total": 2
+}

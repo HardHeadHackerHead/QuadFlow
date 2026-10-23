@@ -1,0 +1,15 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&app.ok(&[\"chat\", \"list\"])"
+---
+[
+  {
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "model": null,
+    "projectRootKey": "[rootKey]",
+    "systemPrompt": null,
+    "title": "New conversation",
+    "updatedAt": "[ts]"
+  }
+]

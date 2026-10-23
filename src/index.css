@@ -1,0 +1,1143 @@
+@import "@quadflow/ui/tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Prose (Markdown) overrides for dark theme */
+.prose.prose-invert {
+  --tw-prose-body: rgb(var(--qf-text));
+  --tw-prose-headings: #f1f5f9;
+  --tw-prose-links: #2dd4bf;
+  --tw-prose-bold: #f1f5f9;
+  --tw-prose-code: rgb(var(--qf-text));
+  --tw-prose-pre-bg: rgb(var(--qf-bg-elevated));
+  --tw-prose-pre-code: rgb(var(--qf-text));
+  --tw-prose-quotes: rgb(var(--qf-text-muted));
+  --tw-prose-quote-borders: rgb(var(--qf-border-strong));
+  --tw-prose-hr: rgb(var(--qf-border));
+  --tw-prose-th-borders: rgb(var(--qf-border));
+  --tw-prose-td-borders: rgb(var(--qf-border));
+  --tw-prose-bullets: rgb(var(--qf-text-muted));
+  --tw-prose-counters: rgb(var(--qf-text-muted));
+}
+
+[data-theme='light'] .prose.prose-invert {
+  --tw-prose-headings: rgb(var(--qf-text));
+  --tw-prose-bold: rgb(var(--qf-text));
+  --tw-prose-links: #0d9488;
+}
+
+.prose.prose-invert h1,
+.prose.prose-invert h2,
+.prose.prose-invert h3,
+.prose.prose-invert h4 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.prose.prose-invert h1:first-child,
+.prose.prose-invert h2:first-child,
+.prose.prose-invert h3:first-child {
+  margin-top: 0;
+}
+
+.prose.prose-invert ul,
+.prose.prose-invert ol {
+  padding-left: 1.5em;
+}
+
+.prose.prose-invert blockquote {
+  border-left-color: rgb(var(--qf-border-strong));
+  color: rgb(var(--qf-text-muted));
+}
+
+.prose.prose-invert hr {
+  border-color: rgb(var(--qf-border));
+}
+
+.prose.prose-invert table th,
+.prose.prose-invert table td {
+  padding: 0.5em 0.75em;
+  border-color: rgb(var(--qf-border));
+}
+
+/* Global styles */
+:root {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  color: rgb(var(--qf-text));
+  background-color: rgb(var(--qf-bg));
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Theme customization variables */
+  --accent-color: #7c3aed;
+  --accent-color-hover: #8b5cf6;
+  --ui-scale: 1;
+  --panel-radius: 8px;
+  --panel-gap: 3px;
+  --attention-glow-color: #f97316;
+  --idle-glow-color: #3b82f6;
+}
+
+/* Reduce motion preference */
+.reduce-motion,
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Use accent color for primary elements */
+.accent-bg {
+  background-color: var(--accent-color);
+}
+
+.accent-bg:hover {
+  background-color: var(--accent-color-hover);
+}
+
+.accent-text {
+  color: var(--accent-color);
+}
+
+.accent-border {
+  border-color: var(--accent-color);
+}
+
+/* Accent color with opacity variants */
+.accent-bg-10 {
+  background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+}
+
+.accent-bg-20 {
+  background-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+/* Accent color: the shell sets --qf-primary / --qf-primary-hover from the
+   accent setting (appSettingsStore.applyThemeToDOM -> @quadflow/ui applyTheme),
+   so every vibe-primary class (incl. alpha variants) follows it automatically.
+   Kept from the former .use-accent overrides: a plain bg-vibe-primary element
+   shows the hover shade on hover even without a hover: class. */
+.use-accent .bg-vibe-primary:hover {
+  background-color: rgb(var(--qf-primary-hover));
+}
+
+/* Toggle switch accent styling */
+.toggle-accent {
+  background-color: var(--accent-color);
+}
+
+/* Focus rings with accent */
+.focus-accent:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Active tab border */
+.tab-accent-active {
+  border-bottom-color: var(--accent-color);
+}
+
+/* Slider/range input accent */
+input[type="range"]::-webkit-slider-thumb {
+  background-color: var(--accent-color);
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: var(--accent-color);
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--qf-scrollbar-track));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--qf-scrollbar-thumb));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--qf-scrollbar-thumb-hover));
+}
+
+/* Slim scrollbar for the file-browser tree */
+.file-tree-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 150, 0.35) transparent;
+}
+.file-tree-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.file-tree-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.file-tree-scroll::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 150, 0.25);
+  border-radius: 2px;
+  transition: background 150ms ease;
+}
+.file-tree-scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 150, 0.5);
+}
+.file-tree-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 160, 200, 0.7);
+}
+
+/* xterm custom styles */
+.terminal-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.terminal-container .xterm {
+  height: 100%;
+  width: 100%;
+}
+
+.terminal-container .xterm-viewport {
+  overflow-y: auto !important;
+}
+
+.terminal-container .xterm-screen {
+  height: 100% !important;
+}
+
+/* Prevent text selection glitches */
+.terminal-container .xterm-helpers {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+}
+
+/* Fix cursor rendering */
+.terminal-container .xterm-cursor-layer {
+  z-index: 4;
+}
+
+/* Ensure canvas layers render properly */
+.terminal-container canvas {
+  image-rendering: pixelated;
+}
+
+/* Terminal panel styles */
+.terminal-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: rgb(var(--qf-surface));
+  border: 1px solid rgb(var(--qf-border));
+  border-radius: var(--panel-radius, 8px);
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: rgb(var(--qf-bg));
+  border-bottom: 1px solid rgb(var(--qf-border));
+  min-height: 40px;
+}
+
+.terminal-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Empty slot styles */
+.empty-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: rgb(var(--qf-surface));
+  border: 2px dashed rgb(var(--qf-border));
+  border-radius: var(--panel-radius, 8px);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.empty-slot:hover {
+  border-color: color-mix(in srgb, var(--accent-color) 50%, transparent);
+  background-color: rgb(var(--qf-surface) / 0.3);
+}
+
+/* React Mosaic dark theme overrides */
+.mosaic-layout {
+  background-color: transparent;
+}
+
+.mosaic-theme-dark.mosaic {
+  background: transparent;
+}
+
+.mosaic-theme-dark .mosaic-tile {
+  margin: var(--panel-gap, 3px);
+}
+
+.mosaic-theme-dark .mosaic-window {
+  border-radius: var(--panel-radius, 8px);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mosaic-theme-dark .mosaic-window-body {
+  background: transparent;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Custom toolbar styling - this is our draggable header */
+.mosaic-theme-dark .mosaic-window-toolbar {
+  background: transparent;
+  height: auto;
+  min-height: 0;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  display: flex;
+}
+
+.mosaic-theme-dark .mosaic-window-toolbar.draggable {
+  cursor: grab;
+}
+
+.mosaic-theme-dark .mosaic-window-toolbar.draggable:active {
+  cursor: grabbing;
+}
+
+/* Mosaic split/resize bars */
+.mosaic-theme-dark .mosaic-split {
+  background: transparent;
+  z-index: 10;
+}
+
+.mosaic-theme-dark .mosaic-split.-row {
+  width: 8px;
+  margin: 0 -4px;
+  cursor: col-resize;
+}
+
+.mosaic-theme-dark .mosaic-split.-column {
+  height: 8px;
+  margin: -4px 0;
+  cursor: row-resize;
+}
+
+.mosaic-theme-dark .mosaic-split:hover {
+  background: color-mix(in srgb, var(--accent-color) 60%, transparent);
+}
+
+.mosaic-theme-dark .mosaic-split:active {
+  background: color-mix(in srgb, var(--accent-color) 80%, transparent);
+}
+
+/* Drag preview styling - the ghost window shown while dragging */
+.mosaic-theme-dark .mosaic-preview {
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  border: 2px dashed color-mix(in srgb, var(--accent-color) 70%, transparent);
+  border-radius: var(--panel-radius, 8px);
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Drop target indicators - where you can drop */
+.mosaic-theme-dark .drop-target-container {
+  pointer-events: none;
+}
+
+.mosaic-theme-dark .drop-target-container .drop-target {
+  background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  border: 2px dashed color-mix(in srgb, var(--accent-color) 40%, transparent);
+  border-radius: calc(var(--panel-radius, 8px) - 2px);
+  transition: all 0.15s ease;
+}
+
+.mosaic-theme-dark .drop-target-container .drop-target-hover {
+  background: color-mix(in srgb, var(--accent-color) 25%, transparent);
+  border-color: color-mix(in srgb, var(--accent-color) 90%, transparent);
+  box-shadow: inset 0 0 20px color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+/* Zero state styling */
+.mosaic-theme-dark .mosaic-zero-state {
+  background: transparent;
+}
+
+/* Drag layer - the floating preview while dragging */
+.mosaic-drag-preview {
+  opacity: 0.9;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 2px color-mix(in srgb, var(--accent-color) 60%, transparent);
+  border-radius: var(--panel-radius, 8px);
+  transform: rotate(2deg);
+}
+
+/* Custom terminal window styling */
+.terminal-mosaic-window,
+.tool-mosaic-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.terminal-mosaic-window .mosaic-window-body,
+.tool-mosaic-window .mosaic-window-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Ensure toolbar wrapper spans full width */
+.mosaic-window-toolbar-draggable {
+  width: 100%;
+}
+
+/* Active/focused window indicator - accent glow (normal) */
+.terminal-mosaic-window.active-window,
+.tool-mosaic-window.active-window {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -1px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-color) 50%, transparent),
+    0 0 20px color-mix(in srgb, var(--accent-color) 50%, transparent),
+    0 0 40px color-mix(in srgb, var(--accent-color) 25%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent);
+  z-index: 1;
+  position: relative;
+}
+
+/* Glow intensity: off */
+[data-glow="off"] .terminal-mosaic-window.active-window,
+[data-glow="off"] .tool-mosaic-window.active-window {
+  box-shadow: none;
+}
+
+/* Glow intensity: subtle */
+[data-glow="subtle"] .terminal-mosaic-window.active-window,
+[data-glow="subtle"] .tool-mosaic-window.active-window {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent),
+    0 0 10px color-mix(in srgb, var(--accent-color) 25%, transparent);
+}
+
+/* Glow intensity: intense */
+[data-glow="intense"] .terminal-mosaic-window.active-window,
+[data-glow="intense"] .tool-mosaic-window.active-window {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-color) 60%, transparent),
+    0 0 30px color-mix(in srgb, var(--accent-color) 70%, transparent),
+    0 0 60px color-mix(in srgb, var(--accent-color) 40%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Attention/needs-attention indicator - configurable glow with pulse */
+/* Note: needs-attention takes priority over active-window and is-idle */
+.terminal-mosaic-window.needs-attention,
+.tool-mosaic-window.needs-attention {
+  outline: 2px solid var(--attention-glow-color);
+  outline-offset: -1px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 50%, transparent),
+    0 0 20px color-mix(in srgb, var(--attention-glow-color) 50%, transparent),
+    0 0 40px color-mix(in srgb, var(--attention-glow-color) 25%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 20%, transparent);
+  animation: attention-pulse 1.5s ease-in-out infinite;
+  z-index: 2;
+  position: relative;
+}
+
+/* Attention glow intensity variants */
+[data-glow="off"] .terminal-mosaic-window.needs-attention,
+[data-glow="off"] .tool-mosaic-window.needs-attention {
+  box-shadow: none;
+  animation: none;
+}
+
+[data-glow="subtle"] .terminal-mosaic-window.needs-attention,
+[data-glow="subtle"] .tool-mosaic-window.needs-attention {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 30%, transparent),
+    0 0 10px color-mix(in srgb, var(--attention-glow-color) 25%, transparent);
+  animation: attention-pulse-subtle 1.5s ease-in-out infinite;
+}
+
+[data-glow="intense"] .terminal-mosaic-window.needs-attention,
+[data-glow="intense"] .tool-mosaic-window.needs-attention {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 60%, transparent),
+    0 0 30px color-mix(in srgb, var(--attention-glow-color) 70%, transparent),
+    0 0 60px color-mix(in srgb, var(--attention-glow-color) 40%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 30%, transparent);
+  animation: attention-pulse-intense 1.5s ease-in-out infinite;
+}
+
+@keyframes attention-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 50%, transparent),
+      0 0 20px color-mix(in srgb, var(--attention-glow-color) 50%, transparent),
+      0 0 40px color-mix(in srgb, var(--attention-glow-color) 25%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 20%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 80%, transparent),
+      0 0 30px color-mix(in srgb, var(--attention-glow-color) 70%, transparent),
+      0 0 60px color-mix(in srgb, var(--attention-glow-color) 40%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 30%, transparent);
+  }
+}
+
+@keyframes attention-pulse-subtle {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 30%, transparent),
+      0 0 10px color-mix(in srgb, var(--attention-glow-color) 25%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 50%, transparent),
+      0 0 15px color-mix(in srgb, var(--attention-glow-color) 40%, transparent);
+  }
+}
+
+@keyframes attention-pulse-intense {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 60%, transparent),
+      0 0 30px color-mix(in srgb, var(--attention-glow-color) 70%, transparent),
+      0 0 60px color-mix(in srgb, var(--attention-glow-color) 40%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 30%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 90%, transparent),
+      0 0 40px color-mix(in srgb, var(--attention-glow-color) 80%, transparent),
+      0 0 80px color-mix(in srgb, var(--attention-glow-color) 50%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--attention-glow-color) 40%, transparent);
+  }
+}
+
+/* Idle terminal indicator - configurable glow with slow breathe */
+/* Priority: needs-attention > is-idle > active-window */
+.terminal-mosaic-window.is-idle,
+.tool-mosaic-window.is-idle {
+  outline: 2px solid color-mix(in srgb, var(--idle-glow-color) 70%, transparent);
+  outline-offset: -1px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 40%, transparent),
+    0 0 15px color-mix(in srgb, var(--idle-glow-color) 35%, transparent),
+    0 0 30px color-mix(in srgb, var(--idle-glow-color) 20%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 15%, transparent);
+  animation: idle-breathe 3s ease-in-out infinite;
+  z-index: 1;
+  position: relative;
+}
+
+/* Idle glow intensity variants */
+[data-glow="off"] .terminal-mosaic-window.is-idle,
+[data-glow="off"] .tool-mosaic-window.is-idle {
+  box-shadow: none;
+  animation: none;
+}
+
+[data-glow="subtle"] .terminal-mosaic-window.is-idle,
+[data-glow="subtle"] .tool-mosaic-window.is-idle {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 25%, transparent),
+    0 0 8px color-mix(in srgb, var(--idle-glow-color) 20%, transparent);
+  animation: idle-breathe-subtle 3s ease-in-out infinite;
+}
+
+[data-glow="intense"] .terminal-mosaic-window.is-idle,
+[data-glow="intense"] .tool-mosaic-window.is-idle {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 50%, transparent),
+    0 0 25px color-mix(in srgb, var(--idle-glow-color) 55%, transparent),
+    0 0 50px color-mix(in srgb, var(--idle-glow-color) 30%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 25%, transparent);
+  animation: idle-breathe-intense 3s ease-in-out infinite;
+}
+
+@keyframes idle-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 40%, transparent),
+      0 0 15px color-mix(in srgb, var(--idle-glow-color) 35%, transparent),
+      0 0 30px color-mix(in srgb, var(--idle-glow-color) 20%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 15%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 60%, transparent),
+      0 0 20px color-mix(in srgb, var(--idle-glow-color) 50%, transparent),
+      0 0 40px color-mix(in srgb, var(--idle-glow-color) 30%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 20%, transparent);
+  }
+}
+
+@keyframes idle-breathe-subtle {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 25%, transparent),
+      0 0 8px color-mix(in srgb, var(--idle-glow-color) 20%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 40%, transparent),
+      0 0 12px color-mix(in srgb, var(--idle-glow-color) 30%, transparent);
+  }
+}
+
+@keyframes idle-breathe-intense {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 50%, transparent),
+      0 0 25px color-mix(in srgb, var(--idle-glow-color) 55%, transparent),
+      0 0 50px color-mix(in srgb, var(--idle-glow-color) 30%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 25%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 70%, transparent),
+      0 0 35px color-mix(in srgb, var(--idle-glow-color) 65%, transparent),
+      0 0 70px color-mix(in srgb, var(--idle-glow-color) 40%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--idle-glow-color) 30%, transparent);
+  }
+}
+
+/* Minimized tab attention animation */
+.minimized-tab-attention {
+  animation: tab-attention-pulse 1s ease-in-out infinite;
+}
+
+@keyframes tab-attention-pulse {
+  0%, 100% {
+    background-color: color-mix(in srgb, var(--attention-glow-color) 20%, transparent);
+    border-color: color-mix(in srgb, var(--attention-glow-color) 60%, transparent);
+  }
+  50% {
+    background-color: color-mix(in srgb, var(--attention-glow-color) 40%, transparent);
+    border-color: var(--attention-glow-color);
+  }
+}
+
+/* Minimized tab idle animation */
+.minimized-tab-idle {
+  animation: tab-idle-breathe 3s ease-in-out infinite;
+}
+
+@keyframes tab-idle-breathe {
+  0%, 100% {
+    background-color: color-mix(in srgb, var(--idle-glow-color) 15%, transparent);
+    border-color: color-mix(in srgb, var(--idle-glow-color) 40%, transparent);
+  }
+  50% {
+    background-color: color-mix(in srgb, var(--idle-glow-color) 25%, transparent);
+    border-color: color-mix(in srgb, var(--idle-glow-color) 60%, transparent);
+  }
+}
+
+/* Indicator line when hovering split areas */
+.mosaic-theme-dark .mosaic-split::after {
+  content: '';
+  position: absolute;
+  background: color-mix(in srgb, var(--accent-color) 30%, transparent);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.mosaic-theme-dark .mosaic-split.-row::after {
+  width: 2px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mosaic-theme-dark .mosaic-split.-column::after {
+  width: 40px;
+  height: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mosaic-theme-dark .mosaic-split:hover::after {
+  opacity: 1;
+}
+
+/* Smooth transitions during preview mode */
+.mosaic-layout.preview-mode .mosaic-tile {
+  transition: all 0.2s ease-out;
+}
+
+.mosaic-layout.preview-mode .mosaic-split {
+  transition: all 0.2s ease-out;
+}
+
+.mosaic-layout.preview-mode .mosaic-window {
+  transition: box-shadow 0.2s ease-out;
+}
+
+/* Ghost effect for dragged tile placeholder */
+.mosaic-tile.drag-placeholder {
+  opacity: 0.3;
+  border: 2px dashed color-mix(in srgb, var(--accent-color) 60%, transparent);
+}
+
+/* Highlight where tile will be inserted */
+.mosaic-tile.preview-target {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent-color) 80%, transparent);
+}
+
+/* Reduce opacity of source tile during drag */
+.mosaic-layout.preview-mode .mosaic-window.mosaic-window-dragging {
+  opacity: 0.5;
+}
+
+/* Preview mode active drop target styling */
+.mosaic-layout.preview-mode .drop-target-container .drop-target-hover {
+  background: color-mix(in srgb, var(--accent-color) 35%, transparent);
+  border-color: var(--accent-color);
+  box-shadow: inset 0 0 30px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Locked pane indicator - amber border with subtle glow */
+.terminal-mosaic-window.locked-pane,
+.tool-mosaic-window.locked-pane {
+  outline: 2px solid rgba(251, 191, 36, 0.5);
+  outline-offset: -1px;
+  box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.15);
+}
+
+/* Locked pane active state - combine lock indicator with active glow */
+.terminal-mosaic-window.locked-pane.active-window,
+.tool-mosaic-window.locked-pane.active-window {
+  outline: 2px solid #fbbf24;
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.5),
+    0 0 15px rgba(251, 191, 36, 0.4),
+    inset 0 0 0 1px rgba(251, 191, 36, 0.2);
+}
+
+/* Disable drag cursor for locked panes */
+.terminal-mosaic-window.locked-pane .mosaic-window-toolbar.draggable,
+.tool-mosaic-window.locked-pane .mosaic-window-toolbar.draggable {
+  cursor: not-allowed;
+}
+
+/* Prevent resize handles from appearing for locked panes */
+.mosaic-theme-dark .mosaic-split.locked-resize {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* Empty placeholder tiles - rendered as plain divs (no MosaicWindow) */
+.mosaic-tile:has(> .empty-tile-content) {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ==================== Empty Tile Bubble Menu ==================== */
+
+.bubble-center-btn {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.15s ease,
+              border-color 0.15s ease;
+  z-index: 2;
+}
+
+.bubble-center-btn.open {
+  transform: rotate(45deg);
+}
+
+.bubble-menu-item {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transform: translate(0px, 0px) scale(0);
+  opacity: 0;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.12s ease,
+              border-color 0.1s ease,
+              background-color 0.1s ease;
+  transition-delay: var(--delay, 0ms);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bubble-menu-item.open {
+  transform: translate(var(--bx, 0px), var(--by, 0px)) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bubble-menu-item:hover {
+  transform: translate(var(--bx, 0px), var(--by, 0px)) scale(1.15);
+}
+
+/* YouTube Live overlay animations */
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-slideIn {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes jackpotGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(234,179,8,0.3), 0 0 40px rgba(234,179,8,0.1); }
+  50% { box-shadow: 0 0 40px rgba(234,179,8,0.6), 0 0 80px rgba(234,179,8,0.3); }
+}
+.animate-jackpotGlow {
+  animation: jackpotGlow 1s ease-in-out infinite;
+}
+
+@keyframes cabinetLights {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes reelLand {
+  0% { transform: scaleY(1); }
+  30% { transform: scaleY(1.03); }
+  60% { transform: scaleY(0.98); }
+  100% { transform: scaleY(1); }
+}
+.animate-reelLand {
+  animation: reelLand 0.3s ease-out;
+}
+
+@keyframes paylinePulse {
+  0%, 100% { opacity: 0.5; box-shadow: 0 0 4px rgba(239,68,68,0.3); }
+  50% { opacity: 1; box-shadow: 0 0 12px rgba(239,68,68,0.6), 0 0 24px rgba(239,68,68,0.2); }
+}
+.animate-paylinePulse {
+  animation: paylinePulse 0.8s ease-in-out infinite;
+}
+
+@keyframes jackpotBurst {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-jackpotBurst {
+  animation: jackpotBurst 0.5s ease-out;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes goldPulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(234,179,8,0.3); }
+  50% { text-shadow: 0 0 20px rgba(234,179,8,0.6), 0 0 40px rgba(234,179,8,0.2); }
+}
+.animate-goldPulse {
+  animation: goldPulse 2s ease-in-out infinite;
+}
+
+/* Wild symbol shimmer */
+@keyframes wildShimmer {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(168,85,247,0.4)); }
+  50% { filter: drop-shadow(0 0 10px rgba(168,85,247,0.8)) drop-shadow(0 0 20px rgba(168,85,247,0.3)); }
+}
+.animate-wildShimmer {
+  animation: wildShimmer 1.5s ease-in-out infinite;
+}
+
+/* Win tier animations */
+@keyframes winGlow {
+  0%, 100% { box-shadow: 0 0 4px rgba(34,197,94,0.3); }
+  50% { box-shadow: 0 0 12px rgba(34,197,94,0.6), 0 0 24px rgba(34,197,94,0.2); }
+}
+.animate-winGlow {
+  animation: winGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes epicWin {
+  0% { filter: brightness(1); transform: scale(1); }
+  25% { filter: brightness(1.3) drop-shadow(0 0 12px rgba(168,85,247,0.8)); transform: scale(1.02); }
+  50% { filter: brightness(1.5) drop-shadow(0 0 20px rgba(250,204,21,0.6)); transform: scale(1.04); }
+  75% { filter: brightness(1.3) drop-shadow(0 0 12px rgba(168,85,247,0.8)); transform: scale(1.02); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+.animate-epicWin {
+  animation: epicWin 2s ease-in-out infinite;
+}
+
+@keyframes progressiveWin {
+  0% { box-shadow: 0 0 10px rgba(250,204,21,0.5); }
+  25% { box-shadow: 0 0 30px rgba(250,204,21,0.8), 0 0 60px rgba(250,204,21,0.3); }
+  50% { box-shadow: 0 0 50px rgba(250,204,21,1), 0 0 100px rgba(250,204,21,0.5), 0 0 150px rgba(250,204,21,0.2); }
+  75% { box-shadow: 0 0 30px rgba(250,204,21,0.8), 0 0 60px rgba(250,204,21,0.3); }
+  100% { box-shadow: 0 0 10px rgba(250,204,21,0.5); }
+}
+.animate-progressiveWin {
+  animation: progressiveWin 1.5s ease-in-out infinite;
+}
+
+@keyframes nearMissFlash {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.4; filter: drop-shadow(0 0 8px rgba(239,68,68,0.8)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 12px rgba(239,68,68,0.6)); }
+  75% { opacity: 0.4; filter: drop-shadow(0 0 8px rgba(239,68,68,0.8)); }
+}
+.animate-nearMissFlash {
+  animation: nearMissFlash 0.5s ease-in-out 1;
+}
+
+@keyframes luckyHourPulse {
+  0%, 100% { box-shadow: inset 0 0 8px rgba(250,204,21,0.2); }
+  50% { box-shadow: inset 0 0 20px rgba(250,204,21,0.4), 0 0 8px rgba(250,204,21,0.2); }
+}
+.animate-luckyHourPulse {
+  animation: luckyHourPulse 3s ease-in-out infinite;
+}
+
+@keyframes rarityGoldGlow {
+  0%, 100% { box-shadow: 0 0 3px rgba(250,204,21,0.3); }
+  50% { box-shadow: 0 0 8px rgba(250,204,21,0.6); }
+}
+@keyframes rarityPurpleGlow {
+  0%, 100% { box-shadow: 0 0 3px rgba(168,85,247,0.2); }
+  50% { box-shadow: 0 0 6px rgba(168,85,247,0.4); }
+}
+.animate-rarityGold {
+  animation: rarityGoldGlow 2s ease-in-out infinite;
+}
+.animate-rarityPurple {
+  animation: rarityPurpleGlow 2.5s ease-in-out infinite;
+}
+
+/* Alert overlay animations */
+@keyframes alertSlideIn {
+  0% { opacity: 0; transform: translateX(100px) scale(0.95); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+.animate-alertSlideIn {
+  animation: alertSlideIn 0.4s ease-out;
+}
+
+/* Flyout resize cursor lock classes */
+body.flyout-resizing-e,
+body.flyout-resizing-e * {
+  cursor: ew-resize !important;
+  user-select: none !important;
+}
+
+body.flyout-resizing-s,
+body.flyout-resizing-s * {
+  cursor: ns-resize !important;
+  user-select: none !important;
+}
+
+body.flyout-resizing-se,
+body.flyout-resizing-se * {
+  cursor: nwse-resize !important;
+  user-select: none !important;
+}
+
+body.flyout-resizing-sw,
+body.flyout-resizing-sw * {
+  cursor: nesw-resize !important;
+  user-select: none !important;
+}
+
+/* CodeMirror editor styles */
+.cm-editor-container .cm-editor {
+  height: 100% !important;
+}
+
+.cm-editor-container .cm-editor .cm-scroller {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace !important;
+}
+
+/* Split divider for file explorer inline editor */
+.split-divider {
+  cursor: col-resize;
+  user-select: none;
+}
+
+.split-divider:hover,
+.split-divider.dragging {
+  background-color: rgba(124, 58, 237, 0.5);
+}
+
+body.split-resizing,
+body.split-resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+/* The project tile inside the global frame is chrome-less: no toolbar, no
+   border, no body background, no shadows. The MosaicWindow wrapper exists
+   only so it accepts drops when global workspaces are repositioned. */
+.frame-project-window > .mosaic-window-toolbar {
+  display: none !important;
+}
+.frame-project-window,
+.frame-project-window.mosaic-window {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.frame-project-window > .mosaic-window-body {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.frame-project-window::before,
+.frame-project-window::after,
+.frame-project-window > .mosaic-window-body::before,
+.frame-project-window > .mosaic-window-body::after {
+  display: none !important;
+}
+
+/* The frame mosaic itself shouldn't paint dashed/dotted outlines on its
+   tiles. react-mosaic-component renders an idle drop-target frame on every
+   tile (a dashed border that shows even without dragging) plus focus
+   outlines — strip them all on the outer frame and on the project + global
+   tiles inside it. Inner project tiles (terminals/tools) keep their normal
+   styling because those live inside FlexibleTerminalLayout's own mosaic. */
+.frame-mosaic > .mosaic > .mosaic-root > .mosaic-tile,
+.frame-mosaic > .mosaic-root > .mosaic-tile,
+.frame-mosaic .mosaic-tile.frame-project-tile,
+.frame-mosaic .mosaic-tile.frame-global-tile {
+  outline: none !important;
+}
+
+/* GLOBAL enforcement: drop-target containers are hidden by default
+   everywhere in the app, not just inside .frame-mosaic. This is the
+   react-mosaic-component default but we re-enforce it because nested
+   DndProviders (outer frame + inner FlexibleTerminalLayout) can leave
+   the .-dragging state stuck visible. The natural drag-state classes
+   (`.-dragging` on the container, `.drop-target-hover` on the parent
+   .mosaic-drop-target) are the only triggers that re-enable visibility. */
+.drop-target-container {
+  display: none !important;
+}
+.drop-target-container.-dragging,
+.mosaic-drop-target.drop-target-hover > .drop-target-container,
+.mosaic-drop-target.drop-target-hover .drop-target-container {
+  display: block !important;
+}
+
+/* Belt-and-suspenders: hide every individual .drop-target child unless its
+   container is in a drag state. Some react-mosaic builds render the children
+   independently of the container's display. */
+.drop-target-container:not(.-dragging) > .drop-target,
+.mosaic-drop-target:not(.drop-target-hover) > .drop-target-container > .drop-target {
+  display: none !important;
+}
+
+/* The `.mosaic-preview` ghost — react-mosaic-component renders this as a
+   drag-preview snapshot whenever a drag is in progress. With nested
+   DndProviders (outer FrameMosaic + inner FlexibleTerminalLayout) the
+   element can persist visible even when no drag is active. We hide it
+   wholesale; react-dnd uses its own native HTML5 drag image during real
+   drags so this preview ghost is purely decorative anyway. */
+.mosaic-preview {
+  display: none !important;
+}
+
+/* Strip browser focus outlines from MosaicWindow on the outer frame. */
+.frame-project-window:focus,
+.frame-project-window:focus-within,
+.global-workspace-window:focus,
+.global-workspace-window:focus-within {
+  outline: none !important;
+}
+
+/* Same for the global-workspace-window outer frame: no border/shadow on the
+   wrapper itself; the toolbar (visible) and body each manage their own. */
+.global-workspace-window,
+.global-workspace-window.mosaic-window {
+  border: none !important;
+  box-shadow: none !important;
+}
+.global-workspace-window > .mosaic-window-body {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Sledgehammer: inside the global frame mosaic, NO MosaicWindow / preview
+   paints the default 1px ring shadow that react-mosaic-component applies
+   universally. The frame is meant to read as a flush container, not a stack
+   of bordered windows. Inner project panels keep their other styling
+   (backgrounds, toolbars) — only the box-shadow ring is removed. */
+.frame-mosaic .mosaic-window,
+.frame-mosaic .mosaic-preview {
+  box-shadow: none !important;
+}
+.frame-mosaic .mosaic-window > .mosaic-window-toolbar,
+.frame-mosaic .mosaic-preview > .mosaic-window-toolbar {
+  box-shadow: none !important;
+}
+
+/* Outer-frame tiles (those that directly wrap a frame-project-window or
+   global-workspace-window) get no margin so there's no visible gap-color
+   ring around the project or the workspace. Inner project panels keep
+   their default 3px margin via the inner mosaic. */
+.frame-mosaic .mosaic-tile:has(> .frame-project-window),
+.frame-mosaic .mosaic-tile:has(> .global-workspace-window) {
+  margin: 0 !important;
+  outline: none !important;
+}
+
+/* SLEDGEHAMMER: every dashed-border indicator that the project's
+   .mosaic-theme-dark CSS paints (drop-target previews, drag-placeholder
+   ghosts, preview-target highlights, .mosaic-preview ghosts) is suppressed
+   on the OUTER frame mosaic. The OUTER mosaic is meant to read as a flush
+   container — only the workspace title bar provides chrome. The INNER
+   project mosaic's drag indicators continue to work normally because the
+   selectors are scoped under `.frame-mosaic .frame-project-window` /
+   `.frame-mosaic .global-workspace-window`'s direct children only. */
+
+/* (Visibility for drop-target containers is handled by the rule above —
+   blanket-hide unless `.-dragging` or `.drop-target-hover` is set.) */
+/* Remove any always-on dashed outlines on outer-frame tiles —
+   drag-placeholder / preview-target / .mosaic-preview ghosts.
+   The inner project mosaic's drag indicators are untouched and use
+   react-mosaic's natural .-dragging / .drop-target-hover visibility. */
+.frame-mosaic > .mosaic > .mosaic-root .mosaic-tile.drag-placeholder,
+.frame-mosaic > .mosaic > .mosaic-root .mosaic-tile.preview-target,
+.frame-mosaic > .mosaic-root .mosaic-tile.drag-placeholder,
+.frame-mosaic > .mosaic-root .mosaic-tile.preview-target {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}

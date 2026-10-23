@@ -1,0 +1,25 @@
+{
+  "name": "@quadflow-plugins/local-titles",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "quadflow-plugin build --no-sidecar",
+    "build:release": "quadflow-plugin build",
+    "dev": "quadflow-plugin dev --no-sidecar",
+    "typecheck": "tsc -p ."
+  },
+  "devDependencies": {
+    "@quadflow/plugin-build": "*"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "quadflow": {
+    "bundle": "none"
+  }
+}

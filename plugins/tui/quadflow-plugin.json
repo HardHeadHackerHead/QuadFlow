@@ -1,0 +1,41 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "tui",
+  "name": "TUI Tool",
+  "version": "1.0.0",
+  "description": "Run any terminal (TUI) program in a tile: lazygit, htop, a REPL… Each tool config sets the executable, arguments, working directory and init commands; in a flyout the program keeps running while the flyout is closed.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "other",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "run",
+        "title": "TUI Tool",
+        "description": "Runs a terminal program (htop, lazygit, …) in its own pane or flyout.",
+        "modes": ["pane", "flyout"],
+        "instanceMultiple": true,
+        "flyout": { "defaultSize": [640, 440] },
+        "configSchema": {
+          "type": "object",
+          "required": ["executablePath"],
+          "properties": {
+            "executablePath": { "type": "string", "title": "Executable", "description": "Command or path, e.g. lazygit", "x-placeholder": "lazygit" },
+            "args": { "type": "array", "title": "Arguments", "items": { "type": "string" }, "x-widget": "tags" },
+            "workingDirectory": { "type": "string", "title": "Working directory", "description": "Absolute, or relative to the project (default: the project root)" },
+            "initCommands": { "type": "array", "title": "Init commands", "description": "Typed into the shell before the program starts", "items": { "type": "string" }, "x-widget": "tags" }
+          }
+        }
+      }
+    ],
+    "commands": [
+      { "id": "run-command", "title": "Run Program in Tile…", "category": "TUI", "keywords": ["tui", "terminal", "program", "run", "repl"] }
+    ]
+  },
+  "permissions": ["terminal:spawn"]
+}

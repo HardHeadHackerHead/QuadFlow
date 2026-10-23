@@ -1,0 +1,31 @@
+[package]
+name = "obs-tracker-sidecar"
+version = "1.0.0"
+description = "Sidecar of the OBS Tracker plugin: OBS WebSocket (obws) control and webcam enumeration"
+authors = ["QuadFlow contributors"]
+license = "AGPL-3.0-only"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "obs-tracker-sidecar"
+path = "src/main.rs"
+
+[dependencies]
+quadflow-sidecar = { path = "../../../packages/sidecar-sdk-rust" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+obws = "0.14"
+tokio = { version = "1", features = ["rt-multi-thread", "sync", "time", "macros"] }
+
+# Webcam enumeration (DirectShow). The plugin is Windows-only (manifest
+# `platforms`), but the crate still builds elsewhere (`cargo check --workspace`).
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58", features = [
+    "Win32_Foundation",
+    "Win32_Media_DirectShow",
+    "Win32_System_Com",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Ole",
+    "Win32_System_Variant",
+] }

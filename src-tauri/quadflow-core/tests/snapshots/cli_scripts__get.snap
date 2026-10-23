@@ -1,0 +1,28 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: "e.redact(e.json(&[\"scripts\", \"get\", &dev_id], 0))"
+---
+{
+  "archived": false,
+  "autoOpenPreview": false,
+  "command": "npm run dev",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "description": "Vite",
+  "env": {
+    "PORT": "5173"
+  },
+  "id": "[id]",
+  "kind": "server",
+  "name": "Dev server",
+  "pinned": false,
+  "previewUrl": "http://localhost:5173",
+  "tags": [
+    "web"
+  ],
+  "updatedAt": "[ts]",
+  "workingDirectory": "app"
+}

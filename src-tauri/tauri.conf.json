@@ -1,0 +1,79 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "QuadFlow",
+  "version": "2.0.0",
+  "identifier": "io.quadslab.quadflow",
+  "build": {
+    "beforeDevCommand": "npm run build:plugins:dev && npm run dev",
+    "devUrl": "http://localhost:5174",
+    "beforeBuildCommand": "npm run build:plugins && npm run build:web",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "QuadFlow",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 800,
+        "minHeight": 600,
+        "decorations": true,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self' qfplugin: http://qfplugin.localhost",
+        "style-src": "'self' 'unsafe-inline' qfplugin: http://qfplugin.localhost https://fonts.googleapis.com",
+        "img-src": "'self' data: blob: https: asset: http://asset.localhost qfplugin: http://qfplugin.localhost",
+        "font-src": "'self' data: qfplugin: http://qfplugin.localhost https://fonts.gstatic.com",
+        "media-src": "'self' data: blob:",
+        "frame-src": "qfplugin: http://qfplugin.localhost",
+        "connect-src": "'self' ipc: http://ipc.localhost http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*",
+        "worker-src": "'self' blob:",
+        "object-src": "'none'",
+        "base-uri": "'self'",
+        "form-action": "'none'"
+      },
+      "dangerousDisableAssetCspModification": ["style-src"]
+    }
+  },
+  "bundle": {
+    "active": true,
+    "publisher": "QuadFlow",
+    "targets": "all",
+    "createUpdaterArtifacts": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [
+      "resources/plugins/**/*",
+      "resources/plugin-runtime/**/*",
+      "resources/agent-context/**/*"
+    ],
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser",
+        "installerHooks": "./nsis/installer-hooks.nsh",
+        "installerIcon": "./installer-assets/installer.ico",
+        "headerImage": "./installer-assets/header.bmp",
+        "sidebarImage": "./installer-assets/sidebar.bmp",
+        "compression": "lzma",
+        "displayLanguageSelector": false
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/HardHeadHackerHead/QuadFlow/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdCMTQ4QUNEMTZBRDkwRTQKUldUa2tLMFd6WW9VZXpKTERySHhyZFJJbXJ6ZDQ4dUxWbkd0UTdXays1YStnSFRDSVhIb0FRS1MK"
+    }
+  }
+}

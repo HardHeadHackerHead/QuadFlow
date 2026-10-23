@@ -1,0 +1,69 @@
+---
+source: quadflow-core/tests/cli_plans.rs
+expression: "&ok(&p,\n&[\"plans\", \"step-update\", &docs, \"--notes\", \"later\", \"--code-context\",\n\"fn x()\", \"--estimated-hours\", \"2\"])"
+---
+{
+  "context": "ctx",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "id": "[id]",
+  "status": "review_steps",
+  "steps": [
+    {
+      "acceptanceCriteria": [
+        "API works"
+      ],
+      "createdAt": "[ts]",
+      "effort": "high",
+      "id": "[id]",
+      "kind": "implement",
+      "order": 0,
+      "status": "pending",
+      "targetFiles": [
+        "src/api.rs",
+        "src/db.rs"
+      ],
+      "title": "Backend",
+      "updatedAt": "[ts]"
+    },
+    {
+      "createdAt": "[ts]",
+      "id": "[id]",
+      "order": 1,
+      "parentId": "[id]",
+      "status": "pending",
+      "title": "Endpoints",
+      "updatedAt": "[ts]"
+    },
+    {
+      "createdAt": "[ts]",
+      "dependsOn": [
+        "[id]"
+      ],
+      "id": "[id]",
+      "kind": "test",
+      "order": 2,
+      "parentId": "[id]",
+      "status": "pending",
+      "title": "Tests",
+      "updatedAt": "[ts]"
+    },
+    {
+      "codeContext": "fn x()",
+      "createdAt": "[ts]",
+      "effort": "low",
+      "estimatedHours": 2.0,
+      "id": "[id]",
+      "notes": "later",
+      "order": 3,
+      "status": "pending",
+      "title": "Docs",
+      "updatedAt": "[ts]"
+    }
+  ],
+  "title": "Auth v2",
+  "updatedAt": "[ts]"
+}

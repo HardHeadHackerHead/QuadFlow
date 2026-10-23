@@ -1,0 +1,27 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&r"
+---
+{
+  "assistantMessage": {
+    "content": "Hello world",
+    "conversationId": "[id]",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "role": "assistant",
+    "tokenCount": 2
+  },
+  "usage": {
+    "completionTokens": 2,
+    "promptTokens": 4,
+    "totalTokens": 6
+  },
+  "userMessage": {
+    "content": "Say hello",
+    "conversationId": "[id]",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "role": "user",
+    "tokenCount": null
+  }
+}

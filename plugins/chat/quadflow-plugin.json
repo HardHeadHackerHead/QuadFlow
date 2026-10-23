@@ -1,0 +1,37 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "chat",
+  "name": "Chat",
+  "version": "1.0.0",
+  "description": "Chat with an OpenAI-compatible LLM endpoint (Ollama, LM Studio, OpenRouter, OpenAI, …): conversations, streamed replies, endpoint settings.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "ai-agents",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "chat",
+        "title": "Chat",
+        "description": "Conversations with your LLM endpoint.",
+        "modes": ["pane", "flyout"],
+        "templateable": true,
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [700, 600] },
+        "defaultToolConfig": { "order": 10, "color": "#f59e0b" }
+      }
+    ],
+    "commands": [
+      { "id": "new-conversation", "title": "New Chat Conversation", "category": "Chat", "keywords": ["chat", "llm", "conversation"] },
+      { "id": "ask", "title": "Ask the Chat Model…", "category": "Chat", "keywords": ["chat", "llm", "question", "ask"] },
+      { "id": "open", "title": "Open Chat", "category": "Chat", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "chat-conversations", "title": "Chat conversations" }],
+    "agentContextDocs": [{ "id": "chat", "title": "Chat", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:chat:write", "secrets", "clipboard:write"]
+}

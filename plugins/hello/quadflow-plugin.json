@@ -1,0 +1,85 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "hello",
+  "name": "Hello",
+  "version": "0.1.0",
+  "description": "Example plugin: a trusted tile that shares the host's React, hooks and contexts, and exercises every host-API group.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "other",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/hello-sidecar.exe",
+      "windows-aarch64": "bin/hello-sidecar.exe",
+      "macos-x86_64": "bin/hello-sidecar",
+      "macos-aarch64": "bin/hello-sidecar",
+      "linux-x86_64": "bin/hello-sidecar",
+      "linux-aarch64": "bin/hello-sidecar"
+    },
+    "env": { "HELLO_GREETING": "hi from the manifest" },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "hello",
+        "title": "Hello",
+        "description": "Plugin system smoke test and host-API test panel.",
+        "icon": "assets/icon.svg",
+        "modes": ["pane", "flyout"],
+        "flyout": { "defaultSize": [460, 560] }
+      }
+    ],
+    "commands": [{ "id": "ping", "title": "Hello: Ping", "category": "Hello" }],
+    "cliCommands": [
+      {
+        "name": "hello",
+        "summary": "Hello example: ping the plugin's sidecar (sidecar CLI handler)",
+        "handler": { "type": "sidecar" }
+      },
+      {
+        "name": "hello-exec",
+        "summary": "Hello example: ping through a plugin binary (exec CLI handler)",
+        "handler": {
+          "type": "exec",
+          "binaries": {
+            "windows-x86_64": "bin/hello-sidecar.exe",
+            "windows-aarch64": "bin/hello-sidecar.exe",
+            "macos-x86_64": "bin/hello-sidecar",
+            "macos-aarch64": "bin/hello-sidecar",
+            "linux-x86_64": "bin/hello-sidecar",
+            "linux-aarch64": "bin/hello-sidecar"
+          }
+        }
+      }
+    ],
+    "agentContextDocs": [{ "id": "hello", "title": "Hello (example plugin)", "file": "docs/hello.md", "default": true }],
+    "settings": {
+      "type": "object",
+      "properties": {
+        "greeting": { "type": "string", "default": "Hello", "title": "Greeting" },
+        "runs": { "type": "integer", "minimum": 0, "default": 0, "title": "API test runs" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "permissions": [
+    "data:ideas:write",
+    "data:issues:read",
+    "terminal:spawn",
+    "agents:read",
+    "fs:read:project",
+    "shell:exec:git",
+    "network:example.com",
+    "notifications",
+    "clipboard:write",
+    "secrets",
+    "native:windows"
+  ]
+}

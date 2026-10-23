@@ -1,0 +1,17 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&q"
+---
+[
+  {
+    "branchName": "agent/x/dev",
+    "createdAt": "[ts]",
+    "id": "[id]",
+    "issueId": "[id]",
+    "memberId": "[id]",
+    "position": 1,
+    "priority": "high",
+    "status": "queued",
+    "worktreePath": "/tmp/dev"
+  }
+]

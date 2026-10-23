@@ -1,0 +1,17 @@
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <!-- Embedded into integration-test executables on Windows (see build.rs):
+       tauri's dialog code imports Common Controls v6 entry points, and a test
+       exe without this manifest fails to load (STATUS_ENTRYPOINT_NOT_FOUND). -->
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        processorArchitecture="*"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+      />
+    </dependentAssembly>
+  </dependency>
+</assembly>

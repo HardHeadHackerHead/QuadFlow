@@ -1,0 +1,13 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "@quadflow/plugin-api",
+  "entryPoints": ["../../packages/plugin-api/src/index.ts", "../../packages/plugin-api/src/rpc/index.ts"],
+  "tsconfig": "../../packages/plugin-api/tsconfig.json",
+  "out": "api",
+  "readme": "none",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "sort": ["kind", "instance-first", "alphabetical"],
+  "validation": { "notExported": false, "invalidLink": true, "notDocumented": false }
+}

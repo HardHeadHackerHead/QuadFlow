@@ -1,0 +1,49 @@
+# Cargo workspace root (plugin-system.md §2).
+#
+# `src-tauri` is the app crate, `src-tauri/quadflow-core` the core library + CLI,
+# and every `plugins/<id>/sidecar` that is a Rust crate is a member too, so all
+# Rust code shares one Cargo.lock and one `target/` directory (at the repo root).
+#
+# `default-members` keeps `cargo build`/`check`/`test` at the root to the app
+# crates. Plugin sidecars are built explicitly (`cargo build -p <crate>`) by
+# scripts/bundle-plugins.mjs or their release CI jobs. `--workspace` covers all.
+[workspace]
+resolver = "2"
+# Note: cargo treats a glob that matches nothing as a literal path and fails to
+# load the workspace; `plugins/hello/sidecar` keeps `plugins/*/sidecar` matching.
+members = ["src-tauri", "src-tauri/quadflow-core", "packages/sidecar-sdk-rust", "plugins/*/sidecar"]
+# The local-titles sidecar is a standalone crate (own [workspace], Cargo.lock, target/): it
+# links llama.cpp (native C++), which `cargo check/test --workspace` must never build.
+# discord-bot's sidecar is a Node script, not a crate.
+exclude = ["plugins/local-titles/sidecar", "plugins/discord-bot/sidecar"]
+default-members = ["src-tauri", "src-tauri/quadflow-core"]
+
+# === Build speed optimizations ===
+[profile.dev]
+# Full debug info: produces a separate `quadflow-tauri.pdb` next to the
+# exe so MSVC tools (llvm-symbolizer, dumpbin, WinDbg) can resolve crash
+# RVAs to function names + file:line. `debug = 1` was 50% faster to
+# build but the saved info was not in MSVC PDB format, so symbol
+# resolution returned empty results, so it was no use for diagnosing crashes.
+debug = "full"
+split-debuginfo = "packed"
+# Fewer codegen units = faster incremental rebuilds for the main crate
+codegen-units = 256
+# Skip LTO in dev
+lto = false
+incremental = true
+
+[profile.release]
+# Thin LTO instead of fat: much faster release builds, nearly the same perf.
+lto = "thin"
+codegen-units = 16
+# Line-tables-only debug info for release. Keeps function names + file:line
+# in backtraces for shipped builds (so a user-submitted crash report
+# resolves to readable symbols instead of bare addresses) at a modest
+# size cost (~10-15% larger exe). Without this, every shipped crash
+# requires a matching .pdb from our archive, which is fragile and easy to miss
+# in a release. Trades a few MB of binary size for triage sanity.
+debug = "line-tables-only"
+# Stripped binary still has line tables when debug above is set.
+strip = "none"
+split-debuginfo = "packed"

@@ -1,0 +1,23 @@
+{
+  "name": "@quadflow-plugins/issues",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "quadflow-plugin build --no-sidecar",
+    "dev": "quadflow-plugin dev"
+  },
+  "devDependencies": {
+    "@quadflow/plugin-build": "*"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "dependencies": {
+    "@quadflow/plugin-kit": "*"
+  }
+}

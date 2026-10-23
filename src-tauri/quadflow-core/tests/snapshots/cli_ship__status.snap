@@ -1,0 +1,14 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&p.ok(&[\"ship\", \"status\"])"
+---
+{
+  "canonicalVersion": "1.0.0",
+  "inSync": true,
+  "versionFiles": [
+    {
+      "current": "1.0.0",
+      "file": "package.json"
+    }
+  ]
+}

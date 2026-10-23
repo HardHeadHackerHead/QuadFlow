@@ -1,0 +1,37 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&p.ok(&[\"ship\", \"templates\", \"--id\", \"vercel\", \"--param\", \"bump=false\",\n\"--param\", \"push_tag=false\"])"
+---
+{
+  "changelog": {
+    "since": "last_tag",
+    "source": "git_log"
+  },
+  "formatVersion": 1,
+  "phases": [
+    {
+      "checks": [
+        "tool_available:vercel",
+        "vercel_authenticated"
+      ],
+      "name": "preflight",
+      "type": "checks"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "externalTerminal": false,
+      "name": "deploy",
+      "skippable": false,
+      "type": "shell"
+    },
+    {
+      "ifExists": "skip",
+      "name": "audit-tag",
+      "sign": false,
+      "tag": "deploy-{version}",
+      "type": "git_tag"
+    }
+  ],
+  "productName": "demo-app",
+  "versionFiles": []
+}

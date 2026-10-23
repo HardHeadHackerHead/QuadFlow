@@ -1,0 +1,39 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "scripts",
+  "name": "Scripts",
+  "version": "1.0.0",
+  "description": "Run package.json, Python and saved build scripts with live output, script groups (parallel or sequential), terminal environments and agent auto-fix of failed builds.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "development",
+  "apiVersion": "^1.2.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "scripts",
+        "title": "Scripts",
+        "description": "Scripts of the current project: run, stop, live output, groups, auto-fix.",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [520, 560] },
+        "defaultToolConfig": { "order": 7, "color": "#22c55e" }
+      }
+    ],
+    "commands": [
+      { "id": "new-script", "title": "New Script", "category": "Scripts", "keywords": ["create", "add", "recipe", "build"], "when": "project" },
+      { "id": "stop-all", "title": "Stop All Running Scripts", "category": "Scripts", "keywords": ["kill", "terminate"] },
+      { "id": "run-script", "title": "Run Script", "category": "Scripts", "palette": false },
+      { "id": "open", "title": "Open Scripts", "category": "Scripts", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "scripts", "title": "Scripts" }],
+    "agentContextDocs": [{ "id": "scripts", "title": "Scripts", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:scripts:write", "terminal:spawn", "fs:read:project", "agents:read", "agents:launch"]
+}

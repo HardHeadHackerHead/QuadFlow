@@ -1,0 +1,71 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "codex",
+  "name": "Codex",
+  "version": "1.0.0",
+  "description": "OpenAI Codex CLI as a QuadFlow agent provider: launch, resume, approval modes, session discovery, AGENTS.md context, context-window and rate-limit usage from Codex rollout files.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "ai-agents",
+  "apiVersion": "^1.0.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js" },
+  "activation": ["onAgentProvider"],
+  "contributes": {
+    "agentProvider": {
+      "id": "codex",
+      "displayName": "Codex",
+      "shortName": "Codex",
+      "icon": "assets/icon.svg",
+      "color": "#10a37f",
+      "docsUrl": "https://developers.openai.com/codex/cli",
+      "installHint": { "default": "npm install -g @openai/codex" },
+      "detect": {
+        "command": "codex",
+        "versionArgs": ["--version"],
+        "versionRegex": "(\\d+\\.\\d+\\.\\d+)",
+        "extraPaths": {
+          "windows": ["{localAppData}/Programs/OpenAI/Codex/bin/codex.exe", "{appData}/npm/codex.cmd"],
+          "macos": ["/opt/homebrew/bin/codex", "/usr/local/bin/codex", "{home}/.local/bin/codex"],
+          "linux": ["{home}/.local/bin/codex", "/usr/local/bin/codex"]
+        }
+      },
+      "launch": {
+        "args": [],
+        "model": ["--model", "{model}"],
+        "resume": ["resume", "{sessionId}"],
+        "resumePosition": "prefix",
+        "efforts": {
+          "values": ["low", "medium", "high", "xhigh"],
+          "default": "medium",
+          "args": ["-c", "model_reasoning_effort={effort}"]
+        },
+        "approvalModes": {
+          "default": [],
+          "plan": ["--sandbox", "read-only", "--ask-for-approval", "on-request"],
+          "auto": ["--approve-for-me"],
+          "bypass": ["--dangerously-bypass-approvals-and-sandbox"]
+        },
+        "exitCommand": "/quit",
+        "oneShot": {
+          "args": ["exec", "--ephemeral", "--skip-git-repo-check", "--color", "never", "-"],
+          "promptVia": "stdin"
+        }
+      },
+      "models": { "catalogKey": "codex" },
+      "sessions": {
+        "strategy": "discover",
+        "idFormat": "uuid",
+        "dir": "{home}/.codex/sessions",
+        "glob": "**/rollout-*.jsonl",
+        "idFrom": { "jsonl": { "match": { "type": "session_meta" }, "path": "payload.id" } },
+        "cwdFrom": { "jsonl": { "match": { "type": "session_meta" }, "path": "payload.cwd" } },
+        "headerLines": 20
+      },
+      "contextFile": "AGENTS.md",
+      "hooks": ["usage", "contextUsage", "prepareWorktree"]
+    }
+  },
+  "permissions": ["agents:read", "fs:read:home", "fs:write:project"]
+}

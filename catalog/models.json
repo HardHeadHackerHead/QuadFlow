@@ -1,0 +1,28 @@
+{
+  "$schema": "./models.schema.json",
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-22",
+  "providers": {
+    "claude-code": {
+      "models": [
+        { "id": "fable", "label": "Fable (latest)", "shortLabel": "Fbl", "kind": "alias", "contextWindow": 200000 },
+        { "id": "opus", "label": "Opus (latest)", "shortLabel": "Op", "kind": "alias", "contextWindow": 200000 },
+        { "id": "sonnet", "label": "Sonnet (latest)", "shortLabel": "Son", "kind": "alias", "contextWindow": 200000 },
+        { "id": "haiku", "label": "Haiku (latest)", "shortLabel": "Hku", "kind": "alias", "contextWindow": 200000 },
+        { "id": "claude-fable-5", "label": "Fable 5", "shortLabel": "F5", "contextWindow": 200000 },
+        { "id": "claude-opus-4-8", "label": "Opus 4.8", "shortLabel": "O4.8", "contextWindow": 200000 },
+        { "id": "claude-opus-4-6", "label": "Opus 4.6", "shortLabel": "O4.6", "contextWindow": 200000 },
+        { "id": "claude-sonnet-4-6", "label": "Sonnet 4.6", "shortLabel": "S4.6", "contextWindow": 200000 },
+        { "id": "claude-haiku-4-5-20251001", "label": "Haiku 4.5", "shortLabel": "H4.5", "contextWindow": 200000 }
+      ]
+    },
+    "codex": {
+      "models": [
+        { "id": "gpt-5.3-codex", "label": "GPT-5.3 Codex", "shortLabel": "5.3", "contextWindow": 1000000 },
+        { "id": "gpt-4.1", "label": "GPT-4.1", "shortLabel": "4.1", "contextWindow": 1000000 },
+        { "id": "o3", "label": "o3", "shortLabel": "o3", "contextWindow": 200000 },
+        { "id": "o4-mini", "label": "o4-mini", "shortLabel": "o4m", "contextWindow": 200000 }
+      ]
+    }
+  }
+}

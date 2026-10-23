@@ -1,0 +1,60 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "local-titles",
+  "name": "Local Titles",
+  "version": "0.1.0",
+  "description": "Offline terminal titles from a local model (llama.cpp): downloads and manages GGUF models and contributes a title generator.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "ai-agents",
+  "apiVersion": "^1.3.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onCommand"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/local-titles-sidecar.exe",
+      "windows-aarch64": "bin/local-titles-sidecar.exe",
+      "macos-x86_64": "bin/local-titles-sidecar",
+      "macos-aarch64": "bin/local-titles-sidecar",
+      "linux-x86_64": "bin/local-titles-sidecar",
+      "linux-aarch64": "bin/local-titles-sidecar"
+    },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "titleGenerators": [{ "id": "llama", "title": "Local model (llama.cpp)" }],
+    "settingsPages": [{ "id": "models", "title": "Local Titles", "custom": true }],
+    "settings": {
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "type": "string",
+          "title": "Model",
+          "default": "tinyllama-1.1b-chat-q4k",
+          "oneOf": [
+            { "const": "tinyllama-1.1b-chat-q4k", "title": "TinyLlama 1.1B Chat (light)" },
+            { "const": "qwen2.5-7b-instruct-q4k", "title": "Qwen 2.5 7B Instruct (balanced)" },
+            { "const": "llama3.1-8b-instruct-q4k", "title": "Llama 3.1 8B Instruct (high)" }
+          ]
+        },
+        "deviceMode": {
+          "type": "string",
+          "title": "Device",
+          "default": "auto",
+          "oneOf": [
+            { "const": "auto", "title": "Auto (GPU when this build has one)" },
+            { "const": "gpu", "title": "GPU" },
+            { "const": "cpu", "title": "CPU" }
+          ]
+        },
+        "gpuLayers": { "type": "integer", "title": "GPU layers", "description": "Layers offloaded to the GPU (0 = all that fit)", "minimum": 0, "default": 0 },
+        "maxTokens": { "type": "integer", "title": "Max tokens", "minimum": 6, "maximum": 32, "default": 12 },
+        "temperature": { "type": "number", "title": "Temperature", "minimum": 0, "maximum": 1, "default": 0.2 }
+      }
+    }
+  },
+  "permissions": []
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@quadflow-plugins/semantic-search",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "quadflow-plugin build --no-sidecar",
+    "build:sidecar": "quadflow-plugin build",
+    "dev": "quadflow-plugin dev",
+    "validate": "quadflow-plugin validate",
+    "pack": "quadflow-plugin pack",
+    "test": "node --test --experimental-strip-types --no-warnings test/format.test.ts"
+  },
+  "devDependencies": {
+    "@quadflow/plugin-build": "*"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "dependencies": {
+    "@quadflow/plugin-kit": "*"
+  },
+  "quadflow": {
+    "bundle": "none"
+  }
+}

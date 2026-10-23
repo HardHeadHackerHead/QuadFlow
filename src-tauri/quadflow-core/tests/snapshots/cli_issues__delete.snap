@@ -1,0 +1,8 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p, &[\"issues\", \"delete\", \"WEB-3\"])"
+---
+{
+  "id": "[id]",
+  "number": 3
+}

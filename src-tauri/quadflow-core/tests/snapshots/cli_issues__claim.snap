@@ -1,0 +1,37 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p,\n&[\"issues\", \"claim\", \"WEB-2\", \"--agent-label\", \"agent A\", \"--terminal-id\",\n\"t1\", \"--session-id\", \"s-1\"])"
+---
+{
+  "assignment": {
+    "agentLabel": "agent A",
+    "assignedAt": "[ts]",
+    "lastHeartbeat": "[ts]",
+    "sessionId": "s-1",
+    "terminalId": "t1"
+  },
+  "blockedBy": [
+    "[id]"
+  ],
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "history": [
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "to": "blocked"
+    }
+  ],
+  "id": "[id]",
+  "number": 2,
+  "priority": "medium",
+  "status": "blocked",
+  "title": "Session store",
+  "updatedAt": "[ts]"
+}

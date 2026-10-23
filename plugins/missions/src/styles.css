@@ -1,0 +1,10 @@
+/* Shipped as dist/index.css (manifest ui.style). Utilities only — no preflight —
+   and scoped under .qf-missions by vite.config.ts; colors come from the host's --qf-* tokens.
+   xterm's own stylesheet is already loaded by the shell (terminal tiles). */
+@tailwind components;
+@tailwind utilities;
+
+.qf-missions {
+  height: 100%;
+  width: 100%;
+}

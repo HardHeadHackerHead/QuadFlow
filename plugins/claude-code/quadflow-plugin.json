@@ -1,0 +1,92 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "claude-code",
+  "name": "Claude Code",
+  "version": "1.0.0",
+  "description": "Claude Code agent provider: launch, resume, plan and bypass modes, models from the catalog, usage limits, context-window meter, session titles, Missions worktree scoping, project config and permissions.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "ai-agents",
+  "apiVersion": "^1.0.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onAgentProvider"],
+  "contributes": {
+    "agentProvider": {
+      "id": "claude-code",
+      "displayName": "Claude Code",
+      "shortName": "Claude",
+      "color": "#d97757",
+      "docsUrl": "https://docs.anthropic.com/en/docs/claude-code",
+      "installHint": { "default": "npm install -g @anthropic-ai/claude-code" },
+      "detect": {
+        "command": "claude",
+        "versionArgs": ["--version"],
+        "versionRegex": "(\\d+\\.\\d+\\.\\d+)",
+        "extraPaths": {
+          "windows": ["{home}/.claude/local/claude.exe", "{home}/.local/bin/claude.exe", "{appData}/npm/claude.cmd"],
+          "macos": ["{home}/.claude/local/claude", "{home}/.local/bin/claude", "/opt/homebrew/bin/claude", "/usr/local/bin/claude"],
+          "linux": ["{home}/.claude/local/claude", "{home}/.local/bin/claude", "/usr/local/bin/claude"]
+        }
+      },
+      "launch": {
+        "args": [],
+        "model": ["--model", "{model}"],
+        "sessionId": ["--session-id", "{sessionId}"],
+        "resume": ["--resume", "{sessionId}"],
+        "efforts": {
+          "values": ["low", "medium", "high", "xhigh", "max"],
+          "default": "high",
+          "args": ["--effort", "{effort}"]
+        },
+        "approvalModes": {
+          "default": [],
+          "plan": ["--permission-mode", "plan"],
+          "accept-edits": ["--permission-mode", "acceptEdits"],
+          "auto": ["--permission-mode", "auto"],
+          "bypass": ["--dangerously-skip-permissions"]
+        },
+        "exitCommand": "/exit",
+        "oneShot": { "args": ["-p"], "promptVia": "stdin" }
+      },
+      "models": { "catalogKey": "claude-code" },
+      "sessions": {
+        "strategy": "preassign",
+        "idFormat": "uuid",
+        "dir": "{home}/.claude/projects/{cwd|nonalnum-dash}",
+        "glob": "*.jsonl",
+        "idFrom": { "fileStem": true },
+        "cwdFrom": { "dir": true }
+      },
+      "contextFile": "CLAUDE.md",
+      "scaffold": { "from": "assets/claude-template", "into": ".claude", "jsonMerge": ["settings.local.json"] },
+      "attention": { "patterns": ["Type something", "^\\s*>\\s*1\\.", "\\[ \\]\\s"] },
+      "hooks": ["usage", "contextUsage", "sessionTitle", "prepareWorktree"]
+    },
+    "tiles": [
+      {
+        "id": "config",
+        "title": "Claude Config",
+        "description": "Project instructions (CLAUDE.md), .claude settings, installed skills and session rewind points.",
+        "icon": "assets/icon.svg",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "singleton": true,
+        "flyout": { "defaultSize": [640, 640] }
+      }
+    ],
+    "settingsPages": [{ "id": "permissions", "title": "Claude Code", "icon": "assets/icon.svg", "custom": true }],
+    "commands": [
+      {
+        "id": "rewind",
+        "title": "Claude: Show rewind points",
+        "category": "Claude Code",
+        "keywords": ["rewind", "undo", "checkpoint", "session"],
+        "when": "terminal.provider == 'claude-code'"
+      }
+    ],
+    "agentContextDocs": []
+  },
+  "permissions": ["agents:read", "fs:read:home", "fs:write:project", "terminal:spawn", "terminal:io"]
+}

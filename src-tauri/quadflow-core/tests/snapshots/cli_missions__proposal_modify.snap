@@ -1,0 +1,27 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p,\n&[\"missions\", \"proposal-modify\", &mid, &pid, \"--goal\", \"Two devs + QA\"])"
+---
+{
+  "agents": [
+    {
+      "allowedFiles": [
+        "src/ui.tsx"
+      ],
+      "issueIds": "[ids]",
+      "name": "FE",
+      "role": "frontend"
+    },
+    {
+      "name": "Tester",
+      "role": "qa"
+    }
+  ],
+  "createdAt": "[ts]",
+  "estimatedCostUsd": 1.5,
+  "estimatedMinutes": 40,
+  "goal": "Two devs + QA",
+  "id": "[id]",
+  "status": "modified",
+  "updatedAt": "[ts]"
+}

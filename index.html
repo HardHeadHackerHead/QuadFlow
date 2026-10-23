@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Shared modules for trusted plugins (plugin-system.md §8.3). Must precede every module
+         script. Kept in sync with scripts/gen-shared-shims.mjs (which verifies it). -->
+    <script type="importmap">
+      { "imports": {
+        "react": "/qf-shared/react.js",
+        "react/jsx-runtime": "/qf-shared/react-jsx-runtime.js",
+        "react-dom": "/qf-shared/react-dom.js",
+        "react-dom/client": "/qf-shared/react-dom-client.js",
+        "zustand": "/qf-shared/zustand.js",
+        "@quadflow/plugin-api": "/qf-shared/plugin-api.js",
+        "@quadflow/ui": "/qf-shared/ui.js"
+      } }
+    </script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/favicon-192x192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuadFlow</title>
+    <style>
+      html, body, #root {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

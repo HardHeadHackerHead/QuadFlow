@@ -1,0 +1,11 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&ok(&p, &[\"labels\", \"upsert\", \"defect\", \"--rename-from\", \"bug\"])"
+---
+[
+  {
+    "color": "#ff0000",
+    "description": "Broken things",
+    "name": "defect"
+  }
+]

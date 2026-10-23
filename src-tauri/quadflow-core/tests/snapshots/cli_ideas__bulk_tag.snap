@@ -1,0 +1,41 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"bulk-tag\", &format!(\"{a_id},{b_id}\"), \"sprint\"])"
+---
+[
+  {
+    "archived": false,
+    "content": "Dark mode toggle in settings",
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "cli"
+    },
+    "id": "[id]",
+    "originalContent": "Dark mode",
+    "tags": [
+      "settings",
+      "sprint",
+      "theme",
+      "ui"
+    ],
+    "updatedAt": "[ts]"
+  },
+  {
+    "archived": false,
+    "content": "Faster startup",
+    "createdAt": "[ts]",
+    "createdBy": {
+      "kind": "agent",
+      "name": "cli"
+    },
+    "id": "[id]",
+    "originalContent": "Faster startup",
+    "tags": [
+      "perf",
+      "sprint",
+      "ui"
+    ],
+    "updatedAt": "[ts]"
+  }
+]

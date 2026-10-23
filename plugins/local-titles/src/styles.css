@@ -1,0 +1,4 @@
+/* Shipped as dist/index.css (manifest ui.style). Utilities only (no preflight), scoped under
+   .qf-local-titles by vite.config.ts; colors come from the host's --qf-* tokens. */
+@tailwind components;
+@tailwind utilities;

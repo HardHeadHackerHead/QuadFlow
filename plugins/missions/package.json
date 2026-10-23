@@ -1,0 +1,26 @@
+{
+  "name": "@quadflow-plugins/missions",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "quadflow-plugin build --no-sidecar",
+    "dev": "quadflow-plugin dev",
+    "test": "node --test --experimental-strip-types --no-warnings test/prompts.test.ts"
+  },
+  "devDependencies": {
+    "@quadflow/plugin-build": "*"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "dependencies": {
+    "@quadflow/plugin-kit": "*",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0"
+  }
+}

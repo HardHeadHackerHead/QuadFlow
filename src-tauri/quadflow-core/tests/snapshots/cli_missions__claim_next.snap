@@ -1,0 +1,44 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&c"
+---
+{
+  "assignment": {
+    "agentLabel": "Dev",
+    "assignedAt": "[ts]",
+    "lastHeartbeat": "[ts]",
+    "providerId": "default",
+    "terminalId": "t-1"
+  },
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "history": [
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "to": "todo"
+    },
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "from": "todo",
+      "to": "in_progress"
+    }
+  ],
+  "id": "[id]",
+  "missionId": "[id]",
+  "number": 1,
+  "priority": "high",
+  "status": "in_progress",
+  "title": "Login page",
+  "updatedAt": "[ts]"
+}

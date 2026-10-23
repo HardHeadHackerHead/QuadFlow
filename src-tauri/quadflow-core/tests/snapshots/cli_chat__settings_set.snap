@@ -1,0 +1,13 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&s"
+---
+{
+  "defaultModel": "qwen",
+  "endpoint": "http://127.0.0.1:9/v1",
+  "hasApiKey": false,
+  "maxTokens": 512,
+  "systemPrompt": "Hi",
+  "temperature": 0.2,
+  "timeoutSeconds": 30
+}

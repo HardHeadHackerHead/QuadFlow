@@ -1,0 +1,19 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&custom"
+---
+{
+  "builtIn": false,
+  "category": "ops",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "id": "[id]",
+  "name": "Mine",
+  "successCriteria": [
+    "green"
+  ],
+  "updatedAt": "[ts]"
+}

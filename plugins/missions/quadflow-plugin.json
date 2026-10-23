@@ -1,0 +1,38 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "missions",
+  "name": "Missions",
+  "version": "1.0.0",
+  "description": "Multi-agent missions: teams of agents working a shared set of issues, proposals, merge queue, messages and activity, mission templates and agent definitions.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "ai-agents",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "control",
+        "title": "Missions",
+        "description": "Mission control: missions and their agent teams, templates and agent definitions of the current project.",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [900, 650] },
+        "defaultToolConfig": { "order": 9, "color": "#f97316" }
+      }
+    ],
+    "commands": [
+      { "id": "new-mission", "title": "New Mission", "category": "Missions", "keywords": ["create", "team", "agents"], "when": "project" },
+      { "id": "new-from-template", "title": "New Mission from Template", "category": "Missions", "keywords": ["create", "template", "playbook"], "when": "project" },
+      { "id": "open", "title": "Open Missions", "category": "Missions", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "missions", "title": "Missions" }],
+    "agentContextDocs": [{ "id": "missions", "title": "Missions", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:missions:write", "data:issues:write", "agents:read", "agents:launch", "terminal:io", "shell:exec:git"]
+}

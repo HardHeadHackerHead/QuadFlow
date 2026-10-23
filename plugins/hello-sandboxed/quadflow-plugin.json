@@ -1,0 +1,61 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "hello-sandboxed",
+  "name": "Hello (sandboxed)",
+  "version": "0.1.0",
+  "description": "The hello example plugin's bundle, run in a sandboxed iframe over the RPC host API (PL-6). Same tile, same host-API test panel, plus sandbox isolation checks.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "other",
+  "apiVersion": "^1.4.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/hello-sidecar.exe",
+      "windows-aarch64": "bin/hello-sidecar.exe",
+      "macos-x86_64": "bin/hello-sidecar",
+      "macos-aarch64": "bin/hello-sidecar",
+      "linux-x86_64": "bin/hello-sidecar",
+      "linux-aarch64": "bin/hello-sidecar"
+    },
+    "env": { "HELLO_GREETING": "hi from the manifest" },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "hello",
+        "title": "Hello (sandboxed)",
+        "description": "The Hello tile and host-API test panel, running in a sandboxed frame.",
+        "icon": "assets/icon.svg",
+        "modes": ["pane", "flyout"],
+        "flyout": { "defaultSize": [460, 560] }
+      }
+    ],
+    "commands": [{ "id": "ping", "title": "Hello (sandboxed): Ping", "category": "Hello" }],
+    "settings": {
+      "type": "object",
+      "properties": {
+        "greeting": { "type": "string", "default": "Hello", "title": "Greeting" },
+        "runs": { "type": "integer", "minimum": 0, "default": 0, "title": "API test runs" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "permissions": [
+    "data:ideas:write",
+    "data:issues:read",
+    "terminal:spawn",
+    "agents:read",
+    "fs:read:project",
+    "shell:exec:git",
+    "network:example.com",
+    "notifications",
+    "clipboard:write",
+    "secrets"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "issues",
+  "name": "Issues",
+  "version": "1.0.0",
+  "description": "Track bugs and tasks: list and kanban views, epics, labels, acceptance criteria, dependencies and a dependency graph, agent assignment (work on an issue with an agent).",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "project-management",
+  "apiVersion": "^1.2.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "board",
+        "title": "Issues",
+        "description": "Issues and epics of the current project (list and kanban).",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [780, 600] },
+        "defaultToolConfig": { "order": 0, "color": "#6366f1" }
+      }
+    ],
+    "commands": [
+      { "id": "new-issue", "title": "New Issue", "category": "Issues", "keywords": ["create", "add", "bug", "task"], "when": "project" },
+      { "id": "open-issue", "title": "Open Issue by Ref", "category": "Issues", "keywords": ["go to", "find", "ref", "number"], "when": "project" },
+      { "id": "open", "title": "Open Issues", "category": "Issues", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "issues", "title": "Issues" }],
+    "agentContextDocs": [{ "id": "issues", "title": "Issues", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:issues:write", "project:config:write", "agents:read", "agents:launch", "clipboard:write"]
+}

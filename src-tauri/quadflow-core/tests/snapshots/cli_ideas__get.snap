@@ -1,0 +1,20 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"get\", &a_id])"
+---
+{
+  "archived": false,
+  "content": "Dark mode",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "originalContent": "Dark mode",
+  "tags": [
+    "theme",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}

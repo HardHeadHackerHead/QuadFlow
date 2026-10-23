@@ -1,0 +1,26 @@
+{
+  "name": "@quadflow-plugins/youtube-live",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "quadflow-plugin build",
+    "build:ui": "quadflow-plugin build --no-sidecar",
+    "dev": "quadflow-plugin dev",
+    "typecheck": "tsc -p .",
+    "pack": "quadflow-plugin pack"
+  },
+  "devDependencies": {
+    "@quadflow/plugin-build": "*"
+  },
+  "peerDependencies": {
+    "@quadflow/plugin-api": "*",
+    "@quadflow/ui": "*",
+    "react": "^18.3.1",
+    "zustand": "^5.0.3"
+  },
+  "quadflow": {
+    "bundle": "none"
+  }
+}

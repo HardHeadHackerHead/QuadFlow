@@ -1,0 +1,36 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "ideas",
+  "name": "Ideas",
+  "version": "1.0.0",
+  "description": "Capture, tag and triage ideas: list and kanban views, suggestions, notes, merge, promote to issues, link to discovery projects.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "project-management",
+  "apiVersion": "^1.1.0",
+  "platforms": ["windows", "macos", "linux"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile", "onCommand"],
+  "contributes": {
+    "tiles": [
+      {
+        "id": "board",
+        "title": "Ideas",
+        "description": "Ideas of the current project (list and kanban).",
+        "modes": ["pane", "flyout"],
+        "requiresProject": true,
+        "templateable": true,
+        "flyout": { "defaultSize": [640, 560] },
+        "defaultToolConfig": { "order": 2, "color": "#ec4899" }
+      }
+    ],
+    "commands": [
+      { "id": "new-idea", "title": "New Idea", "category": "Ideas", "keywords": ["create", "add", "capture"], "when": "project" },
+      { "id": "open", "title": "Open Ideas", "category": "Ideas", "palette": false }
+    ],
+    "paletteProviders": [{ "id": "ideas", "title": "Ideas" }],
+    "agentContextDocs": [{ "id": "ideas", "title": "Ideas", "file": "docs/agent.md" }]
+  },
+  "permissions": ["data:ideas:write", "data:issues:write", "data:discovery:read", "agents:read", "agents:launch"]
+}

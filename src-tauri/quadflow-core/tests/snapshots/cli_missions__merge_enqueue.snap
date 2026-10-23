@@ -1,0 +1,15 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"merge-enqueue\", &mid, \"Dev\", \"--priority\", \"critical\"])"
+---
+{
+  "branchName": "agent/x/dev",
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "issueId": "[id]",
+  "memberId": "[id]",
+  "position": 2,
+  "priority": "critical",
+  "status": "queued",
+  "worktreePath": "/tmp/dev"
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
+  "id": "obs-tracker",
+  "name": "OBS Tracker",
+  "version": "1.0.0",
+  "description": "Streamer kit: moves an OBS webcam source to follow this tile (OBS WebSocket; webcams listed with DirectShow), with per-tile scenes, several cameras and auto-rotation. Windows only.",
+  "author": { "name": "QuadFlow" },
+  "license": "AGPL-3.0-only",
+  "icon": "assets/icon.svg",
+  "category": "media",
+  "apiVersion": "^1.1.0",
+  "platforms": ["windows"],
+  "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
+  "activation": ["onTile"],
+  "sidecar": {
+    "binaries": {
+      "windows-x86_64": "bin/obs-tracker-sidecar.exe",
+      "windows-aarch64": "bin/obs-tracker-sidecar.exe"
+    },
+    "activation": "onDemand",
+    "restart": "onCrash"
+  },
+  "contributes": {
+    "tiles": [
+      {
+        "id": "tracker",
+        "title": "OBS Tracker",
+        "description": "Moves an OBS webcam source to follow this tile.",
+        "modes": ["pane", "flyout"],
+        "instanceMultiple": false,
+        "flyout": { "defaultSize": [480, 560] },
+        "defaultToolConfig": { "order": 15, "color": "#ec4899" }
+      }
+    ]
+  },
+  "permissions": ["secrets"]
+}

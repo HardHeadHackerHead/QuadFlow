@@ -1,0 +1,23 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"inbox\", &mid, \"Dev\"])"
+---
+[
+  {
+    "content": "Please take #1",
+    "createdAt": "[ts]",
+    "fromMemberId": "[id]",
+    "fromName": "Coordinator",
+    "id": "[id]",
+    "issueId": "[id]",
+    "kind": "assignment",
+    "toMemberId": "[id]"
+  },
+  {
+    "content": "hello everyone",
+    "createdAt": "[ts]",
+    "fromName": "test-agent",
+    "id": "[id]",
+    "kind": "chat"
+  }
+]

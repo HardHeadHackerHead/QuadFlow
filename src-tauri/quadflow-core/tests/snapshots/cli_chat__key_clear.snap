@@ -1,0 +1,7 @@
+---
+source: quadflow-core/tests/cli_chat.rs
+expression: "&app.ok(&[\"chat\", \"key\", \"clear\"])"
+---
+{
+  "hasApiKey": false
+}

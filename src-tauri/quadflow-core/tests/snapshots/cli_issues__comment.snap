@@ -1,0 +1,58 @@
+---
+source: quadflow-core/tests/cli_issues.rs
+expression: "&c"
+---
+{
+  "acceptanceCriteria": [
+    {
+      "checked": false,
+      "id": "[id]",
+      "text": "renders"
+    }
+  ],
+  "comments": [
+    {
+      "body": "Looks good",
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "id": "[id]"
+    }
+  ],
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "test-agent"
+  },
+  "history": [
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "to": "todo"
+    },
+    {
+      "at": "[ts]",
+      "by": {
+        "kind": "agent",
+        "name": "test-agent"
+      },
+      "from": "todo",
+      "to": "qa"
+    }
+  ],
+  "id": "[id]",
+  "labels": [
+    "auth",
+    "backend"
+  ],
+  "number": 1,
+  "priority": "critical",
+  "status": "qa",
+  "title": "Login",
+  "updatedAt": "[ts]"
+}

@@ -1,0 +1,86 @@
+[package]
+name = "quadflow-core"
+version = "2.0.0"
+description = "Shared data layer, domain logic and CLI for QuadFlow"
+authors = ["QuadFlow contributors"]
+license = "AGPL-3.0-only"
+edition = "2021"
+rust-version = "1.89"          # std::fs::File::lock
+
+[lib]
+name = "quadflow_core"
+path = "src/lib.rs"
+
+# The `quadflow` CLI without the GUI (same `cli::run` the app exe dispatches to). Repo tooling
+# (scripts/release.mjs) runs it so it never depends on an installed QuadFlow's version.
+[[bin]]
+name = "quadflow-cli"
+path = "src/bin/quadflow-cli.rs"
+
+[features]
+# Exposes `quadflow_core::testing` (TempProject/TempApp) to other crates' tests.
+testing = []
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = "3"               # double_option for clearable patch fields
+# Type export to TypeScript. specta / tauri-specta / specta-typescript are pinned
+# as one mutually compatible set (data-layer.md §9, §14). Upgrade deliberately.
+specta = { version = "=2.0.0-rc.25", features = ["derive", "serde_json"] }
+# rusqlite 0.31 (only one crate in the build may link sqlite3; bump deliberately).
+rusqlite = { version = "0.31", features = ["bundled"] }
+ulid = "1"
+thiserror = "2"
+tempfile = "3"                 # atomic writes (NamedTempFile::persist) — runtime dep
+notify = "6.1"
+notify-debouncer-full = "0.3"
+dunce = "1"                    # canonicalize without \\?\ on Windows
+dirs = "5"
+clap = { version = "4", features = ["derive", "string"] }   # string: plugin subcommands in --help
+chrono = "0.4"
+regex = "1"
+tracing = "0.1"
+parking_lot = "0.12"
+# Plugin manifests (plugin-system.md §3.2, §4.2).
+jsonschema = { version = "0.26", default-features = false }   # draft 2020-12; no remote $ref resolution
+semver = "1"
+# Plugin host (plugin-system.md §6.6): bytes over JSON (fs.readBytes, http.fetch bodies).
+base64 = "0.22"
+# Plugin sources / install (plugin-system.md 12.3): archive extraction + integrity.
+zip = { version = "2", default-features = false, features = ["deflate"] }
+sha2 = "0.10"
+hex = "0.4"
+url = "2"
+# Chat client (streaming SSE over blocking reads) + LLM endpoint discovery (§7.3).
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+dns-lookup = "2"
+# Agent session scanner (agent-providers.md §8.3).
+globset = "0.4"
+walkdir = "2"
+local-ip-address = "0.6"
+
+# ---- misc ----
+log = "0.4"
+uuid = { version = "1.11", features = ["v4"] }
+
+# Secrets (data-layer.md §7.4): the OS keystore, never a plaintext fallback.
+[target.'cfg(windows)'.dependencies]
+keyring = { version = "3", features = ["windows-native"] }
+# Plugin sidecars (plugin-system.md §10.2): Job Objects with KILL_ON_JOB_CLOSE.
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_System_JobObjects",
+    "Win32_System_Threading",
+] }
+[target.'cfg(unix)'.dependencies]
+# Plugin sidecars: process groups, PR_SET_PDEATHSIG (Linux).
+libc = "0.2"
+[target.'cfg(target_os = "macos")'.dependencies]
+keyring = { version = "3", features = ["apple-native"] }
+[target.'cfg(all(unix, not(target_os = "macos")))'.dependencies]
+keyring = { version = "3", features = ["sync-secret-service", "crypto-rust"] }
+
+[dev-dependencies]
+insta = { version = "1", features = ["json", "redactions"] }   # CLI contract snapshots (§12.3)

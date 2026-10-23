@@ -1,0 +1,5 @@
+---
+source: quadflow-core/tests/cli_scripts.rs
+expression: "e.json(&[\"scripts\", \"groups\", \"list\"], 0)"
+---
+[]

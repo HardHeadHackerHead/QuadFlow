@@ -1,0 +1,8 @@
+---
+source: quadflow-core/tests/cli_discovery.rs
+expression: "&p.ok(&[\"discovery\", \"delete\", &a_id])"
+---
+{
+  "deleted": true,
+  "id": "[id]"
+}

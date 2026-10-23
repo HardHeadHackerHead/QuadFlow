@@ -1,0 +1,18 @@
+{
+  "name": "@quadflow/sidecar-sdk-node",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "Minimal Node.js helper for QuadFlow plugin sidecars: NDJSON JSON-RPC 2.0 over stdio (docs/architecture/plugin-system.md §10).",
+  "type": "module",
+  "main": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": { "types": "./index.d.ts", "default": "./index.mjs" },
+    "./package.json": "./package.json"
+  },
+  "files": ["index.mjs", "index.d.ts"],
+  "scripts": {
+    "test": "node --test test/server.test.mjs"
+  }
+}

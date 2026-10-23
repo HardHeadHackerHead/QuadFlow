@@ -1,0 +1,62 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"template\", \"builtin-bug-bash\"])"
+---
+{
+  "builtIn": true,
+  "category": "quality",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "system",
+    "name": "quadflow"
+  },
+  "description": "Focused bug-fixing sprint: triage, fix, verify, close.",
+  "id": "[id]",
+  "memberPromptExtra": "Document root cause before fixing. Use /run-script to verify no regressions.",
+  "name": "Bug Bash",
+  "orchestratorPromptExtra": "You are leading a Bug Bash. Prioritize by severity. Ensure root cause comments on each fix.",
+  "skillsUsed": [
+    "issue-to-prompt",
+    "run-script",
+    "triage-issues"
+  ],
+  "successCriteria": [
+    "All bug issues reach QA or Done",
+    "No regressions introduced",
+    "Root causes documented"
+  ],
+  "updatedAt": "[ts]",
+  "workflowPhases": [
+    {
+      "description": "Prioritize bugs by severity",
+      "gate": "issues_prioritized",
+      "name": "Triage",
+      "skills": [
+        "triage-issues"
+      ]
+    },
+    {
+      "description": "Fix bugs in priority order",
+      "gate": "all_issues_in_progress",
+      "name": "Fixing",
+      "skills": [
+        "issue-to-prompt",
+        "run-script"
+      ]
+    },
+    {
+      "description": "QA verifies fixes",
+      "gate": "all_issues_in_qa",
+      "name": "Verification",
+      "skills": [
+        "issue-to-prompt",
+        "run-script"
+      ]
+    },
+    {
+      "description": "All bugs verified and closed",
+      "gate": "all_issues_done",
+      "name": "Done"
+    }
+  ]
+}

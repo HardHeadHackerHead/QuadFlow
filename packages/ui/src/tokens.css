@@ -1,0 +1,292 @@
+/*
+ * @quadflow/ui design tokens (plugin-system.md §14.1).
+ *
+ * Every color is an RGB triplet ("r g b") so Tailwind alpha modifiers work:
+ *   rgb(var(--qf-bg) / 0.5)
+ * The Tailwind preset (../tailwind-preset.cjs) maps the legacy `vibe-*` names
+ * onto these variables.
+ *
+ * The selectors are attribute selectors (not only `:root`) so a subtree can be
+ * re-themed with `data-theme="light"` — used by the /ui-gallery page and by
+ * sandboxed plugin frames. Dark is the default when no attribute is present.
+ *
+ * DARK VALUES MUST STAY IDENTICAL to the former hard-coded colors in
+ * tailwind.config.js and src/lib/terminalTheme.ts.
+ */
+
+:root,
+[data-theme='dark'] {
+  /* Surfaces */
+  --qf-bg: 10 10 15;               /* #0a0a0f  vibe-bg */
+  --qf-bg-elevated: 26 26 36;      /* #1a1a24  vibe-bg-lighter */
+  --qf-surface: 18 18 26;          /* #12121a  vibe-surface */
+  --qf-border: 42 42 58;           /* #2a2a3a  vibe-border */
+  --qf-border-strong: 61 61 82;    /* #3d3d52  vibe-border-bright */
+
+  /* Brand / accent (the shell overrides --qf-primary* from the accent setting) */
+  --qf-primary: 124 58 237;        /* #7c3aed  vibe-primary */
+  --qf-primary-hover: 139 92 246;  /* #8b5cf6  vibe-primary-hover */
+  --qf-secondary: 6 182 212;       /* #06b6d4  vibe-secondary */
+  --qf-on-primary: 255 255 255;    /* text on primary fills */
+
+  /* Text */
+  --qf-text: 226 232 240;          /* #e2e8f0  vibe-text */
+  --qf-text-muted: 148 163 184;    /* #94a3b8  vibe-muted */
+
+  /* Status */
+  --qf-success: 34 197 94;         /* #22c55e */
+  --qf-warning: 245 158 11;        /* #f59e0b */
+  --qf-error: 239 68 68;           /* #ef4444 */
+
+  /* Shell chrome */
+  --qf-scrim: 0 0 0;               /* modal backdrop (used with alpha) */
+  --qf-scrollbar-track: 18 18 26;  /* #12121a */
+  --qf-scrollbar-thumb: 63 63 90;  /* #3f3f5a */
+  --qf-scrollbar-thumb-hover: 90 90 122; /* #5a5a7a */
+
+  /* Appearance (overridden from settings by the shell) */
+  --qf-attention-glow: 249 115 22; /* #f97316 */
+  --qf-idle-glow: 59 130 246;      /* #3b82f6 */
+  --qf-radius-panel: 8px;
+  --qf-gap-panel: 3px;
+  --qf-ui-scale: 1;
+
+  /* Typography */
+  --qf-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  --qf-font-sans: Inter, system-ui, sans-serif;
+
+  /* Terminal palette (xterm ITheme; consumed by src/lib/terminalTheme.ts) */
+  --qf-term-bg: 30 30 30;              /* #1e1e1e */
+  --qf-term-fg: 212 212 212;           /* #d4d4d4 */
+  --qf-term-cursor: 212 212 212;       /* #d4d4d4 */
+  --qf-term-cursor-accent: 30 30 30;   /* #1e1e1e */
+  --qf-term-selection: 38 79 120;      /* #264f78 */
+  --qf-term-selection-fg: 255 255 255; /* #ffffff */
+  --qf-term-black: 30 30 30;           /* #1e1e1e */
+  --qf-term-red: 244 71 71;            /* #f44747 */
+  --qf-term-green: 106 153 85;         /* #6a9955 */
+  --qf-term-yellow: 220 220 170;       /* #dcdcaa */
+  --qf-term-blue: 86 156 214;          /* #569cd6 */
+  --qf-term-magenta: 197 134 192;      /* #c586c0 */
+  --qf-term-cyan: 78 201 176;          /* #4ec9b0 */
+  --qf-term-white: 212 212 212;        /* #d4d4d4 */
+  --qf-term-bright-black: 128 128 128; /* #808080 */
+  --qf-term-bright-red: 244 71 71;
+  --qf-term-bright-green: 106 153 85;
+  --qf-term-bright-yellow: 220 220 170;
+  --qf-term-bright-blue: 86 156 214;
+  --qf-term-bright-magenta: 197 134 192;
+  --qf-term-bright-cyan: 78 201 176;
+  --qf-term-bright-white: 255 255 255;
+}
+
+[data-theme='light'] {
+  --qf-bg: 248 250 252;            /* #f8fafc */
+  --qf-bg-elevated: 255 255 255;   /* #ffffff */
+  --qf-surface: 241 245 249;       /* #f1f5f9 */
+  --qf-border: 226 232 240;        /* #e2e8f0 */
+  --qf-border-strong: 203 213 225; /* #cbd5e1 */
+
+  --qf-primary: 109 40 217;        /* #6d28d9 */
+  --qf-primary-hover: 124 58 237;  /* #7c3aed */
+  --qf-secondary: 8 145 178;       /* #0891b2 */
+  --qf-on-primary: 255 255 255;
+
+  --qf-text: 15 23 42;             /* #0f172a */
+  --qf-text-muted: 100 116 139;    /* #64748b */
+
+  --qf-success: 22 163 74;         /* #16a34a */
+  --qf-warning: 217 119 6;         /* #d97706 */
+  --qf-error: 220 38 38;           /* #dc2626 */
+
+  --qf-scrim: 15 23 42;
+  --qf-scrollbar-track: 241 245 249;
+  --qf-scrollbar-thumb: 203 213 225;
+  --qf-scrollbar-thumb-hover: 148 163 184;
+
+  /* Terminal palette: VS Code "Light+" ANSI colors */
+  --qf-term-bg: 255 255 255;
+  --qf-term-fg: 51 51 51;              /* #333333 */
+  --qf-term-cursor: 51 51 51;
+  --qf-term-cursor-accent: 255 255 255;
+  --qf-term-selection: 173 214 255;    /* #add6ff */
+  --qf-term-selection-fg: 0 0 0;
+  --qf-term-black: 0 0 0;
+  --qf-term-red: 205 49 49;            /* #cd3131 */
+  --qf-term-green: 16 124 16;          /* #107c10 */
+  --qf-term-yellow: 148 152 0;         /* #949800 */
+  --qf-term-blue: 4 81 165;            /* #0451a5 */
+  --qf-term-magenta: 188 5 188;        /* #bc05bc */
+  --qf-term-cyan: 5 152 188;           /* #0598bc */
+  --qf-term-white: 85 85 85;           /* #555555 */
+  --qf-term-bright-black: 102 102 102; /* #666666 */
+  --qf-term-bright-red: 205 49 49;
+  --qf-term-bright-green: 20 206 20;   /* #14ce14 */
+  --qf-term-bright-yellow: 181 186 0;  /* #b5ba00 */
+  --qf-term-bright-blue: 4 81 165;
+  --qf-term-bright-magenta: 188 5 188;
+  --qf-term-bright-cyan: 5 152 188;
+  --qf-term-bright-white: 165 165 165; /* #a5a5a5 */
+}
+
+/* Native form controls follow the light theme; dark keeps the browser default
+   (unchanged from before the token system existed). */
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* Components that should render in the themed text color regardless of the
+   surrounding legacy hard-coded colors. */
+.qf-themed {
+  color: rgb(var(--qf-text));
+  background-color: rgb(var(--qf-bg));
+}
+
+@keyframes qf-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes qf-pulse {
+  50% { opacity: 0.5; }
+}
+
+@keyframes qf-fade-in {
+  from { opacity: 0; transform: translateY(2px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes qf-progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+/*
+ * Light-theme remap for hard-coded Tailwind palette classes.
+ *
+ * Much of the shell and the first-party plugins use the dark-tuned 300/400
+ * shades (`text-green-400`, `text-yellow-300`, ...) and translucent white
+ * fills (`bg-white/10`) that are unreadable or invisible on a light surface.
+ * In the light theme they are mapped to the 700 shade / a dark translucent
+ * fill. `:root[data-theme]` keeps the specificity above plugin CSS, which is
+ * scoped under one class (`.qf-issues .text-red-400`). New code should use
+ * the `qf-*` / `vibe-*` tokens instead of palette colors.
+ */
+:root[data-theme='light'] .text-gray-300,
+:root[data-theme='light'] .text-gray-400,
+:root[data-theme='light'] .text-slate-400 {
+  color: rgb(var(--qf-text-muted) / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .bg-white\/5 {
+  background-color: rgb(var(--qf-scrim) / 0.04);
+}
+:root[data-theme='light'] .bg-white\/10 {
+  background-color: rgb(var(--qf-scrim) / 0.08);
+}
+:root[data-theme='light'] .bg-gray-800 {
+  background-color: rgb(var(--qf-surface) / var(--tw-bg-opacity, 1));
+}
+:root[data-theme='light'] .border-gray-600 {
+  border-color: rgb(var(--qf-border-strong) / var(--tw-border-opacity, 1));
+}
+:root[data-theme='light'] .text-red-300,
+:root[data-theme='light'] .hover\:text-red-300:hover,
+:root[data-theme='light'] .text-red-400,
+:root[data-theme='light'] .hover\:text-red-400:hover {
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-orange-300,
+:root[data-theme='light'] .hover\:text-orange-300:hover,
+:root[data-theme='light'] .text-orange-400,
+:root[data-theme='light'] .hover\:text-orange-400:hover {
+  color: rgb(194 65 12 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-amber-300,
+:root[data-theme='light'] .hover\:text-amber-300:hover,
+:root[data-theme='light'] .text-amber-400,
+:root[data-theme='light'] .hover\:text-amber-400:hover {
+  color: rgb(180 83 9 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-yellow-300,
+:root[data-theme='light'] .hover\:text-yellow-300:hover,
+:root[data-theme='light'] .text-yellow-400,
+:root[data-theme='light'] .hover\:text-yellow-400:hover {
+  color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-lime-300,
+:root[data-theme='light'] .hover\:text-lime-300:hover,
+:root[data-theme='light'] .text-lime-400,
+:root[data-theme='light'] .hover\:text-lime-400:hover {
+  color: rgb(77 124 15 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-green-300,
+:root[data-theme='light'] .hover\:text-green-300:hover,
+:root[data-theme='light'] .text-green-400,
+:root[data-theme='light'] .hover\:text-green-400:hover {
+  color: rgb(21 128 61 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-emerald-300,
+:root[data-theme='light'] .hover\:text-emerald-300:hover,
+:root[data-theme='light'] .text-emerald-400,
+:root[data-theme='light'] .hover\:text-emerald-400:hover {
+  color: rgb(4 120 87 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-teal-300,
+:root[data-theme='light'] .hover\:text-teal-300:hover,
+:root[data-theme='light'] .text-teal-400,
+:root[data-theme='light'] .hover\:text-teal-400:hover {
+  color: rgb(15 118 110 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-cyan-300,
+:root[data-theme='light'] .hover\:text-cyan-300:hover,
+:root[data-theme='light'] .text-cyan-400,
+:root[data-theme='light'] .hover\:text-cyan-400:hover {
+  color: rgb(14 116 144 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-sky-300,
+:root[data-theme='light'] .hover\:text-sky-300:hover,
+:root[data-theme='light'] .text-sky-400,
+:root[data-theme='light'] .hover\:text-sky-400:hover {
+  color: rgb(3 105 161 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-blue-300,
+:root[data-theme='light'] .hover\:text-blue-300:hover,
+:root[data-theme='light'] .text-blue-400,
+:root[data-theme='light'] .hover\:text-blue-400:hover {
+  color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-indigo-300,
+:root[data-theme='light'] .hover\:text-indigo-300:hover,
+:root[data-theme='light'] .text-indigo-400,
+:root[data-theme='light'] .hover\:text-indigo-400:hover {
+  color: rgb(67 56 202 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-violet-300,
+:root[data-theme='light'] .hover\:text-violet-300:hover,
+:root[data-theme='light'] .text-violet-400,
+:root[data-theme='light'] .hover\:text-violet-400:hover {
+  color: rgb(109 40 217 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-purple-300,
+:root[data-theme='light'] .hover\:text-purple-300:hover,
+:root[data-theme='light'] .text-purple-400,
+:root[data-theme='light'] .hover\:text-purple-400:hover {
+  color: rgb(126 34 206 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-fuchsia-300,
+:root[data-theme='light'] .hover\:text-fuchsia-300:hover,
+:root[data-theme='light'] .text-fuchsia-400,
+:root[data-theme='light'] .hover\:text-fuchsia-400:hover {
+  color: rgb(162 28 175 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-pink-300,
+:root[data-theme='light'] .hover\:text-pink-300:hover,
+:root[data-theme='light'] .text-pink-400,
+:root[data-theme='light'] .hover\:text-pink-400:hover {
+  color: rgb(190 24 93 / var(--tw-text-opacity, 1));
+}
+:root[data-theme='light'] .text-rose-300,
+:root[data-theme='light'] .hover\:text-rose-300:hover,
+:root[data-theme='light'] .text-rose-400,
+:root[data-theme='light'] .hover\:text-rose-400:hover {
+  color: rgb(190 18 60 / var(--tw-text-opacity, 1));
+}

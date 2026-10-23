@@ -1,0 +1,12 @@
+---
+source: quadflow-core/tests/cli_ship.rs
+expression: "&p.ok(&[\"ship\", \"readiness\", \"--check\", \"version_files_in_sync\"])"
+---
+[
+  {
+    "fromConfig": true,
+    "id": "[id]",
+    "label": "Version files in sync (1.0.0)",
+    "level": "pass"
+  }
+]

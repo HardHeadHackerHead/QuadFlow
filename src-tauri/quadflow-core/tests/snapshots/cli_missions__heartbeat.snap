@@ -1,0 +1,20 @@
+---
+source: quadflow-core/tests/cli_missions.rs
+expression: "&ok(&p, &[\"missions\", \"heartbeat\", &mid, \"Dev\"])"
+---
+{
+  "agentDefinitionId": "builtin-fullstack-dev",
+  "branchName": "agent/x/dev",
+  "createdAt": "[ts]",
+  "id": "[id]",
+  "lastHeartbeat": "[ts]",
+  "model": "sonnet",
+  "name": "Dev",
+  "providerId": "default",
+  "role": "fullstack",
+  "status": "working",
+  "systemPrompt": "You are a FULL STACK DEVELOPER agent. Work across the entire stack from UI to database.",
+  "terminalId": "t-1",
+  "updatedAt": "[ts]",
+  "worktreePath": "/tmp/dev"
+}

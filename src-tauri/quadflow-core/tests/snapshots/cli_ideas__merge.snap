@@ -1,0 +1,36 @@
+---
+source: quadflow-core/tests/cli_ideas.rs
+expression: "&p.ok(&[\"ideas\", \"merge\", &format!(\"{a_id},{b_id}\"), &a_id])"
+---
+{
+  "archived": false,
+  "content": "Dark mode\n\nFaster startup",
+  "createdAt": "[ts]",
+  "createdBy": {
+    "kind": "agent",
+    "name": "cli"
+  },
+  "id": "[id]",
+  "originalContent": "Dark mode",
+  "suggestions": [
+    {
+      "accepted": true,
+      "createdAt": "[ts]",
+      "createdBy": {
+        "kind": "agent",
+        "name": "cli"
+      },
+      "id": "[id]",
+      "kind": "clarify",
+      "text": "Add a dark mode switch to Settings"
+    }
+  ],
+  "tags": [
+    "perf",
+    "settings",
+    "sprint",
+    "theme",
+    "ui"
+  ],
+  "updatedAt": "[ts]"
+}
