@@ -2,5 +2,729 @@
   "formatVersion": 1,
   "name": "QuadFlow",
   "homepage": "https://github.com/HardHeadHackerHead/QuadFlow",
-  "plugins": []
+  "plugins": [
+    {
+      "id": "chat",
+      "name": "Chat",
+      "description": "Chat with an OpenAI-compatible LLM endpoint (Ollama, LM Studio, OpenRouter, OpenAI, …): conversations, streamed replies, endpoint settings.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/chat/assets/icon.svg",
+      "category": "ai-agents",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/chat",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:chat:write",
+            "secrets",
+            "clipboard:write"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-chat-v1.0.0/chat-1.0.0.zip",
+          "sha256": "c0cd9d6ff1c4edd7769589574c5c6eeb0b2a32b952ee6c59103c6fcc5afe606c",
+          "size": 13049,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "description": "Claude Code agent provider: launch, resume, plan and bypass modes, models from the catalog, usage limits, context-window meter, session titles, Missions worktree scoping, project config and permissions.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/claude-code/assets/icon.svg",
+      "category": "ai-agents",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/claude-code",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read",
+            "fs:read:home",
+            "fs:write:project",
+            "terminal:spawn",
+            "terminal:io"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-claude-code-v1.0.0/claude-code-1.0.0.zip",
+          "sha256": "84fbd5a4e61d236a74b80a82ca32410a9c7ad9ea7dd2bc7e69bae60618f69470",
+          "size": 93802,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "code-quality",
+      "name": "Code Quality",
+      "description": "Code metrics of the current project: lines of code per language, comment ratio, complexity, test ratio, a quality grade and an optional AI assessment.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/code-quality/assets/icon.svg",
+      "category": "development",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/code-quality",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "fs:read:project",
+            "data:chat:write"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-code-quality-v1.0.0/code-quality-1.0.0.zip",
+          "sha256": "49bf6c999d0878cbd97c3b5b674b2da3f5d37cbe62f38bc6a642671198f97995",
+          "size": 16065,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "description": "OpenAI Codex CLI as a QuadFlow agent provider: launch, resume, approval modes, session discovery, AGENTS.md context, context-window and rate-limit usage from Codex rollout files.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/codex/assets/icon.svg",
+      "category": "ai-agents",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/codex",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read",
+            "fs:read:home",
+            "fs:write:project"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-codex-v1.0.0/codex-1.0.0.zip",
+          "sha256": "b19d342e4ccb98504e9561404482bf917c3d3561f9a7d972be88c7399ce051c1",
+          "size": 4430,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "core",
+      "name": "QuadFlow Core",
+      "description": "The shell's own contributions: Terminals, Agents and Session history.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/core/assets/icon.svg",
+      "category": "other",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/core",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-core-v1.0.0/core-1.0.0.zip",
+          "sha256": "aecb5405f84b36bfed44b4a3e0cdf42e2ae7e5b861522ffc550da400700c3006",
+          "size": 2697,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "discord-bot",
+      "name": "Discord Bot",
+      "description": "Experimental (on hold): mirror terminal sessions into Discord threads and send replies from a Discord role back into the terminal.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/discord-bot/assets/icon.svg",
+      "category": "media",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/discord-bot",
+      "bundled": false,
+      "versions": [
+        {
+          "version": "0.1.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "terminal:io",
+            "secrets",
+            "sidecar:runtime:node",
+            "shell:open-external"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-discord-bot-v0.1.0/discord-bot-0.1.0.zip",
+          "sha256": "712e7760168f2b20c1be80ebed59c7ec2225a055b8a3802c993fbc9a49014871",
+          "size": 583421,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "discovery",
+      "name": "Projects",
+      "description": "Project discovery: goals, success criteria, research, requirements, questions, references, decisions and notes, with the ideas and plans linked to each project.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/discovery/assets/icon.svg",
+      "category": "project-management",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/discovery",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:discovery:write",
+            "data:ideas:write",
+            "data:plans:read",
+            "agents:read",
+            "agents:launch"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-discovery-v1.0.0/discovery-1.0.0.zip",
+          "sha256": "fcd347f1a2179973c173d2abf4b9af0f2dfd36695e3fe298e71e800520c4551e",
+          "size": 14041,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "editor",
+      "name": "Editor",
+      "description": "A CodeMirror file editor pane, one tile per file. Opened from file links and the file explorer (command editor/open { path }).",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/editor/assets/icon.svg",
+      "category": "development",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/editor",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "fs:read:project",
+            "fs:write:project"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-editor-v1.0.0/editor-1.0.0.zip",
+          "sha256": "cd842f6b7d7bcf410c3eac9c901853cd760fec6f0c66fca15ed22827ff8c6dfe",
+          "size": 398516,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "external-apps",
+      "name": "External Apps",
+      "description": "Launch external programs, link toolbar buttons to their windows, and embed any app window into a tile (hidden under menus and dialogs). Replaces App Launcher, Window Link and Embed Window.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/external-apps/assets/icon.svg",
+      "category": "other",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/external-apps",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows"
+          ],
+          "permissions": [
+            "native:windows"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-external-apps-v1.0.0/external-apps-1.0.0-{os}-{arch}.zip",
+          "sha256": {
+            "windows-x86_64": "77109fb0d1fbd696783eddb73001aacea06ff877c3d44210563fb2cd1029eeb7"
+          },
+          "size": {
+            "windows-x86_64": 359580
+          },
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "description": "Local git (status, commit, push, checkpoints) and GitHub (repositories, branches, pull requests, commits, releases, issue sync) for the current project.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/github/assets/icon.svg",
+      "category": "development",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/github",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "shell:exec:git",
+            "shell:exec:gh",
+            "shell:open-external",
+            "network:api.github.com",
+            "secrets",
+            "fs:read:project",
+            "fs:write:project",
+            "data:issues:write",
+            "agents:launch"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-github-v1.0.0/github-1.0.0.zip",
+          "sha256": "1b927800d569ac773614b711644d5332b196172d2c30a3fcd4cac3f3b779b120",
+          "size": 40008,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "ideas",
+      "name": "Ideas",
+      "description": "Capture, tag and triage ideas: list and kanban views, suggestions, notes, merge, promote to issues, link to discovery projects.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/ideas/assets/icon.svg",
+      "category": "project-management",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/ideas",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:ideas:write",
+            "data:issues:write",
+            "data:discovery:read",
+            "agents:read",
+            "agents:launch"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-ideas-v1.0.0/ideas-1.0.0.zip",
+          "sha256": "e030cc9bed6e66e73d76a61e3d9d0e3a4695b5a04c393bf194c669aa4fe546cd",
+          "size": 19076,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "issues",
+      "name": "Issues",
+      "description": "Track bugs and tasks: list and kanban views, epics, labels, acceptance criteria, dependencies and a dependency graph, agent assignment (work on an issue with an agent).",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/issues/assets/icon.svg",
+      "category": "project-management",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/issues",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.2.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:issues:write",
+            "project:config:write",
+            "agents:read",
+            "agents:launch",
+            "clipboard:write"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-issues-v1.0.0/issues-1.0.0.zip",
+          "sha256": "b7243e2a99bc18053e4356835a4357bdf2f63c57a9cfb20b8a733bdff1a25b20",
+          "size": 41741,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "local-titles",
+      "name": "Local Titles",
+      "description": "Offline terminal titles from a local model (llama.cpp): downloads and manages GGUF models and contributes a title generator.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/local-titles/assets/icon.svg",
+      "category": "ai-agents",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/local-titles",
+      "bundled": false,
+      "versions": [
+        {
+          "version": "0.1.0",
+          "apiVersion": "^1.3.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-local-titles-v0.1.0/local-titles-0.1.0-{os}-{arch}.zip",
+          "sha256": {
+            "windows-x86_64": "00d74e10d3fb815a98811919ab51cbc38d423cc4f7b639021e0c323d4bb2eab0"
+          },
+          "size": {
+            "windows-x86_64": 1708238
+          },
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "missions",
+      "name": "Missions",
+      "description": "Multi-agent missions: teams of agents working a shared set of issues, proposals, merge queue, messages and activity, mission templates and agent definitions.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/missions/assets/icon.svg",
+      "category": "ai-agents",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/missions",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:missions:write",
+            "data:issues:write",
+            "agents:read",
+            "agents:launch",
+            "terminal:io",
+            "shell:exec:git"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-missions-v1.0.0/missions-1.0.0.zip",
+          "sha256": "0510e0be0b77e3a0cf94d4e3e4360124238c7e35a637a1b641c0e476176e0e14",
+          "size": 112114,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "obs-tracker",
+      "name": "OBS Tracker",
+      "description": "Streamer kit: moves an OBS webcam source to follow this tile (OBS WebSocket; webcams listed with DirectShow), with per-tile scenes, several cameras and auto-rotation. Windows only.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/obs-tracker/assets/icon.svg",
+      "category": "media",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/obs-tracker",
+      "bundled": false,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows"
+          ],
+          "permissions": [
+            "secrets"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-obs-tracker-v1.0.0/obs-tracker-1.0.0-{os}-{arch}.zip",
+          "sha256": {
+            "windows-x86_64": "16fc2c34d2a0098f7740e84c7040b47cdfe46e2f4945cee30d10f744391cbd00"
+          },
+          "size": {
+            "windows-x86_64": 881524
+          },
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "plans",
+      "name": "Plans",
+      "description": "Implementation plans: spec drafting and review, decomposition into steps, promotion of steps to issues, and a coordination view of the agents working them.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/plans/assets/icon.svg",
+      "category": "project-management",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/plans",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:plans:write",
+            "data:issues:write",
+            "data:ideas:read",
+            "data:discovery:read",
+            "agents:read",
+            "agents:launch"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-plans-v1.0.0/plans-1.0.0.zip",
+          "sha256": "9bac1b10ee3328d1f411a571c5580aa77c0daf8adf767e67d09deee6c712595f",
+          "size": 33944,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "scripts",
+      "name": "Scripts",
+      "description": "Run package.json, Python and saved build scripts with live output, script groups (parallel or sequential), terminal environments and agent auto-fix of failed builds.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/scripts/assets/icon.svg",
+      "category": "development",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/scripts",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.2.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:scripts:write",
+            "terminal:spawn",
+            "fs:read:project",
+            "agents:read",
+            "agents:launch"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-scripts-v1.0.0/scripts-1.0.0.zip",
+          "sha256": "7a1bb99c1fa357a03dc871942b3a928cf50c1eb2379bf4bea914a46d857bc04b",
+          "size": 24808,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "semantic-search",
+      "name": "Semantic Search",
+      "description": "Search past agent sessions by meaning. Indexes the session transcripts of every agent provider (and folders you add) into local embeddings — a small sentence-transformer run on your machine by a native sidecar; nothing leaves your computer except the one-time model download.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/semantic-search/assets/icon.svg",
+      "category": "ai-agents",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/semantic-search",
+      "bundled": false,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read",
+            "agents:launch",
+            "clipboard:write",
+            "network:huggingface.co"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-semantic-search-v1.0.0/semantic-search-1.0.0-{os}-{arch}.zip",
+          "sha256": {
+            "windows-x86_64": "7d813030980208ba4db249356e8fba5b112f07b28752e3351f492f42a82064d8"
+          },
+          "size": {
+            "windows-x86_64": 4877957
+          },
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "ship",
+      "name": "Ship",
+      "description": "The project's release pipeline: version status, readiness checks, cut a release or dry-run the phase plan, live output and run history.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/ship/assets/icon.svg",
+      "category": "development",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/ship",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "data:ship:write",
+            "terminal:spawn",
+            "agents:read",
+            "agents:launch",
+            "clipboard:write",
+            "shell:open-external"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-ship-v1.0.0/ship-1.0.0.zip",
+          "sha256": "74bd10592e33b6e293097138683950abe7e4c85a0e5f28ecfb81c1cbe64a28a7",
+          "size": 23000,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "tui",
+      "name": "TUI Tool",
+      "description": "Run any terminal (TUI) program in a tile: lazygit, htop, a REPL… Each tool config sets the executable, arguments, working directory and init commands; in a flyout the program keeps running while the flyout is closed.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/tui/assets/icon.svg",
+      "category": "other",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/tui",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "terminal:spawn"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-tui-v1.0.0/tui-1.0.0.zip",
+          "sha256": "1ed7c238a388e01e416935da66904f68cb05f1824c02b614a4da635f4022466c",
+          "size": 5728,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "usage-monitor",
+      "name": "Usage Monitor",
+      "description": "Account usage and rate-limit windows (session, weekly, …) of every agent provider that reports them, as a tile and a toolbar mini widget, with background refresh and warning thresholds.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/usage-monitor/assets/icon.svg",
+      "category": "system",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/usage-monitor",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-usage-monitor-v1.0.0/usage-monitor-1.0.0.zip",
+          "sha256": "b28ad20ddbccc7266d672941981163857ac97a279cf283715e9994228d92695d",
+          "size": 6412,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "web-preview",
+      "name": "Web Preview",
+      "description": "Preview a web page — typically your dev server — in a tile: address bar, zoom, mobile view, per-project bookmarks, screenshot to clipboard. Server scripts with a preview URL open it automatically.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/web-preview/assets/icon.svg",
+      "category": "development",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/web-preview",
+      "bundled": true,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "native:webview",
+            "native:screen-capture",
+            "clipboard:write",
+            "shell:open-external"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-web-preview-v1.0.0/web-preview-1.0.0.zip",
+          "sha256": "170d36579292c353c4bcf69afbddfbd4ba73a2de46a825aac9296e865d1cea67",
+          "size": 10306,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "youtube-live",
+      "name": "YouTube Live",
+      "description": "Streamer kit: a YouTube Live chat overlay with !idea capture (promote to issues), points and a slot machine, leaderboards, live polls, alerts and spoken announcements.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/youtube-live/assets/icon.svg",
+      "category": "media",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/youtube-live",
+      "bundled": false,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.1.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "secrets",
+            "network:www.googleapis.com",
+            "network:oauth2.googleapis.com",
+            "network:api.openai.com",
+            "data:issues:write",
+            "shell:open-external"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-youtube-live-v1.0.0/youtube-live-1.0.0-{os}-{arch}.zip",
+          "sha256": {
+            "windows-x86_64": "0a33479fb8eb29bd8a66b8a1c717cb18e4310962c11ed343471d3cff852a9ad7"
+          },
+          "size": {
+            "windows-x86_64": 1666199
+          },
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    },
+    {
+      "id": "youtube-shorts",
+      "name": "YouTube Shorts",
+      "description": "Streamer kit: a YouTube Shorts player in a tile (the YouTube mobile site in an embedded web view) with auto-scroll to the next short, skip, search and volume control.",
+      "icon": "https://raw.githubusercontent.com/HardHeadHackerHead/QuadFlow/HEAD/plugins/youtube-shorts/assets/icon.svg",
+      "category": "media",
+      "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/youtube-shorts",
+      "bundled": false,
+      "versions": [
+        {
+          "version": "1.0.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "native:webview"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-youtube-shorts-v1.0.0/youtube-shorts-1.0.0.zip",
+          "sha256": "5e7e499091b21008fc3b116a4cec10270acec0372e017dd6a4d868e8615d96c5",
+          "size": 7560,
+          "releasedAt": "2026-10-23T22:30:26Z"
+        }
+      ]
+    }
+  ]
 }
