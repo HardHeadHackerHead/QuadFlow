@@ -38,6 +38,20 @@ export const osApi = {
 const terminalKnownGeneration = new Map<string, number>()
 const terminalGenerationFloor = new Map<string, number>()
 
+/**
+ * PTY lifecycle hooks for the terminal views (src/components/terminal/liveTerminals.ts),
+ * which keep an xterm per PTY across unmounts: a fresh spawn or a kill under an
+ * id ends the xterm kept for the previous PTY. A listener set (not an import)
+ * keeps this module free of view code.
+ */
+type PtyLifecycleEvent = { kind: 'spawned'; id: string; reattached: boolean } | { kind: 'killed'; id: string }
+export const ptyLifecycle = new Set<(e: PtyLifecycleEvent) => void>()
+function emitPtyLifecycle(e: PtyLifecycleEvent): void {
+  for (const cb of ptyLifecycle) {
+    try { cb(e) } catch (err) { console.error('[terminal] lifecycle listener failed:', err) }
+  }
+}
+
 // Terminal API
 export const terminalApi = {
   create: async (options: CreateTerminalOptions): Promise<TerminalInfo> => {
@@ -51,6 +65,7 @@ export const terminalApi = {
       terminalKnownGeneration.set(result.id, result.generation)
       terminalGenerationFloor.set(result.id, result.generation)
     }
+    emitPtyLifecycle({ kind: 'spawned', id: result.id, reattached: result.reattached === true })
     return {
       ...result,
       cwd: result.cwd || options.cwd || '',
@@ -66,7 +81,11 @@ export const terminalApi = {
   },
 
   kill: async (id: string): Promise<void> => {
-    await invoke('kill_terminal', { id })
+    try {
+      await invoke('kill_terminal', { id })
+    } finally {
+      emitPtyLifecycle({ kind: 'killed', id })
+    }
   },
 
   getInfo: async (id: string): Promise<TerminalInfo> => {

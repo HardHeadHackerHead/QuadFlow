@@ -39,6 +39,8 @@ export interface TerminalFontSettings {
   bellStyle: BellStyle
   copyOnSelect: boolean
   rightClickPaste: boolean
+  /** Copy joins lines that were only broken by wrapping (soft wraps and TUI hard wraps). */
+  joinWrappedLines: boolean
   useWebGL: boolean
   terminalPadding: number // 0-16 px
   confirmClose: boolean
@@ -220,6 +222,7 @@ interface AppSettingsActions {
   setTerminalBellStyle: (style: BellStyle) => void
   setTerminalCopyOnSelect: (enabled: boolean) => void
   setTerminalRightClickPaste: (enabled: boolean) => void
+  setTerminalJoinWrappedLines: (enabled: boolean) => void
   setTerminalUseWebGL: (enabled: boolean) => void
   setTerminalPadding: (padding: number) => void
   setConfirmClose: (confirm: boolean) => void
@@ -317,6 +320,7 @@ const DEFAULT_TERMINAL_SETTINGS: TerminalFontSettings = {
   bellStyle: 'none',
   copyOnSelect: false,
   rightClickPaste: true,
+  joinWrappedLines: true,
   useWebGL: true,
   terminalPadding: 4,
   confirmClose: false,
@@ -615,6 +619,13 @@ export const useAppSettingsStore = create<AppSettingsStore>((set, get) => ({
   setTerminalRightClickPaste: (enabled) => {
     set((state) => ({
       terminal: { ...state.terminal, rightClickPaste: enabled }
+    }))
+    get().saveSettings()
+  },
+
+  setTerminalJoinWrappedLines: (enabled) => {
+    set((state) => ({
+      terminal: { ...state.terminal, joinWrappedLines: enabled }
     }))
     get().saveSettings()
   },

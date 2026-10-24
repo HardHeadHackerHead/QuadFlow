@@ -38,6 +38,7 @@ export default function AppSettingsModal() {
     setTerminalBellStyle,
     setTerminalCopyOnSelect,
     setTerminalRightClickPaste,
+    setTerminalJoinWrappedLines,
     setTerminalUseWebGL,
     setTerminalPadding,
     setConfirmClose,
@@ -243,6 +244,7 @@ export default function AppSettingsModal() {
               setTerminalBellStyle={setTerminalBellStyle}
               setTerminalCopyOnSelect={setTerminalCopyOnSelect}
               setTerminalRightClickPaste={setTerminalRightClickPaste}
+              setTerminalJoinWrappedLines={setTerminalJoinWrappedLines}
               setTerminalUseWebGL={setTerminalUseWebGL}
               setTerminalPadding={setTerminalPadding}
               setConfirmClose={setConfirmClose}
@@ -289,6 +291,7 @@ interface TerminalSettingsProps {
     bellStyle: BellStyle
     copyOnSelect: boolean
     rightClickPaste: boolean
+    joinWrappedLines: boolean
     useWebGL: boolean
     terminalPadding: number
     confirmClose: boolean
@@ -308,6 +311,7 @@ interface TerminalSettingsProps {
   setTerminalBellStyle: (style: BellStyle) => void
   setTerminalCopyOnSelect: (enabled: boolean) => void
   setTerminalRightClickPaste: (enabled: boolean) => void
+  setTerminalJoinWrappedLines: (enabled: boolean) => void
   setTerminalUseWebGL: (enabled: boolean) => void
   setTerminalPadding: (padding: number) => void
   setConfirmClose: (confirm: boolean) => void
@@ -329,6 +333,7 @@ function TerminalSettings({
   setTerminalBellStyle,
   setTerminalCopyOnSelect,
   setTerminalRightClickPaste,
+  setTerminalJoinWrappedLines,
   setTerminalUseWebGL,
   setTerminalPadding,
   setConfirmClose,
@@ -738,11 +743,26 @@ function TerminalSettings({
           <div className="flex items-center justify-between">
             <div>
               <label className="text-sm text-vibe-text">Right-Click Paste</label>
-              <p className="text-xs text-vibe-muted">Paste clipboard contents on right-click</p>
+              <p className="text-xs text-vibe-muted">Right-click copies the selection, or pastes the clipboard when nothing is selected</p>
             </div>
             <ToggleSwitch
               enabled={terminal.rightClickPaste}
               onChange={() => setTerminalRightClickPaste(!terminal.rightClickPaste)}
+            />
+          </div>
+
+          {/* Join wrapped lines when copying */}
+          <div className="flex items-center justify-between" data-testid="setting-join-wrapped-lines">
+            <div>
+              <label className="text-sm text-vibe-text">Join wrapped lines when copying</label>
+              <p className="text-xs text-vibe-muted">
+                Copied text keeps real line breaks but not the ones that only come from wrapping at the terminal width
+                (also text that an agent CLI or other TUI wrapped itself)
+              </p>
+            </div>
+            <ToggleSwitch
+              enabled={terminal.joinWrappedLines}
+              onChange={() => setTerminalJoinWrappedLines(!terminal.joinWrappedLines)}
             />
           </div>
 
