@@ -962,6 +962,27 @@ mod tests {
         reg.get(id).unwrap_or_else(|| panic!("{id} not loaded")).status.clone()
     }
 
+    /// Live reload (§12.4): disabling, re-enabling and removing a plugin show up in the diff.
+    #[test]
+    fn fingerprints_follow_enable_disable_and_removal() {
+        let env = Env::new();
+        let root = env.bundled("p1", json!({}));
+        env.bundled("p2", json!({}));
+        let first = env.load().fingerprints();
+        assert!(first["p1"].active && first["p1"].version.as_deref() == Some("1.0.0"));
+        assert!(first["p1"].root.ends_with("p1") && root.ends_with("p1"));
+        env.load().set_enabled(&env.app.db, "p1", false).unwrap();
+        let off = env.load().fingerprints();
+        let ch = crate::plugins::live::diff(&first, &off);
+        assert_eq!(ch.len(), 1);
+        assert!(ch[0].id == "p1" && ch[0].stopped());
+        env.load().set_enabled(&env.app.db, "p1", true).unwrap();
+        assert!(crate::plugins::live::diff(&first, &env.load().fingerprints()).is_empty(), "back to the same code");
+        std::fs::remove_dir_all(env.res.path().join("plugins").join("p2")).unwrap();
+        let ch = crate::plugins::live::diff(&first, &env.load().fingerprints());
+        assert!(ch.len() == 1 && ch[0].id == "p2" && ch[0].after.is_none() && ch[0].stopped());
+    }
+
     /// The GUI loads the registry from parallel commands (`plugins_list` +
     /// `plugins_contributions`): first-load inserts must not collide.
     #[test]

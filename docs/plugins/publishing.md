@@ -91,3 +91,11 @@ template for automating your own index.
 Bump `version` in both `quadflow-plugin.json` and `package.json` (`quadflow-plugin build` fails if
 they differ), build, pack, upload, append the version record. Users get an update badge; an
 update that adds permissions waits for their approval while the old version keeps running.
+
+Installing, updating, rolling back and uninstalling take effect **without restarting QuadFlow**
+(from Settings → Plugins and from `quadflow plugins …` alike): the app deactivates the old module
+(`deactivate()` runs), imports the new version, remounts open tiles — each gets back the
+`instance.state` it stored with `setState()` — and restarts the plugin's sidecar if it was running.
+So, as for dev reload ([getting-started.md](getting-started.md)), keep tile state in `setState()`
+and release what `activate()` acquired in `deactivate()`. If the new version fails to load, the user
+gets a "Restart QuadFlow" prompt.

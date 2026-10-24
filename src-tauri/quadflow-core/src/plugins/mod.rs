@@ -8,6 +8,7 @@ pub mod assets;
 pub mod cli;
 pub mod dev;
 pub mod host;
+pub mod live;
 pub mod manifest;
 pub mod permissions;
 pub mod registry;

@@ -150,6 +150,7 @@ pushing. To keep screenshots, set `QF_UI_SHOTS_DIR=<dir>`.
 | `import-v1.test.mjs` | The QuadFlow 1.x project-list import against a **fake** 1.x install (`launch({ env: { QUADFLOW_V1_DATA_DIR } })`): first-run offer and preview, "Not now" surviving a restart, Settings → Advanced import, and a dev build only reporting a 1.x `.quadflow/` |
 | `sandbox.test.mjs` | The sandboxed plugin runtime (see below) |
 | `devmode.test.mjs` | Plugin dev mode and hot reload (see below) |
+| `plugin-update.test.mjs` | Live install / update / rollback / uninstall without a restart, from the app's commands and from `quadflow plugins …` in another process, for a trusted (bare id from the built-in source) and a sandboxed plugin, each with an open tile that keeps its state; a broken update offers "Restart QuadFlow". The fixture source is a local `index.json` + zips built from scaffolded plugins (`launch({ env: { QUADFLOW_PLUGIN_INDEX_URL: "file://…" } })`; file URLs work in the dev profile only) |
 | `workspaces.test.mjs` | Two layouts, back-and-forth and rapid switching, rename, and both layouts plus the new name surviving a full restart (`launch({ runDir })` on the same data dir) |
 | `theme.test.mjs` | Light theme: the Settings theme switch, Escape closing Settings, the light remap of dark-tuned palette classes (`text-green-400`, `bg-white/10`; see the end of `packages/ui/src/tokens.css`), terminal tiles and a plugin's attached run terminal following the terminal palette |
 | `ideas.test.mjs` | Ideas and Projects (discovery) tiles (see below) |
