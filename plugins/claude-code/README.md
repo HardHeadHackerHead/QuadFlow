@@ -48,8 +48,13 @@ and the npm/Homebrew global bin directories.
 | Context file | `CLAUDE.md` (QuadFlow writes enabled context modules into its managed region) |
 | Hooks | `usage`, `contextUsage`, `sessionTitle`, `prepareWorktree` |
 
-The `usage` hook runs `claude` in a hidden terminal, types `/usage`, reads the rate-limit bars and
-exits; no prompt is sent.
+The `usage` hook runs `claude` in a hidden 120x100 terminal, types `/usage`, replays the terminal
+output onto a small virtual screen (`src/screen.ts`, so partial TUI redraws and ConPTY's cursor
+moves land where the user would see them) and reads every rate-limit window off the panel: the
+5-hour session, the weekly limit for all models, each model-specific weekly limit (for example
+"Current week (Opus)") and any other `NN% used` bar such as extra usage. Each window keeps
+Claude's own reset text and, when it is unambiguous, the reset time. Then it exits; no prompt is
+sent.
 
 ## Usage
 
@@ -80,12 +85,16 @@ project's `CLAUDE.md` and `.claude/` files. The scaffold is skipped when the app
 ```bash
 cd plugins/claude-code
 npm run build        # quadflow-plugin build → dist/
+npm test             # node --test: virtual screen + /usage parsing against real captures
 ```
 
 ```
 src/index.tsx          definePlugin: tile, settings page, command, provider hooks
 src/hooks.ts           contextUsage, sessionTitle, prepareWorktree (scope hook source)
-src/usage.ts           `/usage` scraping
+src/usage.ts           `usage` hook: drive `claude /usage` in a hidden terminal
+src/screen.ts          pure: replay raw PTY output onto a virtual screen
+src/usageParse.ts      pure: windows, reset times and plan from the `/usage` panel
+test/fixtures/         sanitized raw ConPTY captures (JSON) of `/usage` (claude 2.1.296)
 src/session.ts         pure JSONL parsing: context estimate, rewind points, titles
 src/ConfigTile.tsx     Claude Config tile; PermissionsPage.tsx, RewindView.tsx
 assets/claude-template the `.claude/` scaffold (skills + settings.local.json)

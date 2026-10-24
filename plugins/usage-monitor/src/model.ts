@@ -10,12 +10,28 @@ export const MIN_COOLDOWN_SECONDS = 60
 /** Background refresh runs an agent CLI each time: no faster than every 5 min. */
 export const MIN_POLL_SECONDS = 300
 
+/** How the toolbar mini widget draws each window. */
+export type MiniStyle = 'percent' | 'bars' | 'countdown' | 'highest'
+export const MINI_STYLES: { value: MiniStyle; label: string; description: string }[] = [
+  { value: 'percent', label: 'Percent', description: 'Every window as "5h 11%"' },
+  { value: 'bars', label: 'Bars', description: 'A small bar per window, with its percent' },
+  { value: 'countdown', label: 'Percent + reset', description: 'Percent with the time until the window resets' },
+  { value: 'highest', label: 'Highest only', description: 'One number: the highest window over all providers' },
+]
+
 export interface UsageMonitorSettings {
   cooldownSeconds: number
   /** 0 = off. */
   backgroundPollSeconds: number
   warningThreshold: number
   criticalThreshold: number
+  miniStyle: MiniStyle
+  /**
+   * Hidden from the mini widget: `"<providerId>"` hides a provider,
+   * `"<providerId>/<windowId>"` one window. A hide list (not a show list), so
+   * windows a provider starts reporting later appear by default.
+   */
+  miniHidden: string[]
 }
 
 export const DEFAULT_SETTINGS: UsageMonitorSettings = {
@@ -23,6 +39,8 @@ export const DEFAULT_SETTINGS: UsageMonitorSettings = {
   backgroundPollSeconds: 0,
   warningThreshold: 75,
   criticalThreshold: 90,
+  miniStyle: 'percent',
+  miniHidden: [],
 }
 
 function int(v: unknown, fallback: number): number {
@@ -40,6 +58,8 @@ export function normalizeSettings(raw: Record<string, unknown> | null | undefine
     backgroundPollSeconds: poll === 0 ? 0 : Math.max(MIN_POLL_SECONDS, poll),
     warningThreshold: clampPct(r.warningThreshold, DEFAULT_SETTINGS.warningThreshold),
     criticalThreshold: clampPct(r.criticalThreshold, DEFAULT_SETTINGS.criticalThreshold),
+    miniStyle: MINI_STYLES.some((m) => m.value === r.miniStyle) ? (r.miniStyle as MiniStyle) : DEFAULT_SETTINGS.miniStyle,
+    miniHidden: Array.isArray(r.miniHidden) ? [...new Set(r.miniHidden.filter((v): v is string => typeof v === 'string' && v !== ''))] : [],
   }
 }
 
@@ -118,4 +138,100 @@ export function timeAgo(ms: number | null, now = Date.now()): string {
   const hours = Math.floor(minutes / 60)
   if (hours < 24) return `${hours}h ago`
   return `${Math.floor(hours / 24)}d ago`
+}
+
+// ---------------------------------------------------------------------------
+// Mini widget
+// ---------------------------------------------------------------------------
+
+/** Key of a window in `miniHidden`. */
+export const windowKey = (providerId: string, windowId: string) => `${providerId}/${windowId}`
+
+export function isHidden(hidden: readonly string[], providerId: string, windowId?: string): boolean {
+  return hidden.includes(providerId) || (windowId !== undefined && hidden.includes(windowKey(providerId, windowId)))
+}
+
+/** `hidden` with `key` switched on or off. */
+export function toggleHidden(hidden: readonly string[], key: string, hide: boolean): string[] {
+  const rest = hidden.filter((k) => k !== key)
+  return hide ? [...rest, key] : rest
+}
+
+/**
+ * A short label for the toolbar: `5h` (session), `Wk` (weekly, all models),
+ * the model name of a model-specific weekly window (`Opus`), else the label
+ * itself when short or its first word.
+ */
+export function shortLabel(w: Pick<AgentUsageWindow, 'id' | 'label'>): string {
+  const l = w.label.trim()
+  if (w.id === 'session' || /\bsession\b/i.test(l) || /^5\s*h(ours?)?$/i.test(l)) return '5h'
+  const model = /week\w*\s*\(([^)]+)\)/i.exec(l)
+  if (model) {
+    const m = model[1].replace(/\s+only$/i, '').trim()
+    if (/^all( models)?$/i.test(m)) return 'Wk'
+    const word = m.split(/\s+/)[0]
+    return word.length > 8 ? word.slice(0, 7) + '…' : word
+  }
+  if (w.id === 'week' || /^(current )?week(ly)?$/i.test(l)) return 'Wk'
+  if (l.length <= 6) return l
+  const first = l.split(/\s+/)[0]
+  return first.length > 8 ? first.slice(0, 7) + '…' : first
+}
+
+/** Compact time until `resetsAt`: `45m`, `2h10m`, `3d4h`; `null` when unknown. */
+export function countdown(resetsAt: number | undefined, now = Date.now()): string | null {
+  if (resetsAt === undefined) return null
+  const mins = Math.max(0, Math.round((resetsAt - now) / 60_000))
+  if (mins < 60) return `${mins}m`
+  const h = Math.floor(mins / 60)
+  if (h < 24) return mins % 60 === 0 ? `${h}h` : `${h}h${mins % 60}m`
+  const d = Math.floor(h / 24)
+  return h % 24 === 0 ? `${d}d` : `${d}d${h % 24}h`
+}
+
+export interface MiniWindow {
+  key: string
+  short: string
+  window: AgentUsageWindow
+  level: UsageLevel
+}
+export interface MiniGroup {
+  provider: UsageProvider
+  windows: MiniWindow[]
+}
+
+/** What the mini widget shows: visible providers with data, each with its visible windows. */
+export function miniGroups(rows: ProviderUsage[], settings: UsageMonitorSettings): MiniGroup[] {
+  const out: MiniGroup[] = []
+  for (const r of rows) {
+    if (isHidden(settings.miniHidden, r.provider.id)) continue
+    const windows = (r.snapshot?.windows ?? [])
+      .filter((w) => !isHidden(settings.miniHidden, r.provider.id, w.id))
+      .map((w) => ({ key: windowKey(r.provider.id, w.id), short: shortLabel(w), window: w, level: levelOf(w.usedPercent, settings) }))
+    if (windows.length > 0) out.push({ provider: r.provider, windows })
+  }
+  return out
+}
+
+/** Highest `usedPercent` over the windows the mini widget shows; `null` without any. */
+export function visibleMax(groups: MiniGroup[]): number | null {
+  let max: number | null = null
+  for (const g of groups) for (const w of g.windows) max = Math.max(max ?? 0, w.window.usedPercent)
+  return max
+}
+
+/** The mini widget's tooltip: every provider and window (hidden ones too), with resets. */
+export function miniTooltip(rows: ProviderUsage[], now = Date.now()): string {
+  if (rows.length === 0) return 'Usage Monitor: no data yet. Open the Usage Monitor to check.'
+  return rows
+    .map((r) => {
+      const ws = r.snapshot?.windows ?? []
+      const head = `${r.provider.name}${r.snapshot?.plan ? ` (${r.snapshot.plan})` : ''}`
+      if (ws.length === 0) return `${head}: no data`
+      return [head, ...ws.map((w) => {
+        const reset = resetLabel(w, now)
+        return `  ${w.label}: ${Math.round(w.usedPercent)}% used${reset ? ` · ${reset}` : ''}`
+      })].join('\n')
+    })
+    .join('\n')
 }

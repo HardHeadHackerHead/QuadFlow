@@ -2,13 +2,13 @@
   "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
   "id": "usage-monitor",
   "name": "Usage Monitor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Account usage and rate-limit windows (session, weekly, …) of every agent provider that reports them, as a tile and a toolbar mini widget, with background refresh and warning thresholds.",
   "author": { "name": "QuadFlow" },
   "license": "AGPL-3.0-only",
   "icon": "assets/icon.svg",
   "category": "system",
-  "apiVersion": "^1.0.0",
+  "apiVersion": "^1.4.0",
   "platforms": ["windows", "macos", "linux"],
   "ui": { "entry": "dist/index.js", "style": "dist/index.css" },
   "activation": ["onStartup", "onTile"],
@@ -28,7 +28,7 @@
         "defaultToolConfig": { "order": 16, "color": "#06b6d4" }
       }
     ],
-    "settingsPages": [{ "id": "usage-monitor", "title": "Usage Monitor", "icon": "assets/icon.svg" }],
+    "settingsPages": [{ "id": "usage-monitor", "title": "Usage Monitor", "icon": "assets/icon.svg", "custom": true }],
     "settings": {
       "type": "object",
       "properties": {
@@ -63,6 +63,26 @@
           "default": 90,
           "title": "Critical threshold (%)",
           "description": "A toast warns once when a window crosses this."
+        },
+        "miniStyle": {
+          "type": "string",
+          "default": "percent",
+          "title": "Mini widget style",
+          "description": "How the toolbar mini widget shows each usage window.",
+          "oneOf": [
+            { "const": "percent", "title": "Percent (\"5h 11%\" per window)" },
+            { "const": "bars", "title": "Bars (a small bar per window)" },
+            { "const": "countdown", "title": "Percent + time until reset" },
+            { "const": "highest", "title": "Highest only (one number)" }
+          ]
+        },
+        "miniHidden": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "uniqueItems": true,
+          "title": "Hidden in the mini widget",
+          "description": "Providers (\"claude-code\") or windows (\"claude-code/week\") the mini widget leaves out. Everything else is shown."
         }
       },
       "additionalProperties": false

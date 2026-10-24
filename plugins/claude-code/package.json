@@ -1,12 +1,13 @@
 {
   "name": "@quadflow-plugins/claude-code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "license": "AGPL-3.0-only",
   "type": "module",
   "scripts": {
     "build": "quadflow-plugin build --no-sidecar",
-    "dev": "quadflow-plugin dev"
+    "dev": "quadflow-plugin dev",
+    "test": "node --test --experimental-strip-types --no-warnings test/usage.test.ts"
   },
   "devDependencies": {
     "@quadflow/plugin-build": "*"

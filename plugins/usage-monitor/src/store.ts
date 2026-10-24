@@ -110,6 +110,12 @@ async function loadProviders(ctx: PluginContext): Promise<UsageProvider[]> {
   }
 }
 
+/** Read the provider list once (cheap: no hook runs) — for the settings page. */
+export async function ensureProviders(): Promise<void> {
+  const ctx = ctxRef
+  if (ctx && useUsageStore.getState().providers === null) await loadProviders(ctx)
+}
+
 function setEntry(providerId: string, patch: Partial<UsageEntry>) {
   useUsageStore.setState((s) => {
     const prev: UsageEntry = s.usage[providerId] ?? { status: 'idle', snapshot: null, error: null, checkedAt: null }

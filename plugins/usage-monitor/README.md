@@ -12,8 +12,11 @@ compact example of a plugin built only on the public plugin API.
 ## Features
 
 - One card per provider with each usage window: percent used, a progress bar and when it resets.
-- A toolbar **mini widget** with the highest usage over all providers; its tooltip lists every
-  window.
+  Claude Code reports its 5-hour session, the weekly limit for all models and each model-specific
+  weekly limit (plus extra usage when shown); Codex its 5-hour and weekly windows.
+- A customizable toolbar **mini widget**: every window of every provider at a glance (for example
+  `● 5h 11% Wk 82% Fable 0% | ● 5h 99% Wk 16%`), colored by level, in one of four styles. Its
+  tooltip lists every window with its reset time; its gear opens the settings.
 - Warning glow on open tiles at a configurable threshold, and a one-time toast when a window
   crosses the critical threshold.
 - Optional background refresh that also runs while no tile is open.
@@ -23,7 +26,19 @@ compact example of a plugin built only on the public plugin API.
 
 Open **Usage Monitor** from the Tools menu, in a pane or a flyout (one instance at a time). The
 tile reads usage when it opens and on refresh; the mini widget only displays what was last
-fetched and never triggers a read itself.
+fetched and never triggers a read itself (turn on the background refresh to keep it current
+without the tile).
+
+To get the mini widget, right-click the Usage Monitor toolbar button and choose **Display → Mini Dashboard**.
+Hover the widget and click its gear (or open Settings → Usage Monitor) to choose:
+
+- **Style**: *Percent* (`5h 11%` per window, the default), *Bars* (a small bar under each
+  window), *Percent + reset* (the time until each window resets, e.g. `2h10m`) or *Highest only*
+  (the old single number).
+- **What it shows**: tick providers and single windows on or off. Everything is shown by default,
+  and windows a provider starts reporting later appear automatically.
+
+The settings page shows a live preview of the widget.
 
 How a provider reads its usage is up to the provider's `usage` hook: Claude Code runs `claude`
 in a hidden terminal and reads its `/usage` screen; Codex reads its newest session files.
@@ -39,6 +54,8 @@ Settings → Usage Monitor (some are also adjustable in the tile).
 | `backgroundPollSeconds` | `0` | Background refresh interval; `0` = off, otherwise at least 300 |
 | `warningThreshold` | `75` | Open tiles glow once any window reaches this percentage |
 | `criticalThreshold` | `90` | A toast warns once when a window crosses this percentage |
+| `miniStyle` | `"percent"` | Mini widget style: `percent`, `bars`, `countdown` (percent + reset) or `highest` |
+| `miniHidden` | `[]` | Left out of the mini widget: provider ids (`"codex"`) or windows (`"claude-code/week-opus"`) |
 
 The host also enforces a minimum cooldown of 60 seconds per provider and caches the last snapshot.
 
@@ -58,18 +75,20 @@ are cached in memory by the host.
 ```bash
 cd plugins/usage-monitor
 npm run build        # quadflow-plugin build → dist/
-npm test             # node --test: thresholds, rows, reset labels
+npm test             # node --test: thresholds, rows, reset labels, mini widget model
 ```
 
 ```
 src/index.tsx            definePlugin: tile, mini widget; binds the store on activation
 src/store.ts             shared zustand store: providers, snapshots, refresh, background poll
-src/model.ts             pure helpers (levels, rows, reset labels, settings normalisation)
-src/UsageMonitorTile.tsx tile; MiniWidget.tsx toolbar badge
+src/model.ts             pure helpers (levels, rows, reset labels, settings, mini widget groups)
+src/UsageMonitorTile.tsx tile; MiniWidget.tsx toolbar widget; SettingsPage.tsx settings page
 ```
 
 The plugin activates `onStartup` so the background refresh can run without a tile. Everything
-goes through `ctx.agents.providers()`, `ctx.agents.usage()` and `ctx.settings`. To add usage
+goes through `ctx.agents.providers()`, `ctx.agents.usage()`, `ctx.settings` and
+`ctx.ui.openSettings()`. The GUI test (`scripts/ui/usage-monitor.test.mjs`) runs on fixture data
+only, through the host's `window.__QF_TEST_AGENT_USAGE__` seam. To add usage
 reporting to your own provider, implement the `usage` hook described in
 [docs/plugins/agent-providers.md](../../docs/plugins/agent-providers.md). General authoring:
 [docs/plugins/](../../docs/plugins/README.md).
