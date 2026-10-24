@@ -116,6 +116,18 @@ Conventions: LF line endings (also when writing files from scripts — tests `in
 files); strict TypeScript (unused variables are errors); logic in `quadflow-core`, Tauri commands stay
 thin; tests never touch the real user data dir (`quadflow_core::testing::{TempProject, TempApp}`).
 
+### How much to test
+
+Match verification to the change; the full gate is for releases.
+
+- **Plugin-only change** (`plugins/<id>/`): build and test that plugin (`npm run build`, `npm test` in
+  its folder), `node --test scripts/ui/<id>.test.mjs` against the existing dev exe if it has one.
+  No app rebuild, no full suite. The `/plugin-dev` skill has the fast loop (incl. loading a dev copy
+  into the running QuadFlow with hot reload).
+- **Shared packages / app core**: `npm run check` plus the affected `scripts/ui/*.test.mjs`.
+- **Release gate** (`npm run release` runs `npm run check`): run `npm run test:e2e` once before
+  cutting a release, not after every change.
+
 ### GUI harness (verify UI changes in the real app)
 
 `scripts/ui/` drives an isolated dev build over CDP (read `scripts/ui/README.md` first):
