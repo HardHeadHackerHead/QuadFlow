@@ -1,6 +1,7 @@
 // node --test --experimental-strip-types plugins/codex/test/
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import {
   WORKTREE_END,
   WORKTREE_START,
@@ -50,7 +51,9 @@ test('usage: codex limit windows, labels, ms reset times, expired windows', () =
     plan_type: 'plus',
   }
   const premium = { limit_id: 'premium', primary: { used_percent: 50, window_minutes: 60, resets_at: 1792735524 }, secondary: null }
-  const text = [meta, tokenCount(info(10), rl), tokenCount(null, premium)].join('\n')
+  const premiumNull = { limit_id: 'premium', primary: null, secondary: null, plan_type: 'plus' }
+  const text = [meta, tokenCount(info(10), rl), tokenCount(null, premium), tokenCount(null, premiumNull)].join('\n')
+  // Every limit with data: the main `codex` limit first, then the others (newest event per limit).
   assert.deepEqual(usageFromRollout(text, now), {
     providerId: 'codex',
     fetchedAt: now,
@@ -58,12 +61,36 @@ test('usage: codex limit windows, labels, ms reset times, expired windows', () =
     windows: [
       { id: 'primary', label: '5h', usedPercent: 4, resetsAt: 1792735524000 },
       { id: 'secondary', label: 'Weekly', usedPercent: 0 },
+      { id: 'premium-primary', label: 'premium 1h', usedPercent: 50, resetsAt: 1792735524000 },
     ],
   })
-  // Only a non-codex limit present → used as the fallback.
-  assert.equal(usageFromRollout([meta, tokenCount(null, premium)].join('\n'), now)?.windows[0].label, '1h')
+  // A named non-main limit on its own.
+  const named = { ...premium, limit_name: 'GPT-5 Pro', secondary: { used_percent: 7, window_minutes: 10080, resets_at: 1792735524 } }
+  assert.deepEqual(
+    usageFromRollout([meta, tokenCount(null, named)].join('\n'), now)?.windows.map((w) => [w.id, w.label]),
+    [
+      ['premium-primary', 'GPT-5 Pro 1h'],
+      ['premium-secondary', 'GPT-5 Pro Weekly'],
+    ],
+  )
   // No rate-limit data at all.
   assert.equal(usageFromRollout([meta, tokenCount(info(1), { limit_id: 'codex', primary: null, secondary: null })].join('\n'), now), null)
+})
+
+test('usage: real codex-cli 0.163 token_count lines (fixture) → 5h + weekly', () => {
+  // test/fixtures/rollout-token-count.txt (JSONL; `.txt` because *.jsonl is gitignored): the last token_count events of a real rollout (no
+  // ids, paths or prompts in them); the newest one is a `premium` limit without windows.
+  const text = readFileSync(new URL('./fixtures/rollout-token-count.txt', import.meta.url), 'utf8')
+  const now = 1_792_790_000_000 // before both resets
+  assert.deepEqual(usageFromRollout(text, now), {
+    providerId: 'codex',
+    fetchedAt: now,
+    plan: 'plus',
+    windows: [
+      { id: 'primary', label: '5h', usedPercent: 99, resetsAt: 1792797597000 },
+      { id: 'secondary', label: 'Weekly', usedPercent: 16, resetsAt: 1793384397000 },
+    ],
+  })
 })
 
 test('session path → home-relative', () => {

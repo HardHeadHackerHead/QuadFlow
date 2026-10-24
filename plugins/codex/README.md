@@ -28,7 +28,9 @@ QuadFlow detects the CLI with `codex --version` and also checks
 - **Context meter**: context-window usage of a session, from the rollout's `token_count` events
   (resets after a `compacted` entry).
 - **Usage limits**: account rate-limit windows from the newest rollouts, shown by the
-  [Usage Monitor](../usage-monitor/README.md). Reading them runs no command.
+  [Usage Monitor](../usage-monitor/README.md): the 5-hour and weekly windows of the main `codex`
+  limit, plus the windows of any other limit the rollouts report data for. Reading them runs no
+  command.
 - **Missions context**: writes each Missions agent's file scope and mission context into the
   worktree's `AGENTS.md`. This is advisory — Codex has no hook mechanism to enforce it.
 

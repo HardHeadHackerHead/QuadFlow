@@ -154,7 +154,7 @@ pushing. To keep screenshots, set `QF_UI_SHOTS_DIR=<dir>`.
 | `theme.test.mjs` | Light theme: the Settings theme switch, Escape closing Settings, the light remap of dark-tuned palette classes (`text-green-400`, `bg-white/10`; see the end of `packages/ui/src/tokens.css`), terminal tiles and a plugin's attached run terminal following the terminal palette |
 | `ideas.test.mjs` | Ideas and Projects (discovery) tiles (see below) |
 | `issues.test.mjs` | Issues and the Kanban board (see below) |
-| `plugin-cli.test.mjs`, `plans`, `ship`, `chat`, `missions`, `github`, `code-quality`, `scripts`, `editor`, `tui`, `web-preview`, `external-apps`, `youtube-live`, `obs-tracker`, `discord-bot`, `local-titles` | One test per plugin, following the `ideas.test.mjs` pattern |
+| `plugin-cli.test.mjs`, `plans`, `ship`, `chat`, `missions`, `github`, `code-quality`, `scripts`, `editor`, `tui`, `web-preview`, `external-apps`, `youtube-live`, `obs-tracker`, `discord-bot`, `local-titles`, `usage-monitor` | One test per plugin, following the `ideas.test.mjs` pattern |
 
 **Onboarding.** Walks Welcome → Agents (real `agents_detect_all`) → Project (stubbed folder picker →
 `projects_open`) → CLI (real `cli_install_status`; "Install on PATH" goes to
@@ -185,6 +185,12 @@ plugin ([docs/plugins/migrating-a-tool.md](../../docs/plugins/migrating-a-tool.m
 Blocked to To Do live (cascade unblock), a mouse drag of a card into another column is read back
 with `quadflow issues get`, and the palette provider is hit by title and by `CODE-n` ref. Columns
 are found by `data-kanban-column`, cards by `data-issue-id`.
+
+**Usage Monitor.** Never starts a real agent CLI or reads real agent files: an init script sets
+`window.__QF_TEST_AGENT_USAGE__` (honoured by `providerUsage` in `src/agents/providerRegistry.ts`),
+which answers every provider's `usage` hook with fixture snapshots. Checks the tile, the toolbar
+mini widget (all windows, no overflow or overlap, dark and light, each style), its gear opening
+Settings → Usage Monitor, hiding a window and the settings surviving a reload.
 
 ## Startup performance probe
 

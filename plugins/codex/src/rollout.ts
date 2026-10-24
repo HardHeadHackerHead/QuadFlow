@@ -92,47 +92,55 @@ function windowLabel(minutes: number | null, fallback: string): string {
   return `${minutes}m`
 }
 
+const MAIN_LIMIT = 'codex'
+
 /**
- * Account rate-limit windows from the newest `token_count` event that carries
- * them. Prefers the `codex` limit; a window whose reset time has passed is
- * reported as 0 % used. `null` when the text has no rate-limit data.
+ * Account rate-limit windows from the newest `token_count` event of every
+ * limit (`limit_id`) that carries any: the main `codex` limit's windows first
+ * (ids `primary` / `secondary`), then each other limit's (ids
+ * `<limit>-primary`, labels prefixed with the limit's name). A window whose
+ * reset time has passed is reported as 0 % used. `null` when the text has no
+ * rate-limit data. (Rollouts also carry limits with `primary: null` — e.g.
+ * `premium` on plans without it — which are skipped.)
  */
 export function usageFromRollout(text: string, now: number): CodexUsageSnapshot | null {
-  let fallback: Json | null = null
-  let chosen: Json | null = null
+  const limits = new Map<string, Json>()
   for (const line of linesNewestFirst(text)) {
     const p = tokenCountPayload(line)
     const rl = p && isObj(p.rate_limits) ? p.rate_limits : null
     if (!rl || !(isObj(rl.primary) || isObj(rl.secondary))) continue
-    if (rl.limit_id === 'codex' || rl.limit_id === undefined || rl.limit_id === null) {
-      chosen = rl
-      break
-    }
-    fallback ??= rl
+    const id = typeof rl.limit_id === 'string' && rl.limit_id ? rl.limit_id : MAIN_LIMIT
+    if (!limits.has(id)) limits.set(id, rl)
   }
-  const rl = chosen ?? fallback
-  if (!rl) return null
+  if (limits.size === 0) return null
+  const ordered = [...limits.entries()].sort(([a], [b]) => (a === MAIN_LIMIT ? -1 : b === MAIN_LIMIT ? 1 : 0))
   const windows: CodexUsageSnapshot['windows'] = []
-  for (const [id, fb] of [
-    ['primary', 'Session'],
-    ['secondary', 'Weekly'],
-  ] as const) {
-    const w = rl[id]
-    if (!isObj(w)) continue
-    const used = num(w.used_percent)
-    if (used === null) continue
-    const resetsSec = num(w.resets_at)
-    const resetsAt = resetsSec === null ? undefined : Math.round(resetsSec * 1000)
-    const expired = resetsAt !== undefined && resetsAt <= now
-    windows.push({
-      id,
-      label: windowLabel(num(w.window_minutes), fb),
-      usedPercent: expired ? 0 : Math.min(100, Math.max(0, used)),
-      ...(resetsAt !== undefined && !expired ? { resetsAt } : {}),
-    })
+  for (const [limitId, rl] of ordered) {
+    const main = limitId === MAIN_LIMIT
+    const name = typeof rl.limit_name === 'string' && rl.limit_name.trim() ? rl.limit_name.trim() : limitId
+    for (const [key, fb] of [
+      ['primary', 'Session'],
+      ['secondary', 'Weekly'],
+    ] as const) {
+      const w = rl[key]
+      if (!isObj(w)) continue
+      const used = num(w.used_percent)
+      if (used === null) continue
+      const resetsSec = num(w.resets_at)
+      const resetsAt = resetsSec === null ? undefined : Math.round(resetsSec * 1000)
+      const expired = resetsAt !== undefined && resetsAt <= now
+      const label = windowLabel(num(w.window_minutes), fb)
+      windows.push({
+        id: main ? key : `${limitId}-${key}`,
+        label: main ? label : `${name} ${label}`,
+        usedPercent: expired ? 0 : Math.min(100, Math.max(0, used)),
+        ...(resetsAt !== undefined && !expired ? { resetsAt } : {}),
+      })
+    }
   }
   if (windows.length === 0) return null
-  const plan = typeof rl.plan_type === 'string' ? rl.plan_type : undefined
+  const first = ordered[0][1]
+  const plan = typeof first.plan_type === 'string' ? first.plan_type : undefined
   return { providerId: 'codex', fetchedAt: now, ...(plan ? { plan } : {}), windows }
 }
 

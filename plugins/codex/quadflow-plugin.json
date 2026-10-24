@@ -2,7 +2,7 @@
   "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
   "id": "codex",
   "name": "Codex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OpenAI Codex CLI as a QuadFlow agent provider: launch, resume, approval modes, session discovery, AGENTS.md context, context-window and rate-limit usage from Codex rollout files.",
   "author": { "name": "QuadFlow" },
   "license": "AGPL-3.0-only",

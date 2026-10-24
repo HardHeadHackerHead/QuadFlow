@@ -11,6 +11,7 @@
 import { definePlugin } from '@quadflow/plugin-api'
 import UsageMonitorTile from './UsageMonitorTile'
 import UsageMiniWidget from './MiniWidget'
+import UsageMonitorSettingsPage from './SettingsPage'
 import { bind, unbind } from './store'
 import './usage.css'
 
@@ -23,4 +24,5 @@ export default definePlugin({
   },
   tiles: { 'usage-monitor': UsageMonitorTile },
   miniWidgets: { 'usage-monitor': UsageMiniWidget },
+  settingsPages: { 'usage-monitor': UsageMonitorSettingsPage },
 })

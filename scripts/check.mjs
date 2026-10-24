@@ -19,6 +19,7 @@ const steps = [
   ['bindings drift', 'git', ['diff', '--exit-code', '--', 'src/generated', 'packages/plugin-api/src/generated']],
   ['plugins build', 'npm', ['run', 'check:plugins']],
   ['codex plugin tests', 'npm', ['test', '--workspace', 'plugins/codex']],
+  ['claude-code plugin tests', 'npm', ['test', '--workspace', 'plugins/claude-code']],
   ['plugin-build tests', 'node', ['--test', 'packages/plugin-build/test/plugin-build.test.mjs']],
   ['create-quadflow-plugin tests', 'node', ['--test', 'packages/create-quadflow-plugin/test/create.test.mjs']],
   ['plugin docs (manifest reference drift, TypeDoc)', 'npm', ['run', 'check:docs']],

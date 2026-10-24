@@ -100,8 +100,19 @@ export interface UsageRequest {
   force?: boolean
 }
 
+declare global {
+  interface Window {
+    /**
+     * E2E seam (scripts/ui): when set, `usage` hooks are never run and this answers instead,
+     * so GUI tests never start a real agent CLI or read real agent files.
+     */
+    __QF_TEST_AGENT_USAGE__?: (providerId: string) => AgentUsageSnapshot | null | Promise<AgentUsageSnapshot | null>
+  }
+}
+
 /** The provider's account usage; cached for the cooldown, `null` when unknown. */
 export async function providerUsage(providerId: string, req: UsageRequest = {}): Promise<AgentUsageSnapshot | null> {
+  if (typeof window !== 'undefined' && window.__QF_TEST_AGENT_USAGE__) return (await window.__QF_TEST_AGENT_USAGE__(providerId)) ?? null
   const cooldown = Math.max(MIN_USAGE_COOLDOWN_MS, (req.cooldownSeconds ?? 0) * 1000)
   const wait = req.force ? MIN_USAGE_COOLDOWN_MS : cooldown
   const st = usageState.get(providerId)

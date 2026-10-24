@@ -2,7 +2,7 @@
   "$schema": "../../packages/plugin-api/schema/quadflow-plugin.schema.json",
   "id": "claude-code",
   "name": "Claude Code",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Claude Code agent provider: launch, resume, plan and bypass modes, models from the catalog, usage limits, context-window meter, session titles, Missions worktree scoping, project config and permissions.",
   "author": { "name": "QuadFlow" },
   "license": "AGPL-3.0-only",
