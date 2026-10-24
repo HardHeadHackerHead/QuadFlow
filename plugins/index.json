@@ -42,6 +42,26 @@
       "bundled": true,
       "versions": [
         {
+          "version": "1.1.0",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read",
+            "fs:read:home",
+            "fs:write:project",
+            "terminal:spawn",
+            "terminal:io"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-claude-code-v1.1.0/claude-code-1.1.0.zip",
+          "sha256": "25f89b719ecf849c5f143a1af161b1c887bdac667dae7643ddd4c891668fefd4",
+          "size": 99018,
+          "releasedAt": "2026-10-24T02:04:27Z"
+        },
+        {
           "version": "1.0.0",
           "apiVersion": "^1.0.0",
           "platforms": [
@@ -100,6 +120,24 @@
       "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/codex",
       "bundled": true,
       "versions": [
+        {
+          "version": "1.0.1",
+          "apiVersion": "^1.0.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read",
+            "fs:read:home",
+            "fs:write:project"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-codex-v1.0.1/codex-1.0.1.zip",
+          "sha256": "1b0aeffd2c9502dc7b84b9fec19af24445298de4752eb2ccfaa8fa94ff20d8b3",
+          "size": 4564,
+          "releasedAt": "2026-10-24T02:04:27Z"
+        },
         {
           "version": "1.0.0",
           "apiVersion": "^1.0.0",
@@ -615,6 +653,22 @@
       "repository": "https://github.com/HardHeadHackerHead/QuadFlow/tree/HEAD/plugins/usage-monitor",
       "bundled": true,
       "versions": [
+        {
+          "version": "1.1.0",
+          "apiVersion": "^1.4.0",
+          "platforms": [
+            "windows",
+            "macos",
+            "linux"
+          ],
+          "permissions": [
+            "agents:read"
+          ],
+          "url": "https://github.com/HardHeadHackerHead/QuadFlow/releases/download/plugin-usage-monitor-v1.1.0/usage-monitor-1.1.0.zip",
+          "sha256": "4f6b7d4bf005792855c6d18df2d1e3f8a0f77d0456074ad5ff9dcd96ad86e9b4",
+          "size": 9970,
+          "releasedAt": "2026-10-24T02:04:27Z"
+        },
         {
           "version": "1.0.0",
           "apiVersion": "^1.0.0",
