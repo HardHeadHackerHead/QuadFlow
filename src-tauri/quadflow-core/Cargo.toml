@@ -1,6 +1,6 @@
 [package]
 name = "quadflow-core"
-version = "2.0.0"
+version = "2.0.1"
 description = "Shared data layer, domain logic and CLI for QuadFlow"
 authors = ["QuadFlow contributors"]
 license = "AGPL-3.0-only"

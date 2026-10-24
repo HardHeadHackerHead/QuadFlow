@@ -2,6 +2,17 @@
 
 All notable changes to QuadFlow.
 
+## v2.0.1 — 2026-10-24
+
+- CLI: import-v1 help says it brings the project list (no settings) (f4c7654)
+- Testing policy: full e2e only for broad core changes, not every release (cb72093)
+- Live plugin changes: install/update/rollback/uninstall/enable/disable without a restart (022a905)
+- Plugin index: usage-monitor 1.1.0, claude-code 1.1.0, codex 1.0.1 (74fdbac)
+- claude-code 1.1.0 (usage hook rewrite + plugin-dev skill) (e6bdea9)
+- Skill /plugin-dev (fast plugin loop: build only the plugin, load unpacked with hot reload, scoped tests); CLAUDE.md: how much to test (d28a260)
+- Usage Monitor 1.1.0: every usage window, customizable mini widget (86e2b6b)
+- Plugin index: 24 plugins from the 2.0.0 release (71d43b8)
+
 ## v2.0.0 — 2026-10-23
 
 QuadFlow 2.0 is the first open-source release: a rebuild of QuadFlow as a small core plus plugins, under the AGPL-3.0. No account, no license key, no sign-in — download it and go.

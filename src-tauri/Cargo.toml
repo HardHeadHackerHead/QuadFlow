@@ -1,6 +1,6 @@
 [package]
 name = "quadflow-tauri"
-version = "2.0.0"
+version = "2.0.1"
 description = "QuadFlow - Multi-terminal Claude Code manager with context tracking"
 authors = ["QuadFlow contributors"]
 license = "AGPL-3.0-only"
