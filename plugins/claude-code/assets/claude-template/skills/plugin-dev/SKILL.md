@@ -75,9 +75,8 @@ npm run dev                               # in the plugin dir; run in the backgr
 | Shared packages (`packages/*`) | their `npm test`, then the plugins that use them |
 | App core (`src-tauri/`, `src/`) | `npm run check`, then the affected `scripts/ui/*.test.mjs` |
 
-The full `npm run check` + `npm run test:e2e` is the **release gate** — run it once before a
-release, not after every change. Tests never call real agent CLIs or read real accounts; use
-fixtures (sanitize anything captured from real output).
+Don't run the full `npm run test:e2e` for plugin changes; releases run `npm run check`, and the
+full GUI suite is only for broad app-core changes.
 
 ## 5. Finish
 

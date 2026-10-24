@@ -125,8 +125,9 @@ Match verification to the change; the full gate is for releases.
   No app rebuild, no full suite. The `/plugin-dev` skill has the fast loop (incl. loading a dev copy
   into the running QuadFlow with hot reload).
 - **Shared packages / app core**: `npm run check` plus the affected `scripts/ui/*.test.mjs`.
-- **Release gate** (`npm run release` runs `npm run check`): run `npm run test:e2e` once before
-  cutting a release, not after every change.
+- **Releases**: `npm run release` runs `npm run check`; that plus the tests of what changed is the
+  gate. Run the full `npm run test:e2e` only for broad core changes (layout, terminals, plugin host
+  across many plugins, data layer) — not routinely before every release.
 
 ### GUI harness (verify UI changes in the real app)
 
