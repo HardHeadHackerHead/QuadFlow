@@ -4,14 +4,33 @@ All notable changes to QuadFlow.
 
 ## v2.0.1 — 2026-10-24
 
-- CLI: import-v1 help says it brings the project list (no settings) (f4c7654)
-- Testing policy: full e2e only for broad core changes, not every release (cb72093)
-- Live plugin changes: install/update/rollback/uninstall/enable/disable without a restart (022a905)
-- Plugin index: usage-monitor 1.1.0, claude-code 1.1.0, codex 1.0.1 (74fdbac)
-- claude-code 1.1.0 (usage hook rewrite + plugin-dev skill) (e6bdea9)
-- Skill /plugin-dev (fast plugin loop: build only the plugin, load unpacked with hot reload, scoped tests); CLAUDE.md: how much to test (d28a260)
-- Usage Monitor 1.1.0: every usage window, customizable mini widget (86e2b6b)
-- Plugin index: 24 plugins from the 2.0.0 release (71d43b8)
+### Plugin changes apply live
+
+Installing, updating, rolling back, uninstalling, enabling or disabling a plugin now takes effect right away — no restart. This works from Settings → Plugins and from `quadflow plugins …` in a terminal.
+
+- Only the changed plugin reloads. Its open tiles and toolbar widgets switch to the new code and keep their state, and its background process restarts.
+- A notice confirms the change ("Updated Usage Monitor to 1.1.0"). If new code fails to load, the notice offers **Restart QuadFlow**.
+- A tile whose plugin was uninstalled now says "not installed" instead of "Tool configuration not found".
+
+### Bundled plugin updates
+
+These shipped as plugin updates after 2.0.0 and are now included in the installer:
+
+- **Usage Monitor 1.1.0**: shows every usage limit (the 5-hour session, weekly, per-model weekly), with a customizable toolbar mini view.
+- **Claude Code 1.1.0**: reads all of Claude's usage limits with reset times, and ships a new `/plugin-dev` skill for building QuadFlow plugins.
+- **Codex 1.0.1**: reports every rate limit that has data.
+
+### Fixes
+
+- `quadflow import-v1 --help` now says it brings over your project list. It doesn't import settings.
+
+### Downloads
+
+| Platform | File |
+| --- | --- |
+| Windows (x64) | `QuadFlow_2.0.1_x64-setup.exe` (code-signed) |
+
+Installed copies of 2.0 update automatically.
 
 ## v2.0.0 — 2026-10-23
 
