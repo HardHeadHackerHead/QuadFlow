@@ -7,6 +7,8 @@ const steps = [
   ['no agent literals in core/shell', 'node', ['scripts/check-agent-literals.mjs']],
   ['typecheck', 'npx', ['tsc', '--noEmit']],
   ['web build', 'npm', ['run', 'build:web']],
+  // Unit tests of pure shell logic in src/ (no DOM), e.g. the terminal copy join.
+  ['shell unit tests', 'node', ['--test', '--experimental-strip-types', '--no-warnings', 'scripts/unit/*.test.ts']],
   // Optional heavy plugin sidecars (candle) are workspace members but never part of the app check;
   // build them explicitly (`npm run build:sidecar` in plugins/semantic-search).
   ['cargo check', 'cargo', ['check', '--workspace', '--exclude', 'semantic-search-sidecar']],
