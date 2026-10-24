@@ -485,7 +485,9 @@ Users can add more configs for tiles with `instanceMultiple: true` (e.g. several
 
 ```
 src/plugins/
-  registry.ts          usePluginRegistry (zustand): plugins, contributions, status; load(), reload(id)
+  registry.ts          usePluginRegistry (zustand): plugins, contributions, status; load(), reload(id);
+                       diffPlugins() + generations for live changes (§12.4)
+  liveReload.ts        DataChanged(plugins) → refresh; re-activate / unload changed plugins, toasts (§12.4)
   loader.ts            trusted module loading + activation (§8.2)
   TileHost.tsx         resolves a TileInstance → TrustedTile | SandboxedTile | MissingPluginTile
   SandboxedTile.tsx    iframe host + RPC bridge (§8.3)
@@ -1327,6 +1329,45 @@ CLI: `quadflow plugins list|info <id>|enable <id>|disable <id>|install <id> [--s
 sources remove <id>|sources refresh`. `install`/`update` without `--yes` print the permission list
 and require confirmation on a TTY; non-TTY without `--yes` → exit 2.
 
+### 12.4 Live changes (no restart)
+
+Install, update, rollback, uninstall, enable/disable and permission approval take effect in the
+running app, whether they come from Settings → Plugins or from `quadflow plugins …` in another
+process (the CLI writes the app DB; the GUI sees the `plugins` rows through the cross-process
+change cursor, data-layer.md §8.3, as `DataChanged { domain: "plugins" }`).
+
+- **Shell** (`src/plugins/liveReload.ts`; main window, and floating windows without toasts): each `plugins` DataChanged (except
+  `source:<id>` rows), debounced 200 ms, refreshes the registry (`usePluginRegistry.load()`). The
+  registry diffs the new `PluginInfo` list against the previous one (`diffPlugins`: version, root,
+  origin, isolation, status, enabled, manifest) and bumps the **generation** of each changed
+  plugin — the same machinery as dev reload (§15.3): its tiles, mini widgets and settings pages
+  remount on a fresh module and tile instances keep their saved `state`; commands, palette
+  providers, title generators and agent-provider hooks load the new module on their next call
+  (the agent provider list reloads with the plugin list). `liveReload.ts` then re-activates a plugin
+  that was running (loaded, or `activation: onStartup`) at once, or unloads one that is gone or no
+  longer active (`deactivate()`, its context, command handlers and stylesheet are dropped; open
+  tiles render `MissingPluginTile`, also when uninstall deleted the tool config). On every reload
+  the loader deactivates the old module and disposes its host context before importing the new one.
+- **Cache-busting**: entry, style and sandbox frames load with `?v=<version>.<generation>` (dev
+  plugins: `?v=<now>`), so a new version or a reload never hits the ES module map or the HTTP cache,
+  while an unchanged plugin keeps a stable URL. Chunks need no buster (hashed names). The
+  `qfplugin://` asset index follows the registry: `plugins_list` refreshes it, so after a CLI update
+  the new version's root is served.
+- **Sidecars** (`src-tauri/src/plugin_host/live.rs`, diff in `quadflow_core::plugins::live`): each
+  `plugins_list` compares the registry's fingerprints (active, origin, version, root) with the last
+  snapshot: a plugin that is gone or inactive → its sidecar is stopped; one whose code changed →
+  a running/starting/failed sidecar is restarted; then `onStartup` sidecars of newly active plugins
+  start. Commands that already stopped and started the sidecar themselves (install confirm,
+  rollback, uninstall, enable, disable, grant) record the new snapshot, so it is not restarted twice.
+  Dev-only changes are left to the dev watcher.
+- **Feedback**: a toast "Installed / Updated <name> to <version> / Rolled back … / Uninstalled …"
+  after the new code runs (not for dev folders, which have their own). When the new module fails to
+  load or `activate()` throws, a sticky error toast offers **Restart QuadFlow** (save, deactivate
+  plugins, stop sidecars, relaunch) and the plugin's tiles show the error with a Reload button.
+- Bundled plugins replaced by a newer installed copy keep running trusted (§8.1 trust rules are
+  unchanged); sandboxed plugins get new frames.
+- Tested by `scripts/ui/plugin-update.test.mjs` (local fixture source via `QUADFLOW_PLUGIN_INDEX_URL`).
+
 ---
 
 ## 13. Rust module layout
@@ -1337,6 +1378,7 @@ src-tauri/quadflow-core/src/plugins/
   manifest.rs            Manifest structs (serde camelCase, specta::Type), validate()
   schema.rs              embedded JSON Schemas + jsonschema validators
   registry.rs            PluginRegistry, LoadedPlugin, status rules, contributions()
+  live.rs                fingerprints() + diff() of two registry snapshots (§12.4)
   permissions.rs         describe(), risk(), diff(), sandbox restrictions
   host/mod.rs            dispatch, MethodSpec, HostEnv, HostExtension
   host/data.rs storage.rs settings.rs secrets.rs fs.rs shell.rs http.rs log.rs
@@ -1349,6 +1391,7 @@ src-tauri/quadflow-core/src/context/registry.rs   uses plugins for docs (§9.3)
 src-tauri/src/
   plugin_protocol.rs     qfplugin:// handler (§8.2)
   plugin_host/mod.rs     HostExtension: terminals, agents, notifications, clipboard, native, dialogs
+  plugin_host/live.rs    sidecars follow registry changes (restart / stop, §12.4)
   commands/plugins.rs    Tauri commands (§4.3)
 ```
 
@@ -1454,7 +1497,8 @@ devDependency `@quadflow/plugin-build`, dependencies `@quadflow/plugin-api`, `@q
   folder to `plugins.devPaths`; the host watches `<dev>/quadflow-plugin.json`, `<dev>/dist/**` and
   the sidecar files (notify, 300 ms debounce) → event `plugin-dev-changed` → the shell's registry
   `reload(id)`: deactivate, re-import with `?v=<now>`, remount tiles (instance state is preserved
-  via `tile_instances.state`); the host restarts the sidecar if its binary/entry changed.
+  via `tile_instances.state`); the host restarts the sidecar if its binary/entry changed. Installed
+  and bundled plugins use the same machinery for live install/update/uninstall (§12.4).
 - `quadflow plugins validate <dir>` (core CLI) runs manifest + file checks.
 - Docs: `docs/plugins/` (author guide; `manifest-reference.md` generated from the schemas) and an
   API reference generated from `@quadflow/plugin-api` with TypeDoc (`npm run docs:api`) — PL-10.
@@ -2342,3 +2386,16 @@ the wrapper into the built-in `core` plugin (§5.5).
     ToolDragContext); kept under that name since "tools" is the user-facing concept (tool configs).
   - Also removed: untyped commands `webview_eval` / `set_webview_visible` (no caller),
     `tauri-plugin-shell` and its `shell:allow-*` capabilities (the opener plugin opens URLs).
+- 2026-10-23 — Live plugin changes (§12.4). Install, update, rollback, uninstall, enable/disable and
+  approval apply without a restart, also from the CLI. Recorded decisions:
+  - The registry refresh is the single trigger: `usePluginRegistry.load()` diffs `PluginInfo` and bumps
+    the generation of changed plugins; Settings → Plugins only calls `load()` (no more per-action
+    `reload(id)`), and its Installed/Updated/Rolled back/Uninstalled toasts moved to `liveReload.ts`.
+    `reload(id)` (dev, Reload buttons) forces one plugin into the same diff; concurrent `load()` calls
+    while one runs get one follow-up request instead of sharing a possibly stale one.
+  - Cache-buster `?v=<version>.<generation>` for non-dev plugins (was none at generation 0, `?v=<now>`
+    after a reload); every reload disposes the old host context and command handlers.
+  - Sidecars: `plugin_host::live::sync` on `plugins_list` (diff of `quadflow_core::plugins::live`
+    fingerprints); GUI commands that manage the sidecar themselves call `live::record`.
+  - An open tile whose tool config was deleted by an uninstall renders `MissingPluginTile` ("not
+    installed") instead of "Tool configuration not found".

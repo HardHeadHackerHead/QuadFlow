@@ -14,6 +14,7 @@ import { TerminalState, ToolInstance, ToolConfig } from './types'
 import TerminalView from './components/terminal/TerminalView'
 import ToolTileContent from './components/tools/ToolTileContent'
 import FloatingWindowToolbar from './components/layout/FloatingWindowToolbar'
+import { installLiveReload } from './plugins/liveReload'
 
 // Minimal store providers for floating window
 import { useTerminalStore } from './stores/terminalStore'
@@ -66,6 +67,9 @@ export default function FloatingWindowApp() {
       console.error('[FloatingWindow] Failed to pop in:', error)
     }
   }, [state.panelId, state.panelType])
+
+  // A popped-out plugin tile follows live plugin updates too (the main window shows the toasts).
+  useEffect(() => installLiveReload({ notify: false }), [])
 
   // Initialize on mount
   useEffect(() => {

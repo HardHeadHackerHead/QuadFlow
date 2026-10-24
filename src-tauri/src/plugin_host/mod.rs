@@ -8,6 +8,7 @@
 mod agents;
 mod native;
 pub mod dev;
+pub mod live;
 pub mod sidecars;
 mod terminals;
 

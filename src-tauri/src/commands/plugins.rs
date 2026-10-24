@@ -29,6 +29,14 @@ fn invalidate_all<R: tauri::Runtime>(app: &tauri::AppHandle<R>) {
     plugin_host::invalidate(app);
 }
 
+/// This command already stopped / started the plugin's sidecar: record the new registry state
+/// so the live sync (`plugin_host::live`) does not restart it again.
+fn record_live(c: &quadflow_core::Core) {
+    if let Ok(reg) = load(c) {
+        plugin_host::live::record(&reg);
+    }
+}
+
 /// Webview labels allowed to call plugin commands.
 fn check_caller(webview: &Webview) -> Result<(), CoreError> {
     let label = webview.label();
@@ -60,6 +68,8 @@ pub async fn plugins_list(
         plugin_host::invalidate(&app);
         // Dev mode (PL-10): watch the folders of `dev` plugins for rebuilds.
         plugin_host::dev::sync(&app, &reg);
+        // Live changes (§12.4), also from the CLI: restart / stop sidecars whose plugin changed.
+        plugin_host::live::sync(&app, &reg);
         Ok(reg.list(include_unsupported))
     })
     .await
@@ -115,6 +125,7 @@ pub async fn plugins_enable(
     blocking(move || {
         set_enabled(&c, &id, true).inspect(|_| {
             invalidate_all(&app);
+            record_live(&c);
             plugin_host::sidecars::start_startup_sidecars(&app);
         })
     })
@@ -133,7 +144,10 @@ pub async fn plugins_disable(
     let app = webview.app_handle().clone();
     blocking(move || {
         plugin_host::sidecars::stop(&app, &id);
-        set_enabled(&c, &id, false).inspect(|_| invalidate_all(&app))
+        set_enabled(&c, &id, false).inspect(|_| {
+            invalidate_all(&app);
+            record_live(&c);
+        })
     })
     .await
 }
@@ -160,6 +174,7 @@ pub async fn plugins_grant(
         // A running sidecar keeps no permission state, but restart it so a revoked
         // `sidecar:runtime:node` (or a plugin now `needsConsent`) takes effect.
         plugin_host::sidecars::stop(&app, &id);
+        plugin_host::live::record(&reg);
         plugin_host::sidecars::start_startup_sidecars(&app);
         Ok(reg.require(&id)?.info())
     })
@@ -245,6 +260,7 @@ pub async fn plugins_install_confirm(
         plugin_host::sidecars::stop(&app, &plan.plugin_id);
         let info = sources::confirm(&db, &c.paths, &source_opts(&c), &plan, &granted_permissions);
         invalidate_all(&app);
+        record_live(&c);
         plugin_host::sidecars::start_startup_sidecars(&app);
         let info = info?;
         plans().lock().remove(&plan_id);
@@ -272,6 +288,7 @@ pub async fn plugins_rollback(webview: Webview, core: State<'_, CoreState>, id: 
     blocking(move || {
         plugin_host::sidecars::stop(&app, &id);
         let r = sources::rollback(&*c.app_db()?, &c.paths, &source_opts(&c), &id).inspect(|_| invalidate_all(&app));
+        record_live(&c);
         plugin_host::sidecars::start_startup_sidecars(&app);
         r
     })
@@ -297,6 +314,7 @@ pub async fn plugins_uninstall(
         invalidate_all(&app);
         let r = sources::uninstall(&*c.app_db()?, &c.paths, &secrets, &source_opts(&c), &id, delete_data);
         invalidate_all(&app);
+        record_live(&c);
         r
     })
     .await

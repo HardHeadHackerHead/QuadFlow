@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import type { JsonValue } from '@quadflow/plugin-api'
 import { ToolInstance, ToolConfig } from '../../types'
 import { useTerminalStore } from '../../stores/terminalStore'
@@ -6,6 +6,8 @@ import { useToolStore } from '../../stores/toolStore'
 import { useGlobalWorkspaceStore } from '../../stores/globalWorkspaceStore'
 import { removeTerminalFromTree } from '../../lib/layoutUtils'
 import TileHost from '../../plugins/TileHost'
+import MissingPluginTile from '../../plugins/MissingPluginTile'
+import { usePluginRegistry } from '../../plugins/registry'
 
 interface ToolTileContentProps {
   instance: ToolInstance
@@ -76,6 +78,21 @@ export default function ToolTileContent({ instance, config, mode = 'pane', visib
     term.setLayoutTree(removeTerminalFromTree(term.layoutTree, instance.id))
     useToolStore.getState().closeTool(instance.id)
   }, [instance.id, onClose])
+
+  // A plugin uninstalled while its tile is open takes its tool config with it: keep showing
+  // which plugin this was (the "not installed" placeholder) rather than a bare error.
+  const lastRef = useRef<{ pluginId: string; contributionId: string } | null>(null)
+  if (config) lastRef.current = { pluginId: config.pluginId, contributionId: config.contributionId }
+  const last = lastRef.current
+  const lastPlugin = usePluginRegistry((s) => (last ? s.plugins.find((p) => p.id === last.pluginId) : undefined))
+
+  if ((!config || !tileConfig) && last) {
+    return (
+      <div className="h-full w-full" onClick={handleFocus}>
+        <MissingPluginTile pluginId={last.pluginId} contributionId={last.contributionId} plugin={lastPlugin} />
+      </div>
+    )
+  }
 
   if (!config || !tileConfig) {
     return (

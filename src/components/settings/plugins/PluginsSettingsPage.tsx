@@ -135,11 +135,10 @@ export default function PluginsSettingsPage() {
       try {
         await f()
         if (ok) toast({ kind: 'success', message: ok })
-        // Keep the shell's registry (tools, tiles, loaded modules) in step with what changed:
-        // re-import the plugin whose state changed, else just refresh the contributions.
-        const changed = /^(toggle|confirm|rollback|uninstall):(.+)$/.exec(key)?.[2]
-        const shell = usePluginRegistry.getState()
-        await (changed ? shell.reload(changed) : shell.load())
+        // Keep the shell's registry (tools, tiles, loaded modules) in step: the refresh diffs the
+        // plugin list and live-reloads exactly the plugins that changed (plugins/liveReload.ts,
+        // which also shows the "Installed / Updated / Uninstalled …" toast).
+        await usePluginRegistry.getState().load()
         await reload()
       } catch (e) {
         toast({ kind: 'error', message: errorMessage(e) })
@@ -164,8 +163,8 @@ export default function PluginsSettingsPage() {
       if (plan.needsConsent) {
         setPending({ kind: 'plan', plan, request: planRequest(plan) })
       } else {
-        const info = await pluginsApi.confirm(plan.planId, [])
-        toast({ kind: 'success', message: `Updated ${info.name} to ${info.version}` })
+        // The live reload toasts "Updated <name> to <version>" once the new code runs.
+        await pluginsApi.confirm(plan.planId, [])
       }
     })
 
@@ -188,6 +187,7 @@ export default function PluginsSettingsPage() {
   const confirmPending = async () => {
     if (!pending) return
     const p = pending
+    // "Installed / Updated …" is toasted by the live reload once the plugin runs.
     await run(
       `confirm:${p.request.pluginId}`,
       async () => {
@@ -204,7 +204,6 @@ export default function PluginsSettingsPage() {
         }
         setPending(null)
       },
-      p.kind === 'plan' ? `${p.plan.kind === 'update' ? 'Updated' : 'Installed'} ${p.plan.name} ${p.plan.version}` : undefined,
     )
   }
 
@@ -368,7 +367,7 @@ export default function PluginsSettingsPage() {
                           size="xs"
                           variant="ghost"
                           loading={busy === `rollback:${p.id}`}
-                          onClick={() => run(`rollback:${p.id}`, () => pluginsApi.rollback(p.id), `Rolled back ${p.name}`)}
+                          onClick={() => run(`rollback:${p.id}`, () => pluginsApi.rollback(p.id))}
                         >
                           Rollback
                         </Button>
@@ -584,7 +583,7 @@ export default function PluginsSettingsPage() {
           const p = uninstall
           if (!p) return
           setUninstall(null)
-          await run(`uninstall:${p.id}`, () => pluginsApi.uninstall(p.id, deleteData), `Uninstalled ${p.name}`)
+          await run(`uninstall:${p.id}`, () => pluginsApi.uninstall(p.id, deleteData))
           setDeleteData(false)
         }}
       />

@@ -24,8 +24,19 @@ export interface LoadedPluginModule {
   module: PluginModule
   ctx: PluginContext
   generation: number
-  /** Cache-buster used for this load ('' when none). Sandboxed tile frames reuse it. */
+  /** Cache-buster of this load (`v=` query value). Sandboxed tile frames reuse it. */
   bust: string
+}
+
+/**
+ * The `v=` cache-buster of a plugin's entry, style and frames. The ES module map and the HTTP
+ * cache are per URL, so a re-import needs a new one: dev plugins get a timestamp on every load;
+ * other plugins `<version>.<generation>` — a new version (update, rollback, reinstall) or a
+ * registry reload (generation bump) means a new URL, an unchanged plugin keeps a cacheable one.
+ * Relative chunk imports need no buster: the build hashes chunk names.
+ */
+export function cacheBuster(info: PluginInfo, generation: number): string {
+  return info.origin === 'dev' ? String(Date.now()) : `${info.version ?? '0.0.0'}.${generation}`
 }
 
 const loaded = new Map<string, { generation: number; promise: Promise<LoadedPluginModule> }>()
@@ -48,7 +59,7 @@ function injectStyle(info: PluginInfo, bust: string) {
   const link = document.createElement('link')
   link.id = styleId(info.id)
   link.rel = 'stylesheet'
-  link.href = pluginUrl(info.id, style) + bust
+  link.href = `${pluginUrl(info.id, style)}?v=${encodeURIComponent(bust)}`
   link.dataset.qfPlugin = info.id
   document.head.appendChild(link)
 }
@@ -74,7 +85,7 @@ const INTERNAL_MODULES: Record<string, () => Promise<{ default?: unknown }>> = {
 async function startSandboxed(info: PluginInfo, generation: number): Promise<LoadedPluginModule> {
   wireSystemNotifications()
   const ctx = await createHostContext(info)
-  const bust = info.origin === 'dev' || generation > 0 ? String(Date.now()) : ''
+  const bust = cacheBuster(info, generation)
   let bg
   try {
     bg = await startBackgroundFrame(info, ctx, bust)
@@ -87,10 +98,8 @@ async function startSandboxed(info: PluginInfo, generation: number): Promise<Loa
 
 async function importModule(info: PluginInfo, generation: number): Promise<LoadedPluginModule> {
   if (info.isolation === 'sandboxed') return startSandboxed(info, generation)
-  // Re-imports need a fresh URL (ES module cache is per URL): dev plugins
-  // always, others whenever the registry bumped the generation.
-  const bust = info.origin === 'dev' || generation > 0 ? `?v=${Date.now()}` : ''
-  const url = pluginUrl(info.id, info.manifest!.ui!.entry) + bust
+  const bust = cacheBuster(info, generation)
+  const url = `${pluginUrl(info.id, info.manifest!.ui!.entry)}?v=${encodeURIComponent(bust)}`
   const internal = info.origin === 'bundled' ? INTERNAL_MODULES[info.id] : undefined
   if (!internal) injectStyle(info, bust)
   let ns: { default?: unknown }
@@ -125,7 +134,12 @@ export function loadPluginModule(pluginId: string): Promise<LoadedPluginModule> 
 
   const previous = cached?.promise
   const promise = (async () => {
-    if (previous) await deactivate(previous)
+    if (previous) {
+      // Reload (new generation): the old module goes first, with what it registered —
+      // command handlers and its context (settings snapshot, caches).
+      await deactivate(previous)
+      disposeHostContext(pluginId)
+    }
     const info = checkLoadable(getPlugin(pluginId), pluginId)
     return importModule(info, generation)
   })()
@@ -145,6 +159,11 @@ async function deactivate(p: Promise<LoadedPluginModule>) {
   } catch {
     // Previous load failed or deactivate threw: nothing to undo.
   }
+}
+
+/** Has the plugin's module been loaded (or is it loading) in this window? */
+export function isPluginLoaded(pluginId: string): boolean {
+  return loaded.has(pluginId)
 }
 
 /** Deactivate and forget a plugin's module (disable / uninstall). */

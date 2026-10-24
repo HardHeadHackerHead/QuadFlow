@@ -91,7 +91,9 @@ Vite options, `entry` for a different source entry, `react: false` for a UI-less
 
 Now every save rebuilds `dist/`, and QuadFlow reloads the plugin within a second: the module is
 re-imported, its tiles remount, and each tile gets back the `instance.state` it last stored with
-`setState()`. Keep anything that should survive a reload (and an app restart) there:
+`setState()`. The same happens to your users' open tiles when they install an update of your
+plugin (no restart either, [publishing.md](publishing.md#4-updates)). Keep anything that should
+survive a reload, an update (and an app restart) there:
 
 ```tsx
 function Counter({ instance, setState }: TileProps) {

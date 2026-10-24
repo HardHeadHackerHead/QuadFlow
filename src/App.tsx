@@ -33,6 +33,7 @@ import './index.css'
 import { isToolLeaf } from './lib/layoutIds'
 import { installToolConfigSync } from './plugins/tools'
 import { installDevReload } from './plugins/devReload'
+import { installLiveReload } from './plugins/liveReload'
 import { deactivateAllPlugins } from './plugins/loader'
 import OnboardingWizard from './onboarding/OnboardingWizard'
 import { maybeShowOnboarding } from './onboarding/onboardingStore'
@@ -128,6 +129,7 @@ export default function App() {
     const toolStore = useToolStore.getState()
     installToolConfigSync()
     installDevReload()
+    installLiveReload()
     initializeWorkspaces({
       loadToolConfigs: () => toolStore.loadToolConfigs(),
       loadGlobalWorkspace: () => useGlobalWorkspaceStore.getState().loadFromDb(),
