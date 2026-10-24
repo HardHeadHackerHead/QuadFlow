@@ -219,7 +219,7 @@ enum Commands {
         #[command(subcommand)]
         action: missions::MissionsAction,
     },
-    /// Bring projects and settings over from QuadFlow 1.x (one-time import; `--dry-run` previews).
+    /// Bring your project list over from QuadFlow 1.x (one-time import; `--dry-run` previews).
     #[command(name = "import-v1")]
     ImportV1(import_v1::ImportV1Args),
     /// A plugin command (`contributes.cliCommands`, plugin-system.md §9).
